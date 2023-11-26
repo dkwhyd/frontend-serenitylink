@@ -6,4 +6,4 @@ Teknologi yang digunakan :
 
 1. React + Vite
 2. Tailwind CSS
-3.
+3. Leaflet
