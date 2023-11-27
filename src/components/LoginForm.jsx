@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
 const LoginForm = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -12,7 +13,10 @@ const LoginForm = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const login = await axios.post('http://localhost:5500/login', form);
+    const login = await axios.post(
+      `${import.meta.env.VITE_API_HOST}/login`,
+      form,
+    );
     console.log(login);
     if (login.data.status === 'ok') {
       navigate('/dashboard');
