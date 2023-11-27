@@ -23,8 +23,6 @@ const LoginForm = () => {
     } else {
       window.alert(login.data.message);
     }
-    // Logika autentikasi atau kirim data login ke server dapat ditambahkan di sini
-    console.log('Email:', form.email, 'Password:', form.password);
   };
 
   return (
