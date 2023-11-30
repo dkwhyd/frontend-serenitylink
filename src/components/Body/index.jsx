@@ -11,7 +11,7 @@ export default function Body() {
         <h4 className="text-2xl font-bold mb-4">Alur Laporan</h4>
         <ReportFlow />
       </section>
-      <section className="mb-8 bg-blue-100">
+      <section className="mb-8 bg-gray-100 p-4">
         <h4 className="text-2xl font-bold mb-4">Kategori</h4>
         <Category />
       </section>

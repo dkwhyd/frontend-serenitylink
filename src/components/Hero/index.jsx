@@ -1,7 +1,7 @@
 export default function Hero() {
   return (
     <div
-      className="relative h-96 bg-cover bg-center"
+      className="relative h-96 bg-cover bg-center h-screen"
       style={{ backgroundImage: 'url(https://placehold.co/600x400)' }}
     >
       <div className="absolute inset-0 bg-black opacity-50"></div>

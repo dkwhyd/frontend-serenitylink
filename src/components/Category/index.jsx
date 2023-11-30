@@ -19,16 +19,19 @@ export default function Category() {
     // Panggil fungsi fetchData saat komponen dipasang (mounted)
     fetchData();
     console.log(categoryData);
-  }, []);
+  }, [categoryData]);
   return (
-    <div className="bg-blue-100 h-64">
-      <div className="flex flex-row item-center justify-center ">
+    <div className="flex justify-center items-center">
+      <div className="flex flex-row flex-wrap justify-center w-full  md:3/6 lg:w-4/6 ">
         {categoryData.map((category, index) => (
-          <div key={index} className="m-2">
+          <div
+            key={index}
+            className="flex flex-col w-16 items-center justify-center m-5 text-center"
+          >
             <img
               src={`http://localhost:5500/public/image/${category.image}`}
               alt={category.name}
-              className="h-12 w-12 rounded-full shadow-md p-1"
+              className="h-16 w-16"
             />
             <h6>{category.name}</h6>
           </div>
