@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 export async function registerUser(data) {
-  return await axios.post(`${import.meta.env.VITE_HOST_API}/register`, data);
+  return await axios.post(`http://localhost:5500/register`, data);
 }
 
 export async function login(email, password) {
-  return await axios.post(`${import.meta.env.VITE_HOST_API}/login`, {
+  return await axios.post(`http://localhost:5500/login`, {
     email,
     password,
   });

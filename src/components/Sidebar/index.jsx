@@ -5,14 +5,13 @@ import { NavLink } from 'react-router-dom';
 const Sidebar = ({ menus }) => {
   console.log(menus);
   return (
-    <aside className="bg-gray-800 text-white p-4 w-1/4">
+    <aside className="bg-gray-800 text-white p-4 w-32 h-96">
       <ul>
         {menus.map((menu) => (
           <NavLink
             to={menu.route}
             key={menu.id}
             className="flex items-center mb-4"
-            
           >
             <img src={menu.icon} alt={menu.label} className="mr-2 w-4" />
             {menu.label}

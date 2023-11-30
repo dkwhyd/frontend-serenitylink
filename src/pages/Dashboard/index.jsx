@@ -1,17 +1,22 @@
-import { Routes, Route, NavLink } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import ListReport from '../../components/ListReport';
 import Sidebar from '../../components/Sidebar';
+import TopBar from '../../components/TopBar';
 import menus from '../menus';
 import Report from '../Report';
 export default function Dashboard() {
   return (
-    <div className="flex">
-      <br />
-      <Sidebar menus={menus} />
+    <div className="flex flex-col h-screen bg-gray-200">
+      <TopBar />
 
-      <Routes>
-        <Route path="*" element={<div>dashboard</div>} />
-        <Route path="report/*" element={<Report />} />
-      </Routes>
+      <div className="flex flex-row">
+        <Sidebar menus={menus} />
+
+        <Routes>
+          <Route path="*" element={<ListReport />} />
+          <Route path="report/*" element={<Report />} />
+        </Routes>
+      </div>
     </div>
   );
 }

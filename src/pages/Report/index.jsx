@@ -1,15 +1,16 @@
-import { NavLink, Route, Routes } from 'react-router-dom';
+// import { NavLink, Route, Routes } from 'react-router-dom';
 
 export default function Report() {
   return (
     <div>
       <h3>halaman report</h3>
-      <div className="menus">
+      {/* <div className="menus">
         <NavLink to="new">Tambah laporan</NavLink>
-      </div>
-      <Routes>
+      </div> */}
+      {/* <Routes>
         <Route path="new" element={<div>form laporan</div>} />
-      </Routes>
+      </Routes> */}
+      form 
     </div>
   );
 }
