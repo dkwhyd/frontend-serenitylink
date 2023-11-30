@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
+  const auth = useSelector((state) => state.auth);
+
   return (
     <header className="flex flex-wrap justify-between flex-col md:flex-row bg-white text-blue-400 shadow p-5  text-center sticky top-0 z-40">
       <div className="mb-0 flex-none center">
@@ -13,10 +16,10 @@ const Header = () => {
           <li className="p-1 px-3">Daftar Laporan</li>
 
           <Link
-            to="/login"
+            to={auth.user ? '/dashboard' : '/login'}
             className=" py-1 px-3 bg-green-500 p-1 rounded text-white"
           >
-            Sign in
+            {auth.user ? 'Dashboard' : 'Masuk'}
           </Link>
         </ul>
       </nav>
