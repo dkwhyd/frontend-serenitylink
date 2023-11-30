@@ -56,13 +56,13 @@ export default function ListReport() {
         {reportData.map((report) => (
           <div
             key={report._id}
-            className=" bg-white p-0 rounded-lg shadow-md m-3 w-64"
+            className=" bg-white p-0 rounded-lg shadow-md m-3 w-48"
           >
             <div className="relative h-36 ">
               <img
                 src={`http://localhost:5500/public/image/${report.imageReport[0]}`}
                 alt={report.title}
-                className="mb-2 h-36 w-full object-fit rounded-md"
+                className="mb-2 h-full w-full object-fit rounded-md"
               />
               <div className="absolute flex items-center text-xs text-gray-500 bottom-0 left-1 bg-gray-200 p-1 mb-1 rounded-lg line-clamp-1">
                 <FaLocationDot className="mr-1" />
@@ -80,7 +80,7 @@ export default function ListReport() {
             <div className="p-3">
               <h3 className="text-l font-semibold mb-1">{report.title}</h3>
 
-              <p className="text-xs text-gray-600 mb-1 line-clamp-2">
+              <p className="text-xs text-gray-600 mb-1 line-clamp-3">
                 {report.description}
               </p>
 
