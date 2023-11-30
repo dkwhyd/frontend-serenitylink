@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaLocationDot } from 'react-icons/fa6';
 import { FaCalendar } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
 
 export default function ListReport() {
   const [reportData, setReportData] = useState([]);
+  const [query, setQuery] = useState('');
 
   const checkStatus = (status) => {
     if (status === 'waiting') {
@@ -18,29 +18,40 @@ export default function ListReport() {
   };
 
   useEffect(() => {
-    // Fungsi untuk melakukan permintaan GET ke endpoint tertentu
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:5500/report');
-        // console.log(response.data);
         setReportData(response.data.data);
       } catch (error) {
-        // console.error('Error fetching data:', error);
+        console.error('Error fetching data:', error);
       }
     };
 
-    // Panggil fungsi fetchData saat komponen dipasang (mounted)
     fetchData();
   }, []);
 
+  const searchReport = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5500/report?q=${query}`,
+      );
+      setReportData(response.data.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
   return (
     <div className="w-full text-center">
-      <div className="">
-        <button className="bg-green-500 text-white p-2 rounded  ">
-          + Buat Laporan
-        </button>
-      </div>
-
+      <input
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        className="border"
+      />
+      <button className="bg-green-500 p-2" onClick={() => searchReport()}>
+        cari
+      </button>
       <div className=" item-center justify-center flex flex-row flex-wrap text-left h-auto">
         {reportData.map((report) => (
           <div
@@ -81,9 +92,7 @@ export default function ListReport() {
           </div>
         ))}
       </div>
-      <Link to="/dashboard" className="underline hover:underline-offset-4">
-        Selengkapnya
-      </Link>
+      {reportData.length > 0 ? null : 'data tidak ada'}
     </div>
   );
 }
