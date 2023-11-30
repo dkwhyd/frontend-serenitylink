@@ -1,9 +1,12 @@
 // src/components/LoginForm.js
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { login } from '../../api/auth';
+import { userLogin } from '../../features/Auth/actions';
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     email: '',
@@ -13,15 +16,21 @@ const LoginForm = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const login = await axios.post(
-      `${import.meta.env.VITE_API_HOST}/login`,
-      form,
-    );
-    console.log(login);
-    if (login.data.status === 'ok') {
+    // const login = await axios.post(
+    //   `${import.meta.env.VITE_API_HOST}/login`,
+    //   form,
+    // );
+
+    let { data } = await login(form.email, form.password);
+    console.log(data);
+    let { user, token } = data;
+    dispatch(userLogin(user, token));
+
+    // console.log(login);
+    if (data.status === 'ok') {
       navigate('/dashboard');
     } else {
-      window.alert(login.data.message);
+      window.alert(data.message);
     }
   };
 
