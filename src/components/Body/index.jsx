@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Category from '../Category';
 import Hero from '../Hero';
 import ListReport from '../ListReport';
@@ -17,7 +18,15 @@ export default function Body() {
       </section>
       <section>
         <h4 className="text-2xl font-bold mb-4">Laporan</h4>
+        <div className="">
+          <button className="bg-green-500 text-white p-2 rounded  ">
+            + Buat Laporan
+          </button>
+        </div>
         <ListReport />
+        <Link to="/dashboard" className="underline hover:underline-offset-4">
+          Selengkapnya
+        </Link>
       </section>
     </div>
   );

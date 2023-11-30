@@ -5,21 +5,17 @@ export default function Category() {
   const [categoryData, setCateogoryData] = useState([]);
 
   useEffect(() => {
-    // Fungsi untuk melakukan permintaan GET ke endpoint tertentu
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:5500/category');
-        console.log(response.data);
         setCateogoryData(response.data.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
-    // Panggil fungsi fetchData saat komponen dipasang (mounted)
     fetchData();
-    console.log(categoryData);
-  }, [categoryData]);
+  }, []);
   return (
     <div className="flex justify-center items-center">
       <div className="flex flex-row flex-wrap justify-center w-full  md:3/6 lg:w-4/6 ">
