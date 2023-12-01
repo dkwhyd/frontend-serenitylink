@@ -1,0 +1,18 @@
+{
+  "categories": [
+    { "id": 1, "name": "Kategori 1", "image": "https://via.placeholder.com/150?text=1" },
+    { "id": 2, "name": "Kategori 2", "image": "https://via.placeholder.com/150?text=2" },
+    { "id": 3, "name": "Kategori 3", "image": "https://via.placeholder.com/150?text=3" },
+    { "id": 4, "name": "Kategori 4", "image": "https://via.placeholder.com/150?text=4" },
+    { "id": 5, "name": "Kategori 5", "image": "https://via.placeholder.com/150?text=5" },
+    { "id": 6, "name": "Kategori 6", "image": "https://via.placeholder.com/150?text=6" },
+    { "id": 7, "name": "Kategori 7", "image": "https://via.placeholder.com/150?text=7" },
+    { "id": 8, "name": "Kategori 8", "image": "https://via.placeholder.com/150?text=8" },
+    { "id": 9, "name": "Kategori 9", "image": "https://via.placeholder.com/150?text=9" },
+    { "id": 10, "name": "Kategori 10", "image": "https://via.placeholder.com/150?text=10" },
+    { "id": 11, "name": "Kategori 11", "image": "https://via.placeholder.com/150?text=11" },
+    { "id": 12, "name": "Kategori 12", "image": "https://via.placeholder.com/150?text=12" },
+    { "id": 13, "name": "Kategori 13", "image": "https://via.placeholder.com/150?text=13" },
+    { "id": 14, "name": "Kategori 14", "image": "https://via.placeholder.com/150?text=14" }
+  ]
+}
