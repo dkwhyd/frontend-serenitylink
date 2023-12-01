@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 const Sidebar = ({ menus }) => {
   return (
     <>
-      <ul className='w-full space-y-2 font-medium'>
+      <ul className='w-1/6 space-y-2 font-medium'>
         <li>
           <div className='bg-[#1A2226] p-3'>
             <p className='mx-2 text-xs font-semibold text-slate-400 uppercase'>Menu Utama</p>

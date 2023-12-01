@@ -56,7 +56,7 @@ export default function DashboardUser() {
                   </div>
     
                   <div className='p-3'>
-                    <h3 className='text-l font-semibold mb-1'>{report.title}</h3>
+                    <h3 className='text-l font-semibold mb-1'> <Link to={`detail/${report._id}`}>{report.title}</Link> </h3>
                     <div className='flex items-center text-xs text-gray-500 bottom-0 left-0 mb-1 rounded-r-lg'>
                       <FaLocationDot className='mr-1' />
                       {report.address}

@@ -8,6 +8,7 @@ import Sidebar from '../../components/sideBar';
 import TopBar from  '../../components/topBar';
 import menus from '../menus';
 import Report from '../../components/newReport';
+import DetailReport from '../../components/detailReport';
 export default function Dashboard() {
   const auth = useSelector(state=>state.auth)
   return (
@@ -21,6 +22,8 @@ export default function Dashboard() {
         <Route path="/*" element={auth.user?<DashboardUser/> : <Login/>  } />
 
           <Route path="report/new" element={<Report />} />
+          <Route path="report/detail/:id" element={<DetailReport />} />
+
         </Routes>
       </div>
     </div>
