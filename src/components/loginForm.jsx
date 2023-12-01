@@ -3,9 +3,12 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import FloatingButton from './floatingButton';
+import { useDispatch } from 'react-redux';
+import { userLogin } from '../features/Auth/actions';
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -15,18 +18,20 @@ const LoginForm = () => {
     e.preventDefault();
   
     try {
-      const login = await axios.post(
+      const {data} = await axios.post(
         `${import.meta.env.VITE_API_HOST}/login`,
         form,
       );
-      console.log(login);
-      if (login.data.status === 'ok') {
+      console.log(data)
+      
+      if (data.status === 'ok') {
+        const {user,token} = data
+        dispatch(userLogin(user,token))
         navigate('/dashboard');
       } else {
-        window.alert(login.data.message);
+        window.alert(data.message);
       }
     } catch (error) {
-      console.error(error);
       window.alert('Terjadi kesalahan saat mencoba untuk login. Silakan coba lagi.');
     }
   };
