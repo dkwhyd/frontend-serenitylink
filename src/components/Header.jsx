@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
+  const auth = useSelector((state) => state.auth);
+
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 
   const toggleNavbar = () => {
@@ -52,8 +55,8 @@ const Header = () => {
                 </a>
               </li>
               <li>
-                <Link to='/login' className='font-semibold block rounded py-2 pl-3 pr-4 text-gray-950 hover:bg-gray-100 transition duration-300  md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 '>
-                  Login
+                <Link to={auth.user? '/dashboard': '/login'} className='font-semibold block rounded py-2 pl-3 pr-4 text-gray-950 hover:bg-gray-100 transition duration-300  md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 underline '>
+                  {auth.user? 'Dashboard': 'Login'}
                 </Link>
               </li>
             </ul>
