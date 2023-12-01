@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 const Sidebar = ({ menus }) => {
-  console.log(menus);
   return (
-    <aside className="bg-gray-800 text-white p-4 w-32 h-96">
+    <aside className="bg-gray-800 text-white p-4 w-32 h-full top-0 sticky ">
       <ul>
         {menus.map((menu) => (
           <NavLink
