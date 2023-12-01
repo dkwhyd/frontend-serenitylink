@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import ListReport from '../../components/ListReport';
-import Sidebar from '../../components/Sidebar';
-import TopBar from '../../components/TopBar';
+import Sidebar from '../../components/sideBar';
+import TopBar from  '../../components/topBar';
 import menus from '../menus';
 import Report from '../Report';
 export default function Dashboard() {
@@ -13,7 +13,8 @@ export default function Dashboard() {
         <Sidebar menus={menus} />
 
         <Routes>
-          <Route path="*" element={<ListReport />} />
+        <Route path="*" element={<ListReport />} />
+
           <Route path="report/*" element={<Report />} />
         </Routes>
       </div>

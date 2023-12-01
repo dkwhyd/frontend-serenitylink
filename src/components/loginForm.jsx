@@ -5,7 +5,6 @@ import axios from 'axios';
 import FloatingButton from './floatingButton';
 
 const LoginForm = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     email: '',

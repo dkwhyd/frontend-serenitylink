@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import FloatingButton from './floatingButton';
 
 const RegisterForm = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
   const [form, setForm] = useState({
     name: '',
     email: '',
