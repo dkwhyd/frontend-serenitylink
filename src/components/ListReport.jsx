@@ -1,10 +1,13 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaLocationDot } from 'react-icons/fa6';
 import { FaCalendar } from 'react-icons/fa';
+import PropTypes from 'prop-types';
 
-export default function ListReport() {
+function ListReport({ searchTerm, numReports }) {
   const [reportData, setReportData] = useState([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,12 +23,13 @@ export default function ListReport() {
     fetchData();
   }, []);
 
+  const filteredReports = reportData.filter((report) => report.title.toLowerCase().includes(searchTerm.toLowerCase()) || report.description.toLowerCase().includes(searchTerm.toLowerCase())).slice(0, numReports);
+
   return (
-    <>
-      <div className='py-12 min-h-screen md:pt-24 heroBack'>
-        <h1 className='text-center text-2xl md:text-5xl out text-slate-900 font-extrabold mb-8 md:mb-16 uppercase'>list report</h1>
+    <div className={`overflow-hidden ${isSidebarOpen ? 'translate-x-16' : '  translate-x-0'} transition-all duration-500`}>
+      <div className='py-4 md:py-8'>
         <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 text-left mx-5'>
-          {reportData.map((report) => (
+          {filteredReports.map((report) => (
             <div key={report._id} className=' bg-white p-0 rounded-lg box-border drop-shadow'>
               <div className='relative h-48'>
                 <img
@@ -37,7 +41,7 @@ export default function ListReport() {
                     e.target.src = 'https://via.placeholder.com/150';
                   }}
                 />
-                <div className='absolute bottom-0 right-0 bg-green-500 text-white text-xs p-1  rounded-l-lg'>{report.status}</div>
+                <div className={`${isSidebarOpen ? 'hidden' : 'absolute'} transition-none duration-0 bottom-0 right-0 bg-green-500 text-white text-xs p-1 rounded-l-lg`}>{report.status}</div>
               </div>
 
               <div className='p-3'>
@@ -57,6 +61,13 @@ export default function ListReport() {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }
+
+ListReport.propTypes = {
+  searchTerm: PropTypes.string.isRequired,
+  numReports: PropTypes.number.isRequired,
+};
+
+export default ListReport;
