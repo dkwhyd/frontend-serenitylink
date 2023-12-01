@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 const Sidebar = ({ menus }) => {
-  return 
+  return (
     <>
       <ul className='w-full space-y-2 font-medium'>
         <li>
@@ -23,7 +23,7 @@ const Sidebar = ({ menus }) => {
         ))}
       </ul>
     </>
-  );
+  )
 };
 
 Sidebar.propTypes = {
