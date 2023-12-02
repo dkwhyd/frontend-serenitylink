@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 const Sidebar = ({ menus }) => {
-  return 
+  console.log(menus);
+  return (
     <>
       <ul className='w-full space-y-2 font-medium'>
         <li>
@@ -10,7 +11,6 @@ const Sidebar = ({ menus }) => {
             <p className='mx-2 text-xs font-semibold text-slate-400 uppercase'>Menu Utama</p>
           </div>
         </li>
-
         {menus.map((menu) => (
           <li key={menu.id}>
             <NavLink to={menu.route} className='w-full group flex items-center p-2 text-gray-400 hover:bg-[#1E282C] hover:border-l-2 hover:border-primary-500 transition ease-in duration-75'>
