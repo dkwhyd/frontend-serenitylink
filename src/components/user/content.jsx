@@ -9,7 +9,6 @@ export default function ContentUser() {
     <DashboardLayout>
       <Routes>
         <Route path='*' element={<SearchAndListReport />} />
-        <Route path='report/*' element={<Report />} />
       </Routes>
     </DashboardLayout>
   );
