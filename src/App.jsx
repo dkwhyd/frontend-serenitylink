@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import { listen } from './App/listener';
 import { Provider } from 'react-redux';
 import store from './App/store';
+import Logout from './components/logout';
 
 function App() {
   useEffect(() => {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/dashboard/*" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/logout" element={<Logout />} />
         </Routes>
       </Router>
     </Provider>

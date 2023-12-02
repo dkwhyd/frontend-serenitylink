@@ -1,18 +1,47 @@
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa';
+import { useState } from 'react';
+import { FiLogOut } from 'react-icons/fi';
 
 export default function TopBar() {
   const auth = useSelector((state) => state.auth);
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+
+  const handleToggleDropdown = () => {
+    setDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleLogout = () => {
+    // Lakukan logika logout di sini
+    console.log('Logout');
+  };
   return (
     <>
-      <div>
-        <Link to={auth.user ? '/account' : '/login'} className='flex flex-row text-center items-center text-white '>
+      <div className="relative">
+        <div
+          className="flex flex-row text-center items-center text-white cursor-pointer"
+          onClick={handleToggleDropdown}
+        >
           {auth.user?.name}
-          <button className='p-2 '>
+          <button className="p-2 ">
             <FaUser />
           </button>
-        </Link>
+        </div>
+        {isDropdownOpen && (
+          <div className="absolute bg-white p-2 rounded shadow mt-2 z-40">
+            <div className="flex flex-row">
+              <Link
+                to={'/logout'}
+                onClick={handleLogout}
+                className="block w-full text-left text-red-500 font-bold"
+              >
+                <FiLogOut />
+                Logout
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
