@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ListReport from '../ListReport';
+import { Link } from 'react-router-dom';
 
 export default function SearchAndListReport() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -31,7 +32,9 @@ export default function SearchAndListReport() {
           />
         </div>
         <button type='button' className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-4 me-2 mb-2  focus:outline-none'>
-          Buat Laporan
+          <Link to='/dashboard/report/new' className='text-white'>
+            Buat Laporan
+          </Link>
         </button>
       </div>
       <ListReport searchTerm={searchTerm} />
