@@ -17,7 +17,7 @@ function ListReport({ searchTerm, numReports }) {
         const response = await axios.get(
           `http://localhost:5500/report?q=${searchTerm}`,
         );
-        console.log(response.data);
+        // console.log(response.data);
         setReportData(response.data.data);
       } catch (error) {
         console.error('Error fetching data:', error);
