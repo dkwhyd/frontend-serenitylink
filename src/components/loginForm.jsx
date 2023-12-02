@@ -20,16 +20,11 @@ const LoginForm = () => {
     try {
       const { data } = await axios.post('http://localhost:5500/login', form);
       console.log(data);
-
-      if (data.status === 'ok') {
-        const { user, token } = data;
-        dispatch(userLogin(user, token));
-        navigate('/Dashboard');
-      } else {
-        window.alert(data.message);
-      }
+      const { user, token } = data;
+      navigate('/dashboard');
+      dispatch(userLogin(user, token));
     } catch (error) {
-      window.alert('Terjadi kesalahan saat mencoba untuk login. Silakan coba lagi.');
+      window.alert('Terjadi kesalahan saat mencoba untuk login. Silakan coba lagi.', error);
     }
   };
 

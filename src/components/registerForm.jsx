@@ -24,7 +24,7 @@ const RegisterForm = () => {
     }
 
     try {
-      const register = await axios.post(`${import.meta.env.VITE_API_HOST}/register`, form);
+      const register = await axios.post('http://localhost:5500/register', form);
       console.log(register.data);
       if (register.data.status === 'ok') {
         window.alert(register.data.message);
