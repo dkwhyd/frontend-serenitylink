@@ -11,9 +11,7 @@ import {
   useMapEvents,
 } from 'react-leaflet';
 
-// import SimpleImageUpload from "./simpleuploadimage";
-
-const Report = () => {
+const NewReport = () => {
   const auth = useSelector((state) => state.auth);
   // Get coordinate
 
@@ -279,7 +277,8 @@ const Report = () => {
                   center={[latitude, longitude]}
                   zoom={defaultCoord.zoom}
                   scrollWheelZoom={true}
-                  style={{ height: '200px' }}
+                  // style={{ height: '200px' }}
+                  className="h-48 min-h-full"
                 >
                   <TileLayer
                     attribution='&copy; <a n href="http://osm.org/copyright">OpenStreetMap</a>'
@@ -321,10 +320,10 @@ const Report = () => {
             </div>
 
             <div className="mt-4  mb-3 min-h-[11rem] h-fit">
-              <label className="block mb-2 text-xs md:text-base text-gray-900 font-semibold">
+              <label className="block mb-2 text-xs md:text-base text-gray-900 font-semibold ">
                 Preview:
               </label>
-              <div className="flex flex-col sm:flex-row">
+              <div className="flex flex-col flex-wrap sm:flex-row">
                 {preview &&
                   preview.map((item, index) => (
                     <div
@@ -334,7 +333,7 @@ const Report = () => {
                       <img
                         src={item.image[1]}
                         alt={`Image ${index + 1}`}
-                        className="w-32 h-32 mx-4 my-2"
+                        className="max-w-24 h-32 mx-4 my-2"
                       />
                       <button
                         onClick={() => cancelUploadImage(index)}
@@ -361,41 +360,40 @@ const Report = () => {
                   ))}
               </div>
             </div>
-
-            <div className="flex flex-col">
-              <label className="block mb-2 text-xs md:text-base text-gray-900 font-semibold">
-                Kategori Laporan:
-              </label>
-              <div
-                className="bg-gray-200 p-6 rounded-md relative cursor-pointer"
-                onClick={() => setShowCategory(!showCategory)}
-              >
-                {report.category ? report.category : 'Pilih kategori'}
-              </div>
-              {showCategory ? (
-                <div className="flex flex-wrap justify-center bg-gray-100  bottom-0">
-                  {categoryData.map((category, index) => (
-                    <div
-                      key={index}
-                      className="w-4/6 sm:w-1/5 md:w-1/5 lg:w-[14.2857%] group p-4 text-center"
-                      onClick={() => {
-                        setReport({ ...report, category: category.name });
-                      }}
-                    >
-                      <img
-                        className="mx-auto w-5 h-5 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full group-hover:outline group-hover:outline-1 group-hover:outline-primary-600 duration-100 ease-out"
-                        src={`http://localhost:5500/public/image/${category.image}`}
-                        alt={category.name}
-                      />
-                      <p className="mt-2 text-base text-[#64748BBF] group-hover:text-primary-600 group-hover:font-semibold">
-                        {category.name}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              ) : null}
-            </div>
           </div>
+        </div>
+        <div className="flex flex-col my-4">
+          <label className="block mb-2 text-xs md:text-base text-gray-900 font-semibold">
+            Kategori Laporan:
+          </label>
+          <div
+            className="bg-gray-200 p-2 rounded-md relative cursor-pointer"
+            onClick={() => setShowCategory(!showCategory)}
+          >
+            {report.category ? report.category : 'Pilih kategori'}
+          </div>
+          {showCategory ? (
+            <div className="flex flex-wrap justify-center bg-gray-100">
+              {categoryData.map((category, index) => (
+                <div
+                  key={index}
+                  className="w-3/6  md:w-2/5 lg:w-[14.2857%] group p-4 text-center"
+                  onClick={() => {
+                    setReport({ ...report, category: category.name });
+                  }}
+                >
+                  <img
+                    className="mx-auto w-5 h-5 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full group-hover:outline group-hover:outline-1 group-hover:outline-primary-600 duration-100 ease-out"
+                    src={`http://localhost:5500/public/image/${category.image}`}
+                    alt={category.name}
+                  />
+                  <p className="mt-2 text-base text-[#64748BBF] group-hover:text-primary-600 group-hover:font-semibold">
+                    {category.name}
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
         <div className="text-center mt:4 md:mt-8 w-full">
           <button
@@ -410,4 +408,4 @@ const Report = () => {
   );
 };
 
-export default Report;
+export default NewReport;
