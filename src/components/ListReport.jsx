@@ -6,9 +6,13 @@ import { FaCalendar } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function ListReport({ searchTerm, numReports }) {
+function ListReport({ searchTerm, currentPage, reportsPerPage }) {
   const [reportData, setReportData] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const filteredReports = reportData.filter((report) => report.title.toLowerCase().includes(searchTerm.toLowerCase()) || report.description.toLowerCase().includes(searchTerm.toLowerCase()));
+  const indexOfLastReport = currentPage * reportsPerPage;
+  const indexOfFirstReport = indexOfLastReport - reportsPerPage;
+  const currentReports = filteredReports.slice(indexOfFirstReport, indexOfLastReport);
   console.log(searchTerm);
 
   useEffect(() => {
@@ -25,13 +29,11 @@ function ListReport({ searchTerm, numReports }) {
     fetchData();
   }, [searchTerm]);
 
-  const filteredReports = reportData.filter((report) => report.title.toLowerCase().includes(searchTerm.toLowerCase()) || report.description.toLowerCase().includes(searchTerm.toLowerCase())).slice(0, numReports);
-
   return (
     <div data-aos='fade-up' data-aos-duration='500' data-aos-delay='200' className={`overflow-hidden ${isSidebarOpen ? 'translate-x-16' : '  translate-x-0'} transition-all duration-500 animate__fadeIn animate__animated animate__delay-1s`}>
       <div className='py-4 md:py-8'>
         <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 text-left mx-5'>
-          {filteredReports.map((report) => (
+          {currentReports.map((report) => (
             <Link to={`/dashboard/report/detail/${report._id}`} key={report._id}>
               <div className=' bg-white p-0 rounded-lg box-border drop-shadow'>
                 <div className='relative h-48'>
@@ -71,7 +73,8 @@ function ListReport({ searchTerm, numReports }) {
 
 ListReport.propTypes = {
   searchTerm: PropTypes.string.isRequired,
-  numReports: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  reportsPerPage: PropTypes.number.isRequired,
 };
 
 export default ListReport;
