@@ -55,7 +55,7 @@ const NewReport = () => {
   const [preview, setPreview] = useState([]);
 
   const onDrop = async (acceptedFiles) => {
-    console.log(report.imageReport.length);
+    // console.log(report.imageReport.length);
     if (report.imageReport.length > 2) {
       window.alert('maksimal bukti 3 foto');
     } else {
@@ -102,7 +102,7 @@ const NewReport = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Data yang akan dikirim:', JSON.stringify(report));
+    // console.log('Data yang akan dikirim:', JSON.stringify(report));
 
     if (report)
       try {
@@ -150,7 +150,6 @@ const NewReport = () => {
   };
 
   const cancelUploadImage = async (itemIndex) => {
-    console.log(preview[itemIndex].image[0]);
     const imageName = preview[itemIndex].image[0];
     await axios.delete(
       `http://localhost:5500/delete/image/${imageName}`,
@@ -181,8 +180,7 @@ const NewReport = () => {
   const MapEvents = () => {
     useMapEvents({
       click(e) {
-        console.log(e.latlng.lat);
-        console.log(e.latlng.lng);
+
         setReport((prev) => ({
           ...prev,
           latitude: e.latlng.lat,
@@ -194,8 +192,6 @@ const NewReport = () => {
   };
 
   const onMutate = async (e) => {
-    console.log(e.latlng);
-    //this will not work if you have more other object in your form
     if (typeof e.latlng === 'object') {
       setDefaultCoord((prev) => ({
         ...prev,
@@ -308,7 +304,7 @@ const NewReport = () => {
               <div
                 {...getRootProps()}
                 id="image-dropzone"
-                className="border-2 border-dashed bg-gray-200 border-black p-12 mt-2"
+                className="border-2 border-dashed bg-gray-200 border-black p-5 mt-2"
               >
                 <input {...getInputProps()} />
                 <p className="text-center">
