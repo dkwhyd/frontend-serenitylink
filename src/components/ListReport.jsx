@@ -6,17 +6,14 @@ import { FaCalendar } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function ListReport({ searchTerm, numReports }) {
+function ListReport({ searchTerm, numReports, url }) {
   const [reportData, setReportData] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  console.log(searchTerm);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5500/report?q=${searchTerm}`,
-        );
+        const response = await axios.get(`${url}?q=${searchTerm}`);
         // console.log(response.data);
         setReportData(response.data.data);
       } catch (error) {
@@ -95,6 +92,7 @@ function ListReport({ searchTerm, numReports }) {
 ListReport.propTypes = {
   searchTerm: PropTypes.string.isRequired,
   numReports: PropTypes.number.isRequired,
+  url: PropTypes.string.isRequired,
 };
 
 export default ListReport;
