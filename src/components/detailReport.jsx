@@ -44,7 +44,7 @@ export default function DetailReport() {
   useEffect(() => {
     fetchData();
   }, [id, auth.token]);
-  console.log(report);
+  // console.log(report);
 
   function SetViewOnClick() {
     const map = useMapEvent('click', () => {
@@ -159,10 +159,12 @@ export default function DetailReport() {
   };
 
   const handleSubmit = async (e) => {
-    console.log(auth.token);
+    console.log(auth?.token);
+    console.log(reportOfficer);
     e.preventDefault();
     const { data } = await axios.post(
       `http://localhost:5500/officer/report/${report._id}`,
+      { reportOfficer },
       {
         headers: {
           Authorization: `Bearer ${auth.token}`,
