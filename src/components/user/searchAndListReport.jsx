@@ -57,7 +57,7 @@ export default function SearchAndListReport() {
           </Link>
         </button>
       </div>
-      <ListReport searchTerm={searchTerm} numReports={8} />
+      <ListReport searchTerm={searchTerm} numReports={8} url={`${import.meta.env.VITE_HOST_API}/report`} />
     </div>
   );
 }
