@@ -42,7 +42,9 @@ const Categories = () => {
               >
                 <img
                   className="mx-auto w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full group-hover:outline group-hover:outline-1 group-hover:outline-primary-600 duration-100 ease-out"
-                  src={`http://serenitylink.live:5500/public/image/${category.image}`}
+                  src={`${import.meta.env.VITE_HOST_SERENITY}/public/image/${
+                    category.image
+                  }`}
                   alt={category.name}
                 />
                 <p className="mt-2 text-base text-[#64748BBF] group-hover:text-primary-600 group-hover:font-semibold">
