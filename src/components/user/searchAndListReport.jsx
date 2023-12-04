@@ -17,9 +17,7 @@ export default function SearchAndListReport() {
         const { data } = await axios.get(
           `http://localhost:5500/report?q=${searchTerm}`,
         );
-        // console.log(response.data.count);
         setTotalReport(data.count);
-        // setReportData(response.data.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -85,7 +83,7 @@ export default function SearchAndListReport() {
             value={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
             className="block w-[95%] p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="ketik laporan atau detail laporan"
+            placeholder="ketik laporan"
           />
         </div>
         <button
