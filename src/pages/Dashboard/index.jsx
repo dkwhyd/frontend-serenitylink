@@ -1,8 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import DashboardLayout from '../../components/dashboard/dashboardLayout';
 import axios from 'axios';
 import ContentUser from '../../components/user/content';
+import ContentAdmin from '../../components/admin/content';
 export default function Dashboard() {
   const auth = useSelector((state) => state.auth);
   let dashboardContent = null;
@@ -30,6 +33,7 @@ export default function Dashboard() {
 
     case 'admin':
       console.log('tampilkan halaman admin');
+      dashboardContent = <ContentAdmin />;
       break;
 
     default:

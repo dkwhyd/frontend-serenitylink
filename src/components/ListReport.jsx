@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -6,8 +7,7 @@ import { FaCalendar } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-
-function ListReport({ searchTerm, currentPage, reportsPerPage,url }) {
+function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
   const [reportData, setReportData] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const filteredReports = reportData.filter((report) => report.title.toLowerCase().includes(searchTerm.toLowerCase()) || report.description.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -15,7 +15,6 @@ function ListReport({ searchTerm, currentPage, reportsPerPage,url }) {
   const indexOfFirstReport = indexOfLastReport - reportsPerPage;
   const currentReports = filteredReports.slice(indexOfFirstReport, indexOfLastReport);
   console.log(searchTerm);
-
 
   useEffect(() => {
     const fetchData = async () => {
