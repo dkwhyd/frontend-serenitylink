@@ -2,9 +2,11 @@
 /* eslint-disable no-unused-vars */
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import DashboardLayout from '../../components/dashboard/dashboardLayout';
 import axios from 'axios';
 import ContentUser from '../../components/user/content';
+import ContentOfficer from '../../components/officer/content';
 import ContentAdmin from '../../components/admin/content';
 export default function Dashboard() {
   const auth = useSelector((state) => state.auth);
