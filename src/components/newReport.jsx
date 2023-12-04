@@ -4,9 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { useSelector } from 'react-redux';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvent, useMapEvents } from 'react-leaflet';
 
-// import SimpleImageUpload from "./simpleuploadimage";
-
-const Report = () => {
+const NewReport = () => {
   const auth = useSelector((state) => state.auth);
   // Get coordinate
 
@@ -25,7 +23,7 @@ const Report = () => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get('http://localhost:5500/category');
-        console.log(data);
+        // console.log(data);
         setCateogoryData(data.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -50,7 +48,7 @@ const Report = () => {
   const [preview, setPreview] = useState([]);
 
   const onDrop = async (acceptedFiles) => {
-    console.log(report.imageReport.length);
+    // console.log(report.imageReport.length);
     if (report.imageReport.length > 2) {
       window.alert('maksimal bukti 3 foto');
     } else {
@@ -90,11 +88,10 @@ const Report = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Data yang akan dikirim:', JSON.stringify(report));
+    // console.log('Data yang akan dikirim:', JSON.stringify(report));
 
     if (report)
       try {
-        // Kirim formulir ke server menggunakan Axios
         const config = {
           headers: {
             'Content-Type': 'application/json',
@@ -137,7 +134,6 @@ const Report = () => {
   };
 
   const cancelUploadImage = async (itemIndex) => {
-    console.log(preview[itemIndex].image[0]);
     const imageName = preview[itemIndex].image[0];
     await axios.delete(`http://localhost:5500/delete/image/${imageName}`, config);
     const updatedUpload = preview.filter((item, index) => index !== itemIndex);
@@ -165,8 +161,6 @@ const Report = () => {
   const MapEvents = () => {
     useMapEvents({
       click(e) {
-        console.log(e.latlng.lat);
-        console.log(e.latlng.lng);
         setReport((prev) => ({
           ...prev,
           latitude: e.latlng.lat,
@@ -178,8 +172,6 @@ const Report = () => {
   };
 
   const onMutate = async (e) => {
-    console.log(e.latlng);
-    //this will not work if you have more other object in your form
     if (typeof e.latlng === 'object') {
       setDefaultCoord((prev) => ({
         ...prev,
@@ -199,7 +191,7 @@ const Report = () => {
 
   return (
     <div className=' mx-auto md:px-4'>
-      <div className='animate__fadeIn animate__animated animate__delay-1s box-border rounded-3xl bg-white px-4 py-8 drop-shadow md:p-12'>
+      <div className='animate__fadeIn animate__animated animate__delay-0.5s box-border rounded-3xl bg-white px-4 py-8 drop-shadow md:p-12'>
         <div className='flex items-center mb-2 md:mb-4 mx-auto'>
           <h2 className='md:text-4xl ml-4 text-lg font-semibold text-primary-600'>Buat Laporan</h2>
         </div>
@@ -247,7 +239,13 @@ const Report = () => {
               </div>
               <div className='flex flex-col'>
                 <label className='block mb-2 text-xs md:text-base text-gray-900 font-semibold'>Titik Kejadian:</label>
-                <MapContainer center={[latitude, longitude]} zoom={defaultCoord.zoom} scrollWheelZoom={true} style={{ height: '200px' }}>
+                <MapContainer
+                  center={[latitude, longitude]}
+                  zoom={defaultCoord.zoom}
+                  scrollWheelZoom={true}
+                  // style={{ height: '200px' }}
+                  className='h-48 min-h-full'
+                >
                   <TileLayer attribution='&copy; <a n href="http://osm.org/copyright">OpenStreetMap</a>' url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' />
                   <Marker
                     draggable
@@ -268,7 +266,7 @@ const Report = () => {
           <div className='col-span-1'>
             <div className=''>
               <label className='block mb-2.5 text-xs md:text-base text-gray-900 font-semibold'>Bukti Laporan:</label>
-              <div {...getRootProps()} id='image-dropzone' className='border-2 border-dashed bg-gray-200 border-black p-12 mt-2'>
+              <div {...getRootProps()} id='image-dropzone' className='border-2 border-dashed bg-gray-200 border-black p-5 mt-2'>
                 <input {...getInputProps()} />
                 <p className='text-center'>Drag n drop some files here, or click to select files</p>
                 <p className='text-center'>Ukuran maksimal per file: 2MB</p>
@@ -277,12 +275,12 @@ const Report = () => {
             </div>
 
             <div className='mt-4  mb-3 min-h-[11rem] h-fit'>
-              <label className='block mb-2 text-xs md:text-base text-gray-900 font-semibold'>Preview:</label>
-              <div className='flex flex-col sm:flex-row'>
+              <label className='block mb-2 text-xs md:text-base text-gray-900 font-semibold '>Preview:</label>
+              <div className='flex flex-col flex-wrap sm:flex-row'>
                 {preview &&
                   preview.map((item, index) => (
                     <div key={index} className='relative flex flex-col items-center space-x-2'>
-                      <img src={item.image[1]} alt={`Image ${index + 1}`} className='w-32 h-32 mx-4 my-2' />
+                      <img src={item.image[1]} alt={`Image ${index + 1}`} className='max-w-24 h-32 mx-4 my-2' />
                       <button
                         onClick={() => cancelUploadImage(index)}
                         className='absolute -top-4 -right-4 bg-transparent rounded-md p-2 inline-flex items-center justify-center text-gray-500 hover: hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'
@@ -296,34 +294,33 @@ const Report = () => {
                   ))}
               </div>
             </div>
-
-            <div className='flex flex-col'>
-              <label className='block mb-2 text-xs md:text-base text-gray-900 font-semibold'>Category:</label>
-              <div className='bg-gray-200 p-6 rounded-md relative cursor-pointer' onClick={() => setShowCategory(!showCategory)}>
-                {report.category}
-              </div>
-              {showCategory ? (
-                <div className='flex flex-wrap justify-center bg-gray-100  bottom-0'>
-                  {categoryData.map((category, index) => (
-                    <div
-                      key={index}
-                      className='w-4/6 sm:w-1/5 md:w-1/5 lg:w-[14.2857%] group p-4 text-center'
-                      onClick={() => {
-                        setReport({ ...report, category: category.name });
-                      }}
-                    >
-                      <img
-                        className='mx-auto w-5 h-5 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full group-hover:outline group-hover:outline-1 group-hover:outline-primary-600 duration-100 ease-out'
-                        src={`http://localhost:5500/public/image/${category.image}`}
-                        alt={category.name}
-                      />
-                      <p className='mt-2 text-base text-[#64748BBF] group-hover:text-primary-600 group-hover:font-semibold'>{category.name}</p>
-                    </div>
-                  ))}
-                </div>
-              ) : null}
-            </div>
           </div>
+        </div>
+        <div className='flex flex-col my-4'>
+          <label className='block mb-2 text-xs md:text-base text-gray-900 font-semibold'>Kategori Laporan:</label>
+          <div className='bg-gray-200 p-2 rounded-md relative cursor-pointer' onClick={() => setShowCategory(!showCategory)}>
+            {report.category ? report.category : 'Pilih kategori'}
+          </div>
+          {showCategory ? (
+            <div className='flex flex-wrap justify-center bg-gray-100'>
+              {categoryData.map((category, index) => (
+                <div
+                  key={index}
+                  className='w-3/6  md:w-2/5 lg:w-[14.2857%] group p-4 text-center'
+                  onClick={() => {
+                    setReport({ ...report, category: category.name });
+                  }}
+                >
+                  <img
+                    className='mx-auto w-5 h-5 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full group-hover:outline group-hover:outline-1 group-hover:outline-primary-600 duration-100 ease-out'
+                    src={`http://localhost:5500/public/image/${category.image}`}
+                    alt={category.name}
+                  />
+                  <p className='mt-2 text-base text-[#64748BBF] group-hover:text-primary-600 group-hover:font-semibold'>{category.name}</p>
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
         <div className='text-center mt:4 md:mt-8 w-full'>
           <button className='bg-blue-600 text-white w-full p-2 rounded' onClick={(e) => handleSubmit(e)}>
@@ -335,4 +332,4 @@ const Report = () => {
   );
 };
 
-export default Report;
+export default NewReport;

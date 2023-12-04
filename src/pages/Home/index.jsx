@@ -9,6 +9,9 @@ import Hero from '../../components/hero';
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const reportsPerPage = 8;
+
   return (
     <>
       <Header />
@@ -22,7 +25,7 @@ export default function Home() {
       <section id='laporan'>
         <div className='py-12 min-h-screen md:pt-24 heroBack'>
           <h1 className='text-center text-2xl md:text-5xl out text-slate-900 font-extrabold mb-8 md:mb-16 uppercase'>list report</h1>
-          <ListReport searchTerm={searchTerm} numReports={8} />
+          <ListReport searchTerm={searchTerm} currentPage={currentPage} reportsPerPage={reportsPerPage} url='http://localhost:5500/report' />
         </div>
       </section>
       <Footer />

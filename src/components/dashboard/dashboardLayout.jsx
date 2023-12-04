@@ -42,7 +42,7 @@ function Dashboard({ children }) {
             <Sidebar menus={menus} />
           </div>
         </aside>
-        <main className={`overflow-hidden p-6 ${isSidebarOpen ? 'translate-x-16 flex-1' : '  translate-x-0 flex-1'} transition-all duration-500`}>
+        <main className={`overflow-hidden p-0 md:p-6 ${isSidebarOpen ? 'translate-x-16 flex-1' : '  translate-x-0 flex-1'} transition-all duration-500`}>
           {/* Add your content here */}
           {children}
         </main>
