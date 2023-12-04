@@ -6,7 +6,8 @@ import { FaCalendar } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function ListReport({ searchTerm, currentPage, reportsPerPage }) {
+
+function ListReport({ searchTerm, currentPage, reportsPerPage,url }) {
   const [reportData, setReportData] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const filteredReports = reportData.filter((report) => report.title.toLowerCase().includes(searchTerm.toLowerCase()) || report.description.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -15,10 +16,11 @@ function ListReport({ searchTerm, currentPage, reportsPerPage }) {
   const currentReports = filteredReports.slice(indexOfFirstReport, indexOfLastReport);
   console.log(searchTerm);
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5500/report?q=${searchTerm}`);
+        const response = await axios.get(`${url}?q=${searchTerm}`);
         // console.log(response.data);
         setReportData(response.data.data);
       } catch (error) {
@@ -75,6 +77,7 @@ ListReport.propTypes = {
   searchTerm: PropTypes.string.isRequired,
   currentPage: PropTypes.number.isRequired,
   reportsPerPage: PropTypes.number.isRequired,
+  url: PropTypes.string.isRequired,
 };
 
 export default ListReport;

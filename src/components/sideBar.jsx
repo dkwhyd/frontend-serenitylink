@@ -4,9 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 const Sidebar = ({ menus }) => {
   const auth = useSelector((state) => state.auth);
-  // console.log(menus);
   const userMenus = menus.find((menu) => menu[auth.user.role]);
-  console.log(userMenus);
   return (
     <>
       <ul className="w-full space-y-2 font-medium">
@@ -18,8 +16,8 @@ const Sidebar = ({ menus }) => {
           </div>
         </li>
         {userMenus &&
-          userMenus[auth.user.role].map((menu) => (
-            <li key={menu.id}>
+          userMenus[auth.user.role].map((menu, index) => (
+            <li key={index}>
               <NavLink
                 to={menu.route}
                 className="w-full group flex items-center p-2 text-gray-400 hover:bg-[#1E282C] hover:border-l-2 hover:border-primary-500 transition ease-in duration-75"
