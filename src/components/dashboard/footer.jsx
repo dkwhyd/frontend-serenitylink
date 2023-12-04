@@ -29,7 +29,7 @@ function Footer() {
   return (
     <>
       <footer className='bottom-0 left-0 flex h-[7vh] w-full items-center bg-white shadow-lg shadow-slate-300'>
-        <p className='ml-4 text-xs font-semibold text-black'>
+        <p className='ml-4 md:text-xs text-[0.6rem] font-semibold text-black'>
           Developed by{' '}
           <a className='text-blue-500' href='#'>
             C523-PRO86
