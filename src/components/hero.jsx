@@ -6,7 +6,7 @@ function Hero() {
         className='
 grid grid-cols-1 items-center px-4 pb-20 pt-5 md:px-20 lg:grid-cols-2'
       >
-        <div className='animate__fadeIn animate__animated animate__delay-1s order-last py-4 md:order-first md:py-0 lg:pr-8'>
+        <div className='animate__fadeInLeft animate__animated animate__delay-0.7s order-last py-4 md:order-first md:py-0 lg:pr-8'>
           <div className='flex items-center'>
             <div className='h-[0.15rem] w-16 bg-blue-600'></div>
             <div className='ml-4 md:text-2xl text-xl  font-semibold text-blue-600'>Selamat Datang Di</div>
@@ -34,7 +34,7 @@ grid grid-cols-1 items-center px-4 pb-20 pt-5 md:px-20 lg:grid-cols-2'
             </div>
           </Link>
         </div>
-        <div className='animate__fadeIn animate__animated animate__delay-2s group order-first mx-auto max-w-md pb-12 pt-24 md:order-last lg:pl-20'>
+        <div className='animate__fadeInRight animate__animated animate__delay-0.7s group order-first mx-auto max-w-md pb-12 pt-24 md:order-last lg:pl-20'>
           <div className='relative' style={{ transform: 'perspective(1000px) rotate(0deg) rotateY(0deg) scale3d(1,1,1)', willChange: 'transform' }}>
             <div className='flex h-60 w-60 items-center justify-center overflow-hidden rounded-full bg-transparent md:h-[28rem] md:w-[28rem]'>
               <img className='' src='/heros2.jpg' alt='hero' />
