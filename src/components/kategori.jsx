@@ -27,7 +27,7 @@ const Categories = () => {
       <div className='py-12 min-h-screen md:pt-24 bg-[#F7F7F7]'>
         <div data-aos='fade-zoom-in' data-aos-easing='ease-in-back' data-aos-duration='1000' data-aos-delay='200' data-aos-offset='0'>
           <h1 className='text-center text-2xl md:text-5xl out text-primary-600 font-extrabold mb-8 uppercase'>kategori</h1>
-          <div className='flex flex-wrap justify-center '>
+          <div className='flex flex-wrap justify-start '>
             {categoryData.map((category, index) => (
               <div key={index} className='w-1/2 sm:w-1/5 md:w-1/5 lg:w-[14.2857%] group p-4 text-center mb-8'>
                 <img
