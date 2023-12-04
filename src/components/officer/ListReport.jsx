@@ -21,7 +21,7 @@ function ListReport({ searchTerm, numReports, url }) {
             Authorization: `Bearer ${auth.user ? auth.token : ''}`,
           },
         });
-        // console.log(response);
+        console.log(response);
         setReportData(response.data.data);
       } catch (error) {
         console.error('Error fetching data:', error);

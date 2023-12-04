@@ -3,6 +3,9 @@ import { useSelector } from 'react-redux';
 import DashboardLayout from '../../components/dashboard/dashboardLayout';
 import axios from 'axios';
 import ContentUser from '../../components/user/content';
+import { Navigate } from 'react-router-dom';
+import ContentOfficer from '../../components/officer/content';
+
 export default function Dashboard() {
   const auth = useSelector((state) => state.auth);
   let dashboardContent = null;
@@ -13,6 +16,8 @@ export default function Dashboard() {
         Authorization: `Bearer ${auth.user ? auth.token : ''}`,
       },
     });
+    // console.log(data.role);
+
     return data;
   };
   useEffect(() => {
@@ -26,6 +31,7 @@ export default function Dashboard() {
       break;
     case 'officer':
       console.log('tampilkan halaman officer');
+      dashboardContent = <ContentOfficer />;
       break;
 
     case 'admin':
@@ -33,7 +39,9 @@ export default function Dashboard() {
       break;
 
     default:
-      console.log('role tidak terdaftar');
+      console.log('role tidak terdaftar hapus data user');
+      // dashboardContent = <Navigate to="/logout" />;
+      dashboardContent = <Navigate to="/" />;
       break;
   }
 
