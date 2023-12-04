@@ -35,7 +35,6 @@ export default function DetailReport() {
           Authorization: `Bearer ${auth.user ? auth.token : ''}`,
         },
       });
-      // console.log(JSON.stringify(data.data));
       setReport(data.data);
       setLoading(false);
     } catch (error) {
@@ -169,13 +168,58 @@ export default function DetailReport() {
       { ...reportOfficer },
       {
         headers: {
-          Authorization: `Bearer ${auth.token}`,
+          Authorization: `Bearer ${auth.user ? auth.token : ''}`,
         },
       },
     );
     // console.log(data.data);
     if (data.status === 'ok') {
       navigate(0);
+    }
+  };
+  const [unitWorks, setUnitWorks] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const handleSelectChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(
+          `http://localhost:5500/officer/unitwork`,
+          {
+            headers: {
+              Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+            },
+          },
+        );
+        setUnitWorks(data.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const assignReportToUnitwork = async (id) => {
+    try {
+      const { data } = await axios.put(
+        `http://localhost:5500/admin/report/assign/${id}`,
+        { selectedOption },
+        {
+          headers: {
+            Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+          },
+        },
+      );
+      if (data.status === 'ok') {
+        window.alert('Laporan berhasil dikirim');
+        navigate(0);
+      }
+    } catch (error) {
+      // window.alert(error);
     }
   };
 
@@ -407,6 +451,33 @@ export default function DetailReport() {
                     </button>
                   </div>
                 </div>
+              </div>
+            ) : null}
+            {!report.unitWorks && auth.user.role === 'admin' ? (
+              <div className="flex flex-col">
+                <label className="font-semibold text-gray-900">
+                  Kirim Laporan ke Unit Kerja
+                </label>
+                <select
+                  id="selectOption"
+                  onChange={handleSelectChange}
+                  value={selectedOption || ''}
+                >
+                  <option value="" disabled>
+                    Select an option
+                  </option>
+                  {unitWorks.map((option) => (
+                    <option key={option._id} value={option._id}>
+                      {option.name}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  className="bg-blue-600 mt-4 float-right py-2 px-6 rounded-lg focus:outline-none transition-all ease-out text-white hover:bg-blue-700 focus:bg-blue-900"
+                  onClick={() => assignReportToUnitwork(report._id)}
+                >
+                  Kirim
+                </button>
               </div>
             ) : null}
             <div className="w-full">
