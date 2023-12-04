@@ -19,8 +19,12 @@ function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${url}?q=${searchTerm}`);
-        // console.log(response.data);
+        const response = await axios.get(`${import.meta.env.VITE_HOST_API}${url}?q=${searchTerm}`, {
+          headers: {
+            Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+          },
+        });
+        console.log(response);
         setReportData(response.data.data);
       } catch (error) {
         console.error('Error fetching data:', error);

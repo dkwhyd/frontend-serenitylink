@@ -16,6 +16,8 @@ export default function Dashboard() {
         Authorization: `Bearer ${auth.user ? auth.token : ''}`,
       },
     });
+    // console.log(data.role);
+
     return data;
   };
   useEffect(() => {
@@ -29,6 +31,7 @@ export default function Dashboard() {
       break;
     case 'officer':
       console.log('tampilkan halaman officer');
+      dashboardContent = <ContentOfficer />;
       break;
 
     case 'admin':
@@ -37,7 +40,9 @@ export default function Dashboard() {
       break;
 
     default:
-      console.log('role tidak terdaftar');
+      console.log('role tidak terdaftar hapus data user');
+      // dashboardContent = <Navigate to="/logout" />;
+      dashboardContent = <Navigate to="/" />;
       break;
   }
 

@@ -13,7 +13,6 @@ function App() {
   useEffect(() => {
     listen();
   }, []);
-
   return (
     <Provider store={store}>
       <Router>

@@ -12,7 +12,6 @@ const Categories = () => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get('http://localhost:5500/category');
-        console.log(data);
         setCateogoryData(data.data);
       } catch (error) {
         console.error('Error fetching data:', error);

@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvent } from 'react-leaflet';
 import { useDropzone } from 'react-dropzone';
 
 export default function DetailReport() {
   const auth = useSelector((state) => state.auth);
+  const navigate = useNavigate();
   const { id } = useParams();
   const [report, setReport] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -142,7 +143,7 @@ export default function DetailReport() {
     e.preventDefault();
     const { data } = await axios.post(
       `http://localhost:5500/officer/report/${report._id}`,
-      { reportOfficer },
+      { ...reportOfficer },
       {
         headers: {
           Authorization: `Bearer ${auth.token}`,
@@ -150,6 +151,9 @@ export default function DetailReport() {
       }
     );
     console.log(data);
+    if (data.status === 'ok') {
+      navigate(0);
+    }
   };
 
   return (
