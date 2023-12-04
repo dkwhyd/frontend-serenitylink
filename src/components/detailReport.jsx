@@ -35,6 +35,7 @@ export default function DetailReport() {
           Authorization: `Bearer ${auth.user ? auth.token : ''}`,
         },
       });
+      // console.log(JSON.stringify(data.data));
       setReport(data.data);
       setLoading(false);
     } catch (error) {
@@ -94,7 +95,7 @@ export default function DetailReport() {
         },
       };
       const uploadImage = await axios.post(
-        'http://localhost:5500/upload/image',
+        `${import.meta.env.VITE_HOST_SERENITY}/upload/image`,
         imageData,
         config,
       );
@@ -133,7 +134,7 @@ export default function DetailReport() {
     const imageName = preview[itemIndex].image[0];
     console.log(reportOfficer);
     const { data } = await axios.delete(
-      `http://localhost:5500/delete/image/${imageName}`,
+      `${import.meta.env.VITE_HOST_SERENITY}/delete/image/${imageName}`,
       {
         headers: {
           Authorization: `Bearer ${auth.user ? auth.token : ''}`,
@@ -159,7 +160,7 @@ export default function DetailReport() {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const sendOfficeReport = async (e) => {
     console.log(auth?.token);
     console.log(reportOfficer);
     e.preventDefault();
@@ -172,7 +173,7 @@ export default function DetailReport() {
         },
       },
     );
-    console.log(data);
+    // console.log(data.data);
     if (data.status === 'ok') {
       navigate(0);
     }
@@ -312,7 +313,7 @@ export default function DetailReport() {
               </div>
             ) : null}
             {/* Form Officer Report */}
-            {report.officerReport && auth.user.role === 'officer' ? (
+            {!report.officerReport && auth.user.role === 'officer' ? (
               <div className="">
                 Buat Laporan
                 <div className="flex flex-col">
@@ -400,7 +401,7 @@ export default function DetailReport() {
                   <div className="text-center mt:4 md:mt-8 w-full">
                     <button
                       className="bg-blue-600 mt-4 float-right py-2 px-6 rounded-lg focus:outline-none transition-all ease-out text-white hover:bg-blue-700 focus:bg-blue-900"
-                      onClick={(e) => handleSubmit(e)}
+                      onClick={(e) => sendOfficeReport(e)}
                     >
                       Kirim
                     </button>

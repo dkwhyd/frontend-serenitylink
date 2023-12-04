@@ -60,7 +60,7 @@ const NewReport = () => {
           Authorization: `Bearer ${auth.user ? auth.token : ''}`,
         },
       };
-      const uploadImage = await axios.post('http://localhost:5500/upload/image', imageData, config);
+      const uploadImage = await axios.post(`${import.meta.env.VITE_HOST_SERENITY}/upload/image`, imageData, config);
       const getImage = uploadImage.data.image;
       setReport({
         ...report,
@@ -135,7 +135,7 @@ const NewReport = () => {
 
   const cancelUploadImage = async (itemIndex) => {
     const imageName = preview[itemIndex].image[0];
-    await axios.delete(`http://localhost:5500/delete/image/${imageName}`, config);
+    await axios.delete(`${import.meta.env.VITE_HOST_SERENITY}/delete/image/${imageName}`, config);
     const updatedUpload = preview.filter((item, index) => index !== itemIndex);
     setPreview(updatedUpload);
 
