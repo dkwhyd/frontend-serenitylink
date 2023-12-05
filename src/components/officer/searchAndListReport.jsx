@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import ListReport from '../ListReport';
+import ListReport from './ListReport';
+import PropTypes from 'prop-types';
 
-export default function SearchAndListReport() {
-  // const [reportData, setReportData] = useState([]);
+export default function SearchAndListReport({ title, url }) {
   const [totalReport, setTotalReport] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,7 +14,7 @@ export default function SearchAndListReport() {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5500/report?q=${searchTerm}`,
+          `${import.meta.env.VITE_HOST_SERENITY}${url}`,
         );
         setTotalReport(data.count);
       } catch (error) {
@@ -23,7 +23,7 @@ export default function SearchAndListReport() {
     };
 
     fetchData();
-  }, [searchTerm, reportSkip]);
+  }, [searchTerm, reportSkip, url]);
 
   const handleNextPage = () => {
     setCurrentPage(currentPage + 1);
@@ -50,7 +50,7 @@ export default function SearchAndListReport() {
       <div className="flex items-center animate__fadeIn animate__animated animate__delay-0.5s">
         <div className="mx-5 h-[0.15rem] w-8 md:w-16 bg-slate-900"></div>
         <h2 className="md:text-2xl text-lg font-semibold text-slate-900">
-          Daftar Laporan
+         {title}
         </h2>
       </div>
 
@@ -94,7 +94,7 @@ export default function SearchAndListReport() {
         currentPage={currentPage}
         reportsPerPage={reportsPerPage}
         reportSkip={reportSkip}
-        url={`${import.meta.env.VITE_HOST_API}/report`}
+        url={url}
       />
       {/* pagination */}
       <nav
@@ -174,3 +174,8 @@ export default function SearchAndListReport() {
     </div>
   );
 }
+
+SearchAndListReport.propTypes = {
+  title: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+};

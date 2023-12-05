@@ -20,7 +20,7 @@ export default function ContentOfficer() {
             element={
               <SearchAndListReport
                 title="Laporan Unit Kerja"
-                url={`/officer/report/${unitWork}`}
+                url={`/officer/report/${auth.user.unitWork}`}
               />
             }
           />
@@ -33,7 +33,7 @@ export default function ContentOfficer() {
             element={
               <SearchAndListReport
                 title="Laporan Unit Kerja"
-                url={`/officer/report/${unitWork}`}
+                url={`/officer/report/${auth.user.unitWork}`}
               />
             }
           />
@@ -46,7 +46,7 @@ export default function ContentOfficer() {
             element={
               <SearchAndListReport
                 title="Laporan Saya"
-                url={`/officer/report/my/${idUser}`}
+                url={`/officer/report/my/${auth.user._id}`}
               />
             }
           />
