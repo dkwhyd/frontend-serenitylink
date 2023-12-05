@@ -1,59 +1,60 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-// import { useSelector } from 'react-redux';
-import ListReport from './ListReport';
-import PropTypes from 'prop-types';
+import ListReport from '../ListReport';
 
-export default function SearchAndListReport({ url, title }) {
-  // const auth = useSelector((state) => state.auth);
-  const [reportData, setReportData] = useState([]);
+export default function SearchAndListReport() {
+  // const [reportData, setReportData] = useState([]);
+  const [totalReport, setTotalReport] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [reportSkip, setReportSkip] = useState(0);
   const reportsPerPage = 12;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5500/report?q=${searchTerm}&limit=${reportsPerPage}`,
+        const { data } = await axios.get(
+          `http://localhost:5500/report?q=${searchTerm}`,
         );
-        setReportData(response.data.data);
+        setTotalReport(data.count);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
-  }, [searchTerm]);
-
-  const filteredReports = reportData.filter(
-    (report) =>
-      report.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      report.description.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  }, [searchTerm, reportSkip]);
 
   const handleNextPage = () => {
     setCurrentPage(currentPage + 1);
+    setReportSkip(reportSkip + 12);
   };
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
+      setReportSkip(reportSkip - 12);
     }
   };
-  const totalPages = Math.ceil(filteredReports.length / reportsPerPage);
+
+  const selectPage = (page) => {
+    setCurrentPage(page);
+    setReportSkip((page - 1) * reportsPerPage);
+  };
+
+  const totalPages = Math.ceil(totalReport / reportsPerPage);
   const pages = [...Array(totalPages).keys()].map((i) => i + 1);
 
   return (
-    <div>
-      <div className="flex items-center">
-        <div className="mx-5 h-[0.15rem] w-16 bg-slate-900"></div>
-        <h2 className="md:text-2xl text-xl  font-semibold text-slate-900">
-          {title}
+    <div className="">
+      <div className="flex items-center animate__fadeIn animate__animated animate__delay-0.5s">
+        <div className="mx-5 h-[0.15rem] w-8 md:w-16 bg-slate-900"></div>
+        <h2 className="md:text-2xl text-lg font-semibold text-slate-900">
+          Daftar Laporan
         </h2>
       </div>
 
-      <div className="mx-5 mt-4 flex">
+      <div className="mx-5 mt-4 flex animate__fadeIn animate__animated animate__delay-0.5s">
         <label
           htmlFor="search"
           className="mb-2 text-sm font-medium text-gray-900 sr-only"
@@ -63,7 +64,7 @@ export default function SearchAndListReport({ url, title }) {
         <div className="relative flex-grow">
           <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
             <svg
-              className="w-4 h-4 text-gray-500 "
+              className="w-4 h-4 text-gray-500 items-center mb-2"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -84,7 +85,7 @@ export default function SearchAndListReport({ url, title }) {
             value={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
             className="block w-[95%] p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="ketik laporan atau detail laporan"
+            placeholder="ketik laporan"
           />
         </div>
       </div>
@@ -92,7 +93,8 @@ export default function SearchAndListReport({ url, title }) {
         searchTerm={searchTerm}
         currentPage={currentPage}
         reportsPerPage={reportsPerPage}
-        url={url}
+        reportSkip={reportSkip}
+        url={`${import.meta.env.VITE_HOST_API}/report`}
       />
       {/* pagination */}
       <nav
@@ -130,7 +132,7 @@ export default function SearchAndListReport({ url, title }) {
             <li key={page}>
               <a
                 href="#"
-                onClick={() => setCurrentPage(page)}
+                onClick={() => selectPage(page)}
                 className={`flex items-center justify-center px-3 h-8 leading-tight border-gray-300 hover:bg-primary-600 hover:text-white ${
                   currentPage === page
                     ? 'text-white bg-primary-600'
@@ -141,7 +143,7 @@ export default function SearchAndListReport({ url, title }) {
               </a>
             </li>
           ))}
-          {currentPage < Math.ceil(filteredReports.length / reportsPerPage) && (
+          {currentPage < Math.ceil(totalReport / reportsPerPage) && (
             <li>
               <a
                 href="#"
@@ -172,8 +174,3 @@ export default function SearchAndListReport({ url, title }) {
     </div>
   );
 }
-
-SearchAndListReport.propTypes = {
-  url: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-};
