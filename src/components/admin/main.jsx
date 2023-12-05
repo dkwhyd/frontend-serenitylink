@@ -39,6 +39,7 @@ const ReportCard = () => {
       Selesai: 'green',
     };
 
+    // eslint-disable-next-line no-undef
     var newIcon = new L.Icon({
       iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${markerColors[status]}.png`,
       shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',

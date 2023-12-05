@@ -137,7 +137,24 @@ const NewUnitWorks = () => {
               <p className='text-center'> Maskimal 1 foto</p>
             </div>
           </div>
-
+          <div className="col-span-1">
+            <div className="">
+              <label className="block mb-2.5 text-xs md:text-base text-gray-900 font-semibold">
+                Bukti Laporan:
+              </label>
+              <div
+                {...getRootProps()}
+                id="image-dropzone"
+                className="border-2 border-dashed bg-gray-200 border-black p-1 mt-2"
+              >
+                <input {...getInputProps()} />
+                <p className="text-center">
+                  Drag n drop some files here, or click to select files
+                </p>
+                <p className="text-center">Ukuran maksimal file: 2MB</p>
+                <p className="text-center"> Maskimal 1 foto</p>
+              </div>
+            </div>
           <div className='mt-4  mb-3 min-h-[11rem] h-fit'>
             <label className='block mb-2 text-xs md:text-base text-gray-900 font-semibold '>Preview:</label>
             <div className='flex flex-col flex-wrap sm:flex-row'>

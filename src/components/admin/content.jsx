@@ -9,6 +9,8 @@ import NewKategori from './newKategori';
 import DetailReport from '../detailReport';
 import UnitWork from './unitWork';
 import NewUnitWorks from './newUnitWorks';
+import Officer from './officer';
+import NewOfficer from './newOfficer';
 
 export default function ContentOfficer() {
   const auth = useSelector((state) => state.auth);
@@ -39,13 +41,10 @@ export default function ContentOfficer() {
         path="/unitworks/new"
         element={<GuardRoute element={<NewUnitWorks />} />}
       />
-       <Route
-        path="/officer"
-        element={<GuardRoute element={<UnitWork />} />}
-      />
+      <Route path="/officer" element={<GuardRoute element={<Officer />} />} />
       <Route
         path="/officer/new"
-        element={<GuardRoute element={<NewUnitWorks />} />}
+        element={<GuardRoute element={<NewOfficer />} />}
       />
     </Routes>
   );
