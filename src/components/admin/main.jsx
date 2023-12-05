@@ -5,7 +5,6 @@ import {
   TileLayer,
   Marker,
   Popup,
-  useMapEvent,
 } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -47,6 +46,7 @@ const ReportCard = () => {
       Selesai: 'green',
     };
 
+    // eslint-disable-next-line no-undef
     var newIcon = new L.Icon({
       iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${markerColors[status]}.png`,
       shadowUrl:
