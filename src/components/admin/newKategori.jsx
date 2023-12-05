@@ -17,7 +17,6 @@ const NewKategori = () => {
   let imageData = new FormData();
 
   const onDrop = async (acceptedFiles) => {
-    console.log(newCategory);
     if (newCategory.image !== '') {
       toast.warning(`Maksimal 1 logo`, {
         position: 'top-right',
@@ -71,7 +70,6 @@ const NewKategori = () => {
 
   const cancelUploadImage = async (itemIndex) => {
     const imageName = preview[itemIndex].image[0];
-    // console.log(reportOfficer);
     const { data } = await axios.delete(
       `${import.meta.env.VITE_HOST_SERENITY}/delete/image/${imageName}`,
       {
@@ -111,7 +109,6 @@ const NewKategori = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // console.log(newCategory);
 
     try {
       const response = await axios.post(

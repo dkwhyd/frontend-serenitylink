@@ -18,7 +18,6 @@ const UnitWork = () => {
             Authorization: `Bearer ${auth.user ? auth.token : ''}`,
           },
         });
-        console.log(data);
         setUnitWorkData([{ name: 'Tambah Unit Kerja', isButton: true }, ...data.data]);
       } catch (error) {
         console.error('Error fetching data:', error);

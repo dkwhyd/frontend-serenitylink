@@ -26,7 +26,6 @@ const RegisterForm = () => {
 
     try {
       const register = await axios.post('http://localhost:5500/register', form);
-      console.log(register.data);
       if (register.data.status === 'ok') {
         // window.alert(register.data.message);
         toast.success(`${register.data.message}`, {

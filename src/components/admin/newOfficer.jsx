@@ -39,7 +39,6 @@ export default function NewOfficer() {
 
   const handleSubmit = async (e) => {
     e.preventDefault;
-    console.log(newOficer);
     try {
       const { data } = await axios.post(
         'http://localhost:5500/officer/register',
@@ -52,7 +51,6 @@ export default function NewOfficer() {
           },
         },
       );
-      console.log(data);
       if (data.status === 'ok') {
         setNewOfficer({
           name: '',
@@ -81,7 +79,6 @@ export default function NewOfficer() {
         });
       }
     } catch (error) {
-      console.log(error);
       toast.error(`${error}`, {
         position: 'top-right',
         autoClose: 3000,

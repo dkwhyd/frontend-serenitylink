@@ -43,10 +43,15 @@ const LoginForm = () => {
         });
       }
     } catch (error) {
-      window.alert(
-        'Terjadi kesalahan saat mencoba untuk login. Silakan coba lagi.',
-        error,
-      );
+
+      toast.warning(`'Terjadi kesalahan saat mencoba untuk login. Silakan coba lagi. ${error}`, {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 

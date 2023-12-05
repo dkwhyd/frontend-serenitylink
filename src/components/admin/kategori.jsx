@@ -14,7 +14,6 @@ const Categories = () => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(`http://localhost:5500/category`);
-        console.log(data);
         setCateogoryData([
           { name: 'tambah kategori', isButton: true },
           ...data.data,
@@ -67,7 +66,14 @@ const Categories = () => {
         });
       }
     } catch (error) {
-      console.error('Error deleting category:', error);
+      toast.error(`Error deleting category: ${error}`, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 

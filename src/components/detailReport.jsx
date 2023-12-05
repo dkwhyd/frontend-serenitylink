@@ -27,8 +27,6 @@ export default function DetailReport() {
   const [preview, setPreview] = useState([]);
   let imageData = new FormData();
 
-  // console.log(report);
-
   const fetchData = async () => {
     try {
       const { data } = await axios.get('http://localhost:5500/report/' + id, {
@@ -46,7 +44,6 @@ export default function DetailReport() {
   useEffect(() => {
     fetchData();
   }, [id, auth.token]);
-  // console.log(report);
 
   function SetViewOnClick() {
     const map = useMapEvent('click', () => {
@@ -65,7 +62,6 @@ export default function DetailReport() {
 
   const sendComment = async (e) => {
     e.preventDefault();
-    console.log(message);
     const { data } = await axios.post(
       `http://localhost:5500/comment/${id}`,
       { message },
@@ -75,7 +71,6 @@ export default function DetailReport() {
         },
       },
     );
-    console.log(data);
     if (data.status === 'ok') {
       fetchData();
       toast.success(`${data.message}`, {
@@ -90,9 +85,15 @@ export default function DetailReport() {
   };
 
   const onDrop = async (acceptedFiles) => {
-    console.log(reportOfficer.imageReport.length);
     if (reportOfficer.imageReport.length > 2) {
-      window.alert('maksimal bukti 3 foto');
+      toast.success(`Maksimal bukti 3 Foto`, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     } else {
       acceptedFiles.forEach((file) => {
         imageData.append('image', file);
@@ -130,8 +131,6 @@ export default function DetailReport() {
         ],
       };
       setPreview((prevUpload) => [...prevUpload, newUpload]);
-
-      console.log(reportOfficer);
     }
   };
 
@@ -150,7 +149,6 @@ export default function DetailReport() {
   // Upload
   const cancelUploadImage = async (itemIndex) => {
     const imageName = preview[itemIndex].image[0];
-    console.log(reportOfficer);
     const { data } = await axios.delete(
       `${import.meta.env.VITE_HOST_SERENITY}/delete/image/${imageName}`,
       {
@@ -159,7 +157,6 @@ export default function DetailReport() {
         },
       },
     );
-    console.log(data);
     if (data.status === 'ok') {
       const updatedUpload = preview.filter(
         (item, index) => index !== itemIndex,
@@ -173,22 +170,26 @@ export default function DetailReport() {
         draggable: true,
       });
       setPreview(updatedUpload);
+      setReportOfficer({
+        ...reportOfficer,
+        imageReport: '',
+      });
     } else {
-      window.alert('cancel upload image failed');
+      toast.error(`Delete image failed`, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
 
     const updatedImageReport = [...report.imageReport];
     updatedImageReport.splice(itemIndex, 1);
-
-    setReportOfficer({
-      ...reportOfficer,
-      imageReport: updatedImageReport,
-    });
   };
 
   const sendOfficeReport = async (e) => {
-    console.log(auth?.token);
-    console.log(reportOfficer);
     e.preventDefault();
     const { data } = await axios.post(
       `http://localhost:5500/officer/report/${report._id}`,
@@ -199,7 +200,6 @@ export default function DetailReport() {
         },
       },
     );
-    // console.log(data.data);
     if (data.status === 'ok') {
       toast.success(`${data.message}`, {
         position: 'top-right',
@@ -259,8 +259,7 @@ export default function DetailReport() {
         },
       );
       if (data.status === 'ok') {
-        window.alert('Laporan berhasil dikirim');
-        toast.success(`${data.message}`, {
+        toast.success(`Laporan berhasil dikirim`, {
           position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,
@@ -280,7 +279,6 @@ export default function DetailReport() {
         });
       }
     } catch (error) {
-      // window.alert(error);
       toast.error(error, {
         position: 'top-right',
         autoClose: 3000,

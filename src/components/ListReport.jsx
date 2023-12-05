@@ -14,7 +14,6 @@ function ListReport({ searchTerm, currentPage, reportsPerPage, reportSkip, url }
     const fetchData = async () => {
       try {
         const response = await axios.get(`${url}?q=${searchTerm}&limit=${reportsPerPage}&skip=${reportSkip}`);
-        // console.log(searchTerm, reportsPerPage, reportSkip);
         setReportData(response.data.data);
       } catch (error) {
         console.error('Error fetching data:', error);

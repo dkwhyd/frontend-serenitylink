@@ -36,7 +36,6 @@ function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
             },
           },
         );
-        console.log(response);  
         setReportData(response.data.data);
       } catch (error) {
         console.error('Error fetching data:', error);

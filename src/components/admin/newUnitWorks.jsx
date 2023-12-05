@@ -149,7 +149,6 @@ const NewUnitWorks = () => {
         });
       }
     } catch (error) {
-      console.error('Error adding unit works:', error);
       toast.error(`Error adding unit works: ${error}`, {
         position: 'top-right',
         autoClose: 3000,

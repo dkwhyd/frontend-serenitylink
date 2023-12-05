@@ -20,7 +20,6 @@ export default function Officer() {
             },
           },
         );
-        console.log(data);
         setOfficerData(data.data);
 
         const dataUnitWork = await axios.get(
@@ -95,7 +94,7 @@ export default function Officer() {
                 <tr>
                   <th className="py-2 px-4 border-b">No</th>
                   <th className="py-2 px-4 border-b">Name</th>
-                  <th className="py-2 px-4 border-b">Role</th>
+                  <th className="py-2 px-4 border-b">Level</th>
                   <th className="py-2 px-4 border-b">Unit Kerja</th>
                 </tr>
               </thead>
