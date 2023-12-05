@@ -39,7 +39,7 @@ function Dashboard({ children }) {
           aria-label='Sidebar'
         >
           <div className='h-full overflow-y-auto bg-[#222D32]'>
-            <Sidebar menus={menus} />
+            <Sidebar menus={menus} closeSidebar={() => setIsSidebarOpen(false)} />
           </div>
         </aside>
         <main className={`overflow-hidden p-0 md:p-6 ${isSidebarOpen ? 'translate-x-16 flex-1' : '  translate-x-0 flex-1'} transition-all duration-500`}>

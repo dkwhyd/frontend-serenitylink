@@ -58,8 +58,8 @@ function Footer() {
           </div>
           <hr className='bg-white' />
           <div className='flex items-center justify-between px-4 py-4 text-white md:px-8'>
-            <h5>© 2023, Dicoding capstone C523-PRO86</h5>
-            <button onClick={scrollToTop} className={`transition duration-200 hover:text-blue-500 ${isVisible ? 'block' : 'hidden'}`}>
+            <h5 className='text-xs md:text-base'>© 2023, Dicoding capstone C523-PRO86</h5>
+            <button onClick={scrollToTop} className={`transition duration-200 hover:text-blue-500 text-xs md:text-base ${isVisible ? 'block' : 'hidden'}`}>
               Back to top
             </button>
           </div>

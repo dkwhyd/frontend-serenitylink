@@ -27,11 +27,7 @@ const NewKategori = () => {
         Authorization: `Bearer ${auth.user ? auth.token : ''}`,
       },
     };
-    const uploadImage = await axios.post(
-      `${import.meta.env.VITE_HOST_SERENITY}/upload/image`,
-      imageData,
-      config,
-    );
+    const uploadImage = await axios.post(`${import.meta.env.VITE_HOST_SERENITY}/upload/image`, imageData, config);
     const getImage = uploadImage.data.image;
     console.log(getImage);
     setNewCategory({
@@ -40,10 +36,7 @@ const NewKategori = () => {
     });
 
     const newUpload = {
-      image: [
-        getImage,
-        ...acceptedFiles.map((file) => URL.createObjectURL(file)),
-      ],
+      image: [getImage, ...acceptedFiles.map((file) => URL.createObjectURL(file))],
     };
     setPreview((prevUpload) => [...prevUpload, newUpload]);
 
@@ -66,19 +59,14 @@ const NewKategori = () => {
   const cancelUploadImage = async (itemIndex) => {
     const imageName = preview[itemIndex].image[0];
     // console.log(reportOfficer);
-    const { data } = await axios.delete(
-      `${import.meta.env.VITE_HOST_SERENITY}/delete/image/${imageName}`,
-      {
-        headers: {
-          Authorization: `Bearer ${auth.user ? auth.token : ''}`,
-        },
+    const { data } = await axios.delete(`${import.meta.env.VITE_HOST_SERENITY}/delete/image/${imageName}`, {
+      headers: {
+        Authorization: `Bearer ${auth.user ? auth.token : ''}`,
       },
-    );
+    });
     console.log(data);
     if (data.status === 'ok') {
-      const updatedUpload = preview.filter(
-        (item, index) => index !== itemIndex,
-      );
+      const updatedUpload = preview.filter((item, index) => index !== itemIndex);
       setPreview(updatedUpload);
     } else {
       window.alert('cancel upload image failed');
@@ -107,14 +95,14 @@ const NewKategori = () => {
           headers: {
             Authorization: `Bearer ${auth.user ? auth.token : ''}`,
           },
-        },
+        }
       );
-        console.log(response)
+      console.log(response);
       if (response.data.status === 'ok') {
         alert('Kategori berhasil ditambahkan!');
         navigate('/dashboard/category');
       } else {
-        alert('Gagal menambahkan kategori');
+        alert('Gagal menambahkan kategori : ' + response.data.message);
       }
     } catch (error) {
       console.error('Error adding category:', error);
@@ -122,20 +110,16 @@ const NewKategori = () => {
   };
 
   return (
-    <div>
-      <div className="w-5/6">
-        <div className="flex items-center mb-2 md:mb-4 mx-auto">
-          <h2 className="md:text-4xl ml-4 text-lg font-semibold text-primary-600">
-            Tambah Kategori
-          </h2>
+    <div className='m-2 my-8 md:px-4'>
+      <div className='animate__fadeIn animate__animated animate__delay-0.5s box-border rounded-3xl bg-white px-4 py-8 drop-shadow md:p-12 capitalize'>
+        <div className='flex items-center justify-center mb-4 md:mb-8 mx-auto'>
+          <h2 className='md:text-4xl ml-4 text-lg font-semibold text-primary-600'>Tambah Kategori</h2>
         </div>
-        <div className="flex flex-col">
-          <label className="block mb-2 text-xs md:text-base text-gray-900 font-semibold">
-            Nama Kategori
-          </label>
+        <div className='flex flex-col'>
+          <label className='block mb-2 text-xs md:text-base text-gray-900 font-semibold'>Nama Kategori</label>
           <input
-            type="text"
-            name="title"
+            type='text'
+            name='title'
             value={newCategory.name}
             onChange={(e) =>
               setNewCategory({
@@ -143,77 +127,45 @@ const NewKategori = () => {
                 name: e.target.value,
               })
             }
-            minLength="5"
-            maxLength="50"
+            minLength='5'
+            maxLength='50'
             required
-            className="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            className='bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
           />
         </div>
-        <div className="col-span-1">
-          <div className="">
-            <label className="block mb-2.5 text-xs md:text-base text-gray-900 font-semibold">
-              Bukti Laporan:
-            </label>
-            <div
-              {...getRootProps()}
-              id="image-dropzone"
-              className="border-2 border-dashed bg-gray-200 border-black p-5 mt-2"
-            >
+        <div className='col-span-1'>
+          <div className=''>
+            <label className='block my-2.5 text-xs md:text-base text-gray-900 font-semibold'>Logo Kategori :</label>
+            <div {...getRootProps()} id='image-dropzone' className='border-2 border-dashed bg-gray-200 border-black p-5 mt-2'>
               <input {...getInputProps()} />
-              <p className="text-center">
-                Drag n drop some files here, or click to select files
-              </p>
-              <p className="text-center">Ukuran maksimal file: 2MB</p>
-              <p className="text-center"> Maskimal 1 foto</p>
+              <p className='text-center'>Drag n drop some files here, or click to select files</p>
+              <p className='text-center'>Ukuran maksimal file: 2MB</p>
+              <p className='text-center'> Maskimal 1 foto</p>
             </div>
           </div>
 
-          <div className="mt-4  mb-3 min-h-[11rem] h-fit">
-            <label className="block mb-2 text-xs md:text-base text-gray-900 font-semibold ">
-              Preview:
-            </label>
-            <div className="flex flex-col flex-wrap sm:flex-row">
+          <div className='mt-4  mb-3 min-h-[11rem] h-fit'>
+            <label className='block mb-2 text-xs md:text-base text-gray-900 font-semibold '>Preview:</label>
+            <div className='flex flex-col flex-wrap sm:flex-row'>
               {preview &&
                 preview.map((item, index) => (
-                  <div
-                    key={index}
-                    className="relative flex flex-col items-center space-x-2"
-                  >
-                    <img
-                      src={item.image[1]}
-                      alt={`Image ${index + 1}`}
-                      className="max-w-24 h-32 mx-4 my-2"
-                    />
+                  <div key={index} className='relative flex flex-col items-center space-x-2'>
+                    <img src={item.image[1]} alt={`Image ${index + 1}`} className='max-w-24 h-32 mx-4 my-2' />
                     <button
                       onClick={() => cancelUploadImage(index)}
-                      className="absolute -top-4 -right-4 bg-transparent rounded-md p-2 inline-flex items-center justify-center text-gray-500 hover: hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                      className='absolute -top-4 -right-4 bg-transparent rounded-md p-2 inline-flex items-center justify-center text-gray-500 hover: hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'
                     >
-                      <span className="sr-only">Hapus</span>
-                      <svg
-                        className="h-6 w-6"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        aria-hidden="true"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M6 18L18 6M6 6l12 12"
-                        />
+                      <span className='sr-only'>Hapus</span>
+                      <svg className='h-6 w-6' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor' aria-hidden='true'>
+                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' />
                       </svg>
                     </button>
                   </div>
                 ))}
             </div>
           </div>
-          <div className="text-center mt:4 md:mt-8 w-full">
-            <button
-              className="bg-blue-600 mt-4 float-right py-2 px-6 rounded-lg focus:outline-none transition-all ease-out text-white hover:bg-blue-700 focus:bg-blue-900"
-              onClick={(e) => handleSubmit(e)}
-            >
+          <div className='text-center mt:4 md:mt-8 flex justify-end w-full'>
+            <button className='bg-blue-600 mt-4 py-2 px-6 rounded-lg focus:outline-none transition-all ease-out text-white hover:bg-blue-700 focus:bg-blue-900' onClick={(e) => handleSubmit(e)}>
               Kirim
             </button>
           </div>
