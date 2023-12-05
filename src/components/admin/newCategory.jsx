@@ -1,54 +1,52 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
+import { useSelector } from 'react-redux';
 
-const NewKategori = () => {
+const NewCategory = () => {
   const auth = useSelector((state) => state.auth);
-  const navigate = useNavigate();
 
-  const [newCategory, setNewCategory] = useState({
-    name: '',
-    image: '',
+  const [reportOfficer, setReportOfficer] = useState({
+    message: '',
+    imageReport: [],
   });
   const [preview, setPreview] = useState([]);
   let imageData = new FormData();
 
   const onDrop = async (acceptedFiles) => {
-    // if (reportOfficer.imageReport.length > 1) {
-    //   window.alert('maksimal 1 foto');
-    // } else {
-    acceptedFiles.forEach((file) => {
-      imageData.append('image', file);
-    });
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth.user ? auth.token : ''}`,
-      },
-    };
-    const uploadImage = await axios.post(
-      `${import.meta.env.VITE_HOST_SERENITY}/upload/image`,
-      imageData,
-      config,
-    );
-    const getImage = uploadImage.data.image;
-    console.log(getImage);
-    setNewCategory({
-      ...newCategory,
-      image: getImage,
-    });
+    console.log(reportOfficer.imageReport.length);
+    if (reportOfficer.imageReport.length > 2) {
+      window.alert('maksimal bukti 3 foto');
+    } else {
+      acceptedFiles.forEach((file) => {
+        imageData.append('image', file);
+      });
+      const config = {
+        headers: {
+          Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+        },
+      };
+      const uploadImage = await axios.post(
+        `${import.meta.env.VITE_HOST_SERENITY}/upload/image`,
+        imageData,
+        config,
+      );
+      const getImage = uploadImage.data.image;
+      setReportOfficer({
+        ...reportOfficer,
+        imageReport: [...reportOfficer.imageReport, uploadImage.data.image],
+      });
 
-    const newUpload = {
-      image: [
-        getImage,
-        ...acceptedFiles.map((file) => URL.createObjectURL(file)),
-      ],
-    };
-    setPreview((prevUpload) => [...prevUpload, newUpload]);
+      const newUpload = {
+        image: [
+          getImage,
+          ...acceptedFiles.map((file) => URL.createObjectURL(file)),
+        ],
+      };
+      setPreview((prevUpload) => [...prevUpload, newUpload]);
 
-    console.log(newCategory);
-    // }
+      console.log(reportOfficer);
+    }
   };
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -58,14 +56,15 @@ const NewKategori = () => {
       'image/jpg': ['.jpg'],
       'image/jpeg': ['.jpeg'],
     },
-    multiple: false,
+    multiple: true,
     maxFiles: 1,
     maxSize: 2097152,
   });
 
+  // Upload
   const cancelUploadImage = async (itemIndex) => {
     const imageName = preview[itemIndex].image[0];
-    // console.log(reportOfficer);
+    console.log(reportOfficer);
     const { data } = await axios.delete(
       `${import.meta.env.VITE_HOST_SERENITY}/delete/image/${imageName}`,
       {
@@ -84,63 +83,31 @@ const NewKategori = () => {
       window.alert('cancel upload image failed');
     }
 
-    const updatedImageReport = [...newCategory.image];
+    const updatedImageReport = [...report.imageReport];
     updatedImageReport.splice(itemIndex, 1);
 
-    setNewCategory({
-      ...newCategory,
-      image: updatedImageReport,
+    setReportOfficer({
+      ...reportOfficer,
+      imageReport: updatedImageReport,
     });
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log(newCategory);
-
-    try {
-      const response = await axios.post(
-        'http://localhost:5500/officer/category',
-        {
-          ...newCategory,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${auth.user ? auth.token : ''}`,
-          },
-        },
-      );
-        console.log(response)
-      if (response.data.status === 'ok') {
-        alert('Kategori berhasil ditambahkan!');
-        navigate('/dashboard/category');
-      } else {
-        alert('Gagal menambahkan kategori');
-      }
-    } catch (error) {
-      console.error('Error adding category:', error);
-    }
   };
 
   return (
     <div>
-      <div className="w-5/6">
-        <div className="flex items-center mb-2 md:mb-4 mx-auto">
-          <h2 className="md:text-4xl ml-4 text-lg font-semibold text-primary-600">
-            Tambah Kategori
-          </h2>
-        </div>
+      <div className="">
+        Buat Laporan
         <div className="flex flex-col">
           <label className="block mb-2 text-xs md:text-base text-gray-900 font-semibold">
-            Nama Kategori
+            Pesan:
           </label>
           <input
             type="text"
             name="title"
-            value={newCategory.name}
+            value={reportOfficer.message}
             onChange={(e) =>
-              setNewCategory({
-                ...newCategory,
-                name: e.target.value,
+              setReportOfficer({
+                ...reportOfficer,
+                message: e.target.value,
               })
             }
             minLength="5"
@@ -163,8 +130,8 @@ const NewKategori = () => {
               <p className="text-center">
                 Drag n drop some files here, or click to select files
               </p>
-              <p className="text-center">Ukuran maksimal file: 2MB</p>
-              <p className="text-center"> Maskimal 1 foto</p>
+              <p className="text-center">Ukuran maksimal per file: 2MB</p>
+              <p className="text-center">Bukti maskimal 3 foto</p>
             </div>
           </div>
 
@@ -212,7 +179,7 @@ const NewKategori = () => {
           <div className="text-center mt:4 md:mt-8 w-full">
             <button
               className="bg-blue-600 mt-4 float-right py-2 px-6 rounded-lg focus:outline-none transition-all ease-out text-white hover:bg-blue-700 focus:bg-blue-900"
-              onClick={(e) => handleSubmit(e)}
+              //   onClick={(e) => sendOfficeReport(e)}
             >
               Kirim
             </button>
@@ -223,4 +190,4 @@ const NewKategori = () => {
   );
 };
 
-export default NewKategori;
+export default NewCategory;

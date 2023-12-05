@@ -3,18 +3,25 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
-const Categories = () => {
-  const [categoryData, setCateogoryData] = useState([]);
+const UnitWork = () => {
+  const [unitWorkData, setUnitWorkData] = useState([]);
   const [reload, setReload] = useState(false);
   const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:5500/category`);
+        const { data } = await axios.get(
+          `http://localhost:5500/officer/unitwork`,
+          {
+            headers: {
+              Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+            },
+          },
+        );
         console.log(data);
-        setCateogoryData([
-          { name: 'tambah kategori', isButton: true },
+        setUnitWorkData([
+          { name: 'Tambah Unit Kerja', isButton: true },
           ...data.data,
         ]);
       } catch (error) {
@@ -25,9 +32,9 @@ const Categories = () => {
     fetchData();
   }, [reload]);
 
-  const handleDelete = async (categoryId, categoryName) => {
+  const handleDelete = async (unitWorkId, unitWorkName) => {
     const userConfirmation = window.confirm(
-      `Apakah kamu yakin ingin menghapus kategori: ${categoryName}?`,
+      `Apakah kamu yakin ingin menghapus Unit Kerja: ${unitWorkName}?`,
     );
     if (!userConfirmation) {
       return;
@@ -35,7 +42,7 @@ const Categories = () => {
 
     try {
       const response = await axios.delete(
-        `http://localhost:5500/officer/category/${categoryId}`,
+        `http://localhost:5500/officer/unitwork/${unitWorkId}`,
         {
           headers: {
             Authorization: `Bearer ${auth.user ? auth.token : ''}`,
@@ -44,13 +51,13 @@ const Categories = () => {
       );
 
       if (response.data.status === 'ok') {
-        alert('Kategori berhasil dihapus!');
+        alert('Unit kerja berhasil dihapus!');
         setReload(!reload);
       } else {
-        alert('Gagal menghapus kategori: ' + response.data.message);
+        alert('Gagal menghapus unit kerja: ' + response.data.message);
       }
     } catch (error) {
-      console.error('Error deleting category:', error);
+      console.error('Error deleting unirwork:', error);
     }
   };
 
@@ -65,16 +72,16 @@ const Categories = () => {
           data-aos-offset="0"
         >
           <h1 className="text-center text-2xl md:text-5xl out text-primary-600 font-extrabold mb-8 uppercase">
-            kategori
+            Unit Kerja
           </h1>
           <div className="flex flex-wrap justify-start ">
-            {categoryData.map((category, index) => (
+            {unitWorkData.map((unitwork, index) => (
               <div
                 key={index}
                 className="w-1/2 sm:w-1/5 md:w-1/5 lg:w-[14.2857%] group p-4 text-center mb-8 relative"
               >
-                {category.isButton ? (
-                  <Link to="/dashboard/category/new">
+                {unitwork.isButton ? (
+                  <Link to="/dashboard/unitworks/new">
                     <button className="mx-auto bg-[#CCCCCC] w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full group-hover:outline group-hover:outline-1 group-hover:outline-primary-600 duration-100 ease-out">
                       +
                     </button>
@@ -85,13 +92,11 @@ const Categories = () => {
                       className="mx-auto w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full group-hover:outline group-hover:outline-1 group-hover:outline-primary-600 duration-100 ease-out"
                       src={`${
                         import.meta.env.VITE_HOST_SERENITY
-                      }/public/image/${category.image}`}
-                      alt={category.name}
+                      }/public/image/${unitwork.image}`}
+                      alt={unitwork.name}
                     />
                     <button
-                      onClick={() =>
-                        handleDelete(category.category_id, category.name)
-                      }
+                      onClick={() => handleDelete(unitwork._id, unitwork.name)}
                       className="absolute -top-1 -right-1 bg-transparent rounded-md p-2 inline-flex items-center justify-center text-gray-500 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
                     >
                       X
@@ -99,7 +104,7 @@ const Categories = () => {
                   </>
                 )}
                 <p className="mt-2 text-base text-[#64748BBF] group-hover:text-primary-600 group-hover:font-semibold">
-                  {category.name}
+                  {unitwork.name}
                 </p>
               </div>
             ))}
@@ -110,4 +115,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default UnitWork;

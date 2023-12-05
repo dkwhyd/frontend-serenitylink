@@ -4,11 +4,11 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 
-const NewKategori = () => {
+const NewUnitWorks = () => {
   const auth = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
-  const [newCategory, setNewCategory] = useState({
+  const [newUnitWorks, setNewUnitWorks] = useState({
     name: '',
     image: '',
   });
@@ -16,39 +16,36 @@ const NewKategori = () => {
   let imageData = new FormData();
 
   const onDrop = async (acceptedFiles) => {
-    // if (reportOfficer.imageReport.length > 1) {
-    //   window.alert('maksimal 1 foto');
-    // } else {
-    acceptedFiles.forEach((file) => {
-      imageData.append('image', file);
-    });
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth.user ? auth.token : ''}`,
-      },
-    };
-    const uploadImage = await axios.post(
-      `${import.meta.env.VITE_HOST_SERENITY}/upload/image`,
-      imageData,
-      config,
-    );
-    const getImage = uploadImage.data.image;
-    console.log(getImage);
-    setNewCategory({
-      ...newCategory,
-      image: getImage,
-    });
+    if (newUnitWorks.image !== '') {
+      window.alert('maksimal 1 foto');
+    } else {
+      acceptedFiles.forEach((file) => {
+        imageData.append('image', file);
+      });
+      const config = {
+        headers: {
+          Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+        },
+      };
+      const uploadImage = await axios.post(
+        `${import.meta.env.VITE_HOST_SERENITY}/upload/image`,
+        imageData,
+        config,
+      );
+      const getImage = uploadImage.data.image;
+      setNewUnitWorks({
+        ...newUnitWorks,
+        image: getImage,
+      });
 
-    const newUpload = {
-      image: [
-        getImage,
-        ...acceptedFiles.map((file) => URL.createObjectURL(file)),
-      ],
-    };
-    setPreview((prevUpload) => [...prevUpload, newUpload]);
-
-    console.log(newCategory);
-    // }
+      const newUpload = {
+        image: [
+          getImage,
+          ...acceptedFiles.map((file) => URL.createObjectURL(file)),
+        ],
+      };
+      setPreview((prevUpload) => [...prevUpload, newUpload]);
+    }
   };
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -65,7 +62,6 @@ const NewKategori = () => {
 
   const cancelUploadImage = async (itemIndex) => {
     const imageName = preview[itemIndex].image[0];
-    // console.log(reportOfficer);
     const { data } = await axios.delete(
       `${import.meta.env.VITE_HOST_SERENITY}/delete/image/${imageName}`,
       {
@@ -74,7 +70,6 @@ const NewKategori = () => {
         },
       },
     );
-    console.log(data);
     if (data.status === 'ok') {
       const updatedUpload = preview.filter(
         (item, index) => index !== itemIndex,
@@ -84,24 +79,23 @@ const NewKategori = () => {
       window.alert('cancel upload image failed');
     }
 
-    const updatedImageReport = [...newCategory.image];
+    const updatedImageReport = [...newUnitWorks.image];
     updatedImageReport.splice(itemIndex, 1);
 
-    setNewCategory({
-      ...newCategory,
+    setNewUnitWorks({
+      ...newUnitWorks,
       image: updatedImageReport,
     });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(newCategory);
 
     try {
       const response = await axios.post(
-        'http://localhost:5500/officer/category',
+        'http://localhost:5500/officer/unitwork',
         {
-          ...newCategory,
+          ...newUnitWorks,
         },
         {
           headers: {
@@ -109,15 +103,15 @@ const NewKategori = () => {
           },
         },
       );
-        console.log(response)
+
       if (response.data.status === 'ok') {
         alert('Kategori berhasil ditambahkan!');
-        navigate('/dashboard/category');
+        navigate('/dashboard/unitworks');
       } else {
-        alert('Gagal menambahkan kategori');
+        alert('Gagal menambahkan unit kerja');
       }
     } catch (error) {
-      console.error('Error adding category:', error);
+      console.error('Error adding unit works:', error);
     }
   };
 
@@ -126,20 +120,20 @@ const NewKategori = () => {
       <div className="w-5/6">
         <div className="flex items-center mb-2 md:mb-4 mx-auto">
           <h2 className="md:text-4xl ml-4 text-lg font-semibold text-primary-600">
-            Tambah Kategori
+            Tambah Unit Kerja
           </h2>
         </div>
         <div className="flex flex-col">
           <label className="block mb-2 text-xs md:text-base text-gray-900 font-semibold">
-            Nama Kategori
+            Nama Unit Kerja
           </label>
           <input
             type="text"
             name="title"
-            value={newCategory.name}
+            value={newUnitWorks.name}
             onChange={(e) =>
-              setNewCategory({
-                ...newCategory,
+              setNewUnitWorks({
+                ...newUnitWorks,
                 name: e.target.value,
               })
             }
@@ -223,4 +217,4 @@ const NewKategori = () => {
   );
 };
 
-export default NewKategori;
+export default NewUnitWorks;
