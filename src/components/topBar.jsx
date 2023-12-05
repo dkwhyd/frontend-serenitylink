@@ -11,11 +11,6 @@ export default function TopBar() {
   const handleToggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
   };
-
-  const handleLogout = () => {
-    // Lakukan logika logout di sini
-    console.log('Logout');
-  };
   return (
     <>
       <div className="relative">
@@ -33,7 +28,6 @@ export default function TopBar() {
             <div className="flex flex-row">
               <Link
                 to={'/logout'}
-                onClick={handleLogout}
                 className="block w-full text-left text-red-500 font-bold"
               >
                 <FiLogOut />

@@ -2,8 +2,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 function Footer() {
+  const auth = useSelector(state=>state.auth)
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -51,15 +53,15 @@ function Footer() {
               <a href='#laporan'>
                 <div className='text-center text-base sm:text-lg text-white transition duration-200 hover:text-blue-600 md:text-start'>Laporan</div>
               </a>
-              <Link to='/login' className='text-center text-base sm:text-lg text-white transition duration-200 hover:text-blue-600 md:text-start'>
-                Login
+              <Link to={auth.user? '/dashboard': '/login'} className='text-center text-base sm:text-lg text-white transition duration-200 hover:text-blue-600 md:text-start underlined'>
+               {auth.user? 'Dashboard': 'Login'}
               </Link>
             </div>
           </div>
           <hr className='bg-white' />
           <div className='flex items-center justify-between px-4 py-4 text-white md:px-8'>
-            <h5>© 2023, Dicoding capstone C523-PRO86</h5>
-            <button onClick={scrollToTop} className={`transition duration-200 hover:text-blue-500 ${isVisible ? 'block' : 'hidden'}`}>
+            <h5 className='text-xs md:text-base'>© 2023, Dicoding capstone C523-PRO86</h5>
+            <button onClick={scrollToTop} className={`transition duration-200 hover:text-blue-500 text-xs md:text-base ${isVisible ? 'block' : 'hidden'}`}>
               Back to top
             </button>
           </div>

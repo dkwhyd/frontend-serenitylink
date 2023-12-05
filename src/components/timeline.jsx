@@ -15,7 +15,7 @@ export default function timeLine() {
                 <div className='flex flex-col sm:flex-row items-center'>
                   <div className='flex justify-start w-full mx-auto items-center'>
                     <div className='w-full sm:w-1/2 sm:pr-8'>
-                      <div className='p-4 bg-white rounded shadow transition-all duration-100 ease-out hover:outline hover:outline-black hover:outline-1 cursor-pointer'>Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+                      <div className='p-4 bg-white rounded shadow transition-all duration-100 ease-out hover:outline hover:outline-black hover:outline-1 cursor-pointer'>Warga atau masyarakat mengisi formulir aduan </div>
                     </div>
                   </div>
                   <div className='rounded-full bg-blue-500 border-white border-4 w-8 h-8 absolute left-1/2 -translate-y-4 sm:translate-y-0 transform -translate-x-1/2 flex items-center justify-center'>
@@ -36,7 +36,7 @@ export default function timeLine() {
                 <div className='flex flex-col sm:flex-row items-center'>
                   <div className='flex justify-end w-full mx-auto items-center'>
                     <div className='w-full sm:w-1/2 sm:pl-8'>
-                      <div className='p-4 bg-white rounded shadow transition-all duration-100 ease-out hover:outline hover:outline-black hover:outline-1 cursor-pointer'>Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+                      <div className='p-4 bg-white rounded shadow transition-all duration-100 ease-out hover:outline hover:outline-black hover:outline-1 cursor-pointer'>Admin menugaskan pihak berwenang yang akan menyelesaikan aduan</div>
                     </div>
                   </div>
                   <div className='rounded-full bg-blue-500 border-white border-4 w-8 h-8 absolute left-1/2 -translate-y-4 sm:translate-y-0 transform -translate-x-1/2 flex items-center justify-center'>
@@ -52,7 +52,7 @@ export default function timeLine() {
                 <div className='flex flex-col sm:flex-row items-center'>
                   <div className='flex justify-start w-full mx-auto items-center'>
                     <div className='w-full sm:w-1/2 sm:pr-8'>
-                      <div className='p-4 bg-white rounded shadow transition-all duration-100 ease-out hover:outline hover:outline-black hover:outline-1 cursor-pointer'>Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+                      <div className='p-4 bg-white rounded shadow transition-all duration-100 ease-out hover:outline hover:outline-black hover:outline-1 cursor-pointer'>Petugas atau pihak berwenang menyelesaikan masalah</div>
                     </div>
                   </div>
                   <div className='rounded-full bg-blue-500 border-white border-4 w-8 h-8 absolute left-1/2 -translate-y-4 sm:translate-y-0 transform -translate-x-1/2 flex items-center justify-center'>
@@ -64,7 +64,7 @@ export default function timeLine() {
               </div>
 
               {/* <!-- Right section, set by justify-end and sm:pl-8 --> */}
-              <div className='mt-6 sm:mt-0' data-aos='fade-down' data-aos-duration='1000' data-aos-delay='1500'>
+              {/* <div className='mt-6 sm:mt-0' data-aos='fade-down' data-aos-duration='1000' data-aos-delay='1500'>
                 <div className='flex flex-col sm:flex-row items-center'>
                   <div className='flex justify-end w-full mx-auto items-center'>
                     <div className='w-full sm:w-1/2 sm:pl-8'>
@@ -82,7 +82,7 @@ export default function timeLine() {
                     </svg>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

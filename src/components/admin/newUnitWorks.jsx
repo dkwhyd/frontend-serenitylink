@@ -5,11 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
 
-const NewKategori = () => {
+const NewUnitWorks = () => {
   const auth = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
-  const [newCategory, setNewCategory] = useState({
+  const [newUnitWorks, setNewUnitWorks] = useState({
     name: '',
     image: '',
   });
@@ -17,15 +17,8 @@ const NewKategori = () => {
   let imageData = new FormData();
 
   const onDrop = async (acceptedFiles) => {
-    if (newCategory.image !== '') {
-      toast.warning(`Maksimal 1 logo`, {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+    if (newUnitWorks.image !== '') {
+      window.alert('maksimal 1 foto');
     } else {
       acceptedFiles.forEach((file) => {
         imageData.append('image', file);
@@ -41,8 +34,18 @@ const NewKategori = () => {
         config,
       );
       const getImage = uploadImage.data.image;
-      setNewCategory({
-        ...newCategory,
+      if(uploadImage.data.status==='ok'){
+        toast.success(`${uploadImage.data.message}`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+      setNewUnitWorks({
+        ...newUnitWorks,
         image: getImage,
       });
 
@@ -83,10 +86,6 @@ const NewKategori = () => {
         (item, index) => index !== itemIndex,
       );
       setPreview(updatedUpload);
-      setNewCategory({
-        ...newCategory,
-        image: '',
-      });
       toast.success(`${data.message}`, {
         position: 'top-right',
         autoClose: 3000,
@@ -96,7 +95,8 @@ const NewKategori = () => {
         draggable: true,
       });
     } else {
-      toast.error(`Deleted image failed`, {
+      window.alert('cancel upload image failed');
+      toast.error(`Delete image failed`, {
         position: 'top-right',
         autoClose: 3000,
         hideProgressBar: false,
@@ -105,6 +105,11 @@ const NewKategori = () => {
         draggable: true,
       });
     }
+
+    setNewUnitWorks({
+      ...newUnitWorks,
+      image: '',
+    });
   };
 
   const handleSubmit = async (event) => {
@@ -112,9 +117,9 @@ const NewKategori = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:5500/officer/category',
+        'http://localhost:5500/officer/unitwork',
         {
-          ...newCategory,
+          ...newUnitWorks,
         },
         {
           headers: {
@@ -122,8 +127,9 @@ const NewKategori = () => {
           },
         },
       );
+
       if (response.data.status === 'ok') {
-        toast.success(`Kategori berhasil ditambahkan!`, {
+        toast.success(`${response.data.message}`, {
           position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,
@@ -131,9 +137,9 @@ const NewKategori = () => {
           pauseOnHover: true,
           draggable: true,
         });
-        navigate('/dashboard/category');
+        navigate('/dashboard/unitworks');
       } else {
-        toast.error(`Gagal menambahkan kategori ${response.data.message}`, {
+        toast.error(`Gagal menambahkan unit kerja`, {
           position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,
@@ -143,7 +149,7 @@ const NewKategori = () => {
         });
       }
     } catch (error) {
-      toast.error( `Error adding category: ${error}` , {
+      toast.error(`Error adding unit works: ${error}`, {
         position: 'top-right',
         autoClose: 3000,
         hideProgressBar: false,
@@ -157,22 +163,22 @@ const NewKategori = () => {
   return (
     <div className="m-2 my-8 md:px-4">
       <div className="animate__fadeIn animate__animated animate__delay-0.5s box-border rounded-3xl bg-white px-4 py-8 drop-shadow md:p-12 capitalize">
-        <div className="flex items-center justify-center mb-4 md:mb-8 mx-auto">
-          <h2 className="md:text-4xl ml-4 text-lg font-semibold text-primary-600">
-            Tambah Kategori
+        <div className="flex items-center justify-center mb-2 md:mb-8 mx-auto">
+          <h2 className="md:text-4xl ml-4 text-center text-lg font-semibold text-primary-600">
+            Tambah Unit Kerja
           </h2>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col mt-4">
           <label className="block mb-2 text-xs md:text-base text-gray-900 font-semibold">
-            Nama Kategori
+            Nama Unit Kerja
           </label>
           <input
             type="text"
             name="title"
-            value={newCategory.name}
+            value={newUnitWorks.name}
             onChange={(e) =>
-              setNewCategory({
-                ...newCategory,
+              setNewUnitWorks({
+                ...newUnitWorks,
                 name: e.target.value,
               })
             }
@@ -183,24 +189,24 @@ const NewKategori = () => {
           />
         </div>
         <div className="col-span-1">
-          <div className="">
-            <label className="block my-2.5 text-xs md:text-base text-gray-900 font-semibold">
-              Logo Kategori :
-            </label>
-            <div
-              {...getRootProps()}
-              id="image-dropzone"
-              className="border-2 border-dashed bg-gray-200 border-black p-5 mt-2"
-            >
-              <input {...getInputProps()} />
-              <p className="text-center">
-                Drag n drop some files here, or click to select files
-              </p>
-              <p className="text-center">Ukuran maksimal file: 2MB</p>
-              <p className="text-center"> Maksimal 1 logo</p>
-            </div>
-          </div>
           <div className="col-span-1">
+            <div className="">
+              <label className="block mb-2.5 text-xs md:text-base text-gray-900 font-semibold">
+                Logo Unit Kerja:
+              </label>
+              <div
+                {...getRootProps()}
+                id="image-dropzone"
+                className="border-2 border-dashed bg-gray-200 border-black p-1 mt-2"
+              >
+                <input {...getInputProps()} />
+                <p className="text-center">
+                  Drag n drop some files here, or click to select files
+                </p>
+                <p className="text-center">Ukuran maksimal file: 2MB</p>
+                <p className="text-center"> Maskimal 1 foto</p>
+              </div>
+            </div>
             <div className="mt-4  mb-3 min-h-[11rem] h-fit">
               <label className="block mb-2 text-xs md:text-base text-gray-900 font-semibold ">
                 Preview:
@@ -244,7 +250,7 @@ const NewKategori = () => {
             </div>
             <div className="text-center mt:4 md:mt-8 flex justify-end w-full">
               <button
-                className="bg-blue-600 mt-4 py-2 px-6 rounded-lg focus:outline-none transition-all ease-out text-white hover:bg-blue-700 focus:bg-blue-900"
+                className="bg-blue-600 mt-4 float-right py-2 px-6 rounded-lg focus:outline-none transition-all ease-out text-white hover:bg-blue-700 focus:bg-blue-900"
                 onClick={(e) => handleSubmit(e)}
               >
                 Kirim
@@ -257,4 +263,4 @@ const NewKategori = () => {
   );
 };
 
-export default NewKategori;
+export default NewUnitWorks;

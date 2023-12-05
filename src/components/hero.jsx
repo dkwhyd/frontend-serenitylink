@@ -25,7 +25,7 @@ grid grid-cols-1 items-center px-4 pb-20 pt-5 md:px-20 lg:grid-cols-2'
             Jika Anda melihat atau mengalami sesuatu yang perlu dilaporkan, gunakan aplikasi ini dan tekan tombol <span className='font-medium text-blue-600'>Buat Laporan</span>. Mari kita bersama-sama{' '}
             <span className='font-medium text-blue-600'>bertanggung jawab</span> dalam menciptakan lingkungan yang lebih baik.
           </p>
-          <Link href='#' target='_blank'>
+          <Link to={'/dashboard/report/new'} >
             <div className='mt-8 inline-flex items-center rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600'>
               <svg xmlns='http://www.w3.org/2000/svg' className='mr-2 h-5 w-5' viewBox='0 0 20 20' fill='currentColor'>
                 <path fillRule='evenodd' d='M13 3H7a2 2 0 00-2 2v10a2 2 0 002 2h6a2 2 0 002-2V5a2 2 0 00-2-2zm-1 10H8a1 1 0 110-2h4a1 1 0 110 2zm0-4H8a1 1 0 110-2h4a1 1 0 110 2z' clipRule='evenodd' />

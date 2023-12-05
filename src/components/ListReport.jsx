@@ -7,35 +7,30 @@ import { FaCalendar } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
+function ListReport({
+  searchTerm,
+  currentPage,
+  reportsPerPage,
+  reportSkip,
+  url,
+}) {
   const [reportData, setReportData] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const filteredReports = reportData.filter(
-    (report) =>
-      report.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      report.description.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
-  const indexOfLastReport = currentPage * reportsPerPage;
-  const indexOfFirstReport = indexOfLastReport - reportsPerPage;
-  const currentReports = filteredReports.slice(
-    indexOfFirstReport,
-    indexOfLastReport,
-  );
-  console.log(searchTerm);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${url}?q=${searchTerm}`);
-        // console.log(response.data);
+        const response = await axios.get(
+          `${url}q=${searchTerm}&limit=${reportsPerPage}&skip=${reportSkip}`,
+        );
         setReportData(response.data.data);
+        // console.log(response);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
-  }, [searchTerm]);
+  }, [searchTerm, reportSkip, url]);
 
   return (
     <div
@@ -48,15 +43,17 @@ function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
     >
       <div className="py-4 md:py-8">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 text-left mx-5">
-          {currentReports.map((report) => (
+          {reportData.map((report) => (
             <Link
               to={`/dashboard/report/detail/${report._id}`}
               key={report._id}
             >
-              <div className=" bg-white p-0 rounded-lg box-border drop-shadow">
+              <div className=" bg-white p-0 rounded-lg box-border drop-shadow hover:ease-in transition-all ease-out hover:-translate-y-2">
                 <div className="relative h-48">
                   <img
-                    src={`http://localhost:5500/public/image/${report.imageReport[0]}`}
+                    src={`${import.meta.env.VITE_HOST_SERENITY}/public/image/${
+                      report.imageReport[0]
+                    }`}
                     alt={report.title}
                     className="mb-2 w-full h-48 object-fit rounded-md"
                     onError={(e) => {
@@ -98,12 +95,17 @@ function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
     </div>
   );
 }
+ListReport.defaultProps = {
+  url: 'http://localhost:5500/report',
+};
 
 ListReport.propTypes = {
   searchTerm: PropTypes.string.isRequired,
   currentPage: PropTypes.number.isRequired,
   reportsPerPage: PropTypes.number.isRequired,
-  url: PropTypes.string.isRequired,
+  reportSkip: PropTypes.number,
+  status: PropTypes.string,
+  url: PropTypes.string,
 };
 
 export default ListReport;

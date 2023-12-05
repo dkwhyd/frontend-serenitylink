@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
 import { useSelector } from 'react-redux';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvent, useMapEvents } from 'react-leaflet';
+import { toast } from 'react-toastify';
+
 
 const NewReport = () => {
   const auth = useSelector((state) => state.auth);
@@ -23,10 +25,16 @@ const NewReport = () => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get('http://localhost:5500/category');
-        // console.log(data);
         setCateogoryData(data.data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        toast.error(`Error fetching data: ${error}`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     };
 
@@ -48,9 +56,16 @@ const NewReport = () => {
   const [preview, setPreview] = useState([]);
 
   const onDrop = async (acceptedFiles) => {
-    // console.log(report.imageReport.length);
     if (report.imageReport.length > 2) {
-      window.alert('maksimal bukti 3 foto');
+      toast.success(`Maksimal 3 foto`, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      
     } else {
       acceptedFiles.forEach((file) => {
         imageData.append('image', file);
@@ -60,8 +75,27 @@ const NewReport = () => {
           Authorization: `Bearer ${auth.user ? auth.token : ''}`,
         },
       };
-      const uploadImage = await axios.post('http://localhost:5500/upload/image', imageData, config);
+      const uploadImage = await axios.post(`${import.meta.env.VITE_HOST_SERENITY}/upload/image`, imageData, config);
       const getImage = uploadImage.data.image;
+      if(uploadImage.data.status==='ok'){
+        toast.success(`${uploadImage.data.message}`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }else{
+        toast.error(`Failed upload image`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
       setReport({
         ...report,
         imageReport: [...report.imageReport, uploadImage.data.image],
@@ -88,7 +122,6 @@ const NewReport = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log('Data yang akan dikirim:', JSON.stringify(report));
 
     if (report)
       try {
@@ -99,8 +132,14 @@ const NewReport = () => {
           },
         };
         await axios.post('http://localhost:5500/report', report, config).then((response) => {
-          window.alert(response.data.message);
-          console.log(response);
+          toast.success(`${response.data.message}`, {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
         });
 
         setReport({
@@ -117,7 +156,14 @@ const NewReport = () => {
 
         document.getElementById('image-dropzone').value = '';
       } catch (error) {
-        console.error('Error submitting report:', error);
+        toast.error(`Error submitting report: ${error}`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
   };
 
@@ -135,7 +181,26 @@ const NewReport = () => {
 
   const cancelUploadImage = async (itemIndex) => {
     const imageName = preview[itemIndex].image[0];
-    await axios.delete(`http://localhost:5500/delete/image/${imageName}`, config);
+    const result =  await axios.delete(`${import.meta.env.VITE_HOST_SERENITY}/delete/image/${imageName}`, config);
+    if(result.data.status==='ok'){
+      toast.success(`${result.data.message}`, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }else{
+      toast.error(`Failed delete image`, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
     const updatedUpload = preview.filter((item, index) => index !== itemIndex);
     setPreview(updatedUpload);
 

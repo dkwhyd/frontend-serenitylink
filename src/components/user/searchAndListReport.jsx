@@ -4,36 +4,46 @@ import ListReport from '../ListReport';
 import { Link } from 'react-router-dom';
 
 export default function SearchAndListReport() {
-  const [reportData, setReportData] = useState([]);
+  // const [reportData, setReportData] = useState([]);
+  const [totalReport, setTotalReport] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [reportSkip, setReportSkip] = useState(0);
   const reportsPerPage = 12;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5500/report?q=${searchTerm}`);
-        setReportData(response.data.data);
+        const { data } = await axios.get(`http://localhost:5500/report?q=${searchTerm}`);
+        setTotalReport(data.count);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
-  }, [searchTerm]);
-
-  const filteredReports = reportData.filter((report) => report.title.toLowerCase().includes(searchTerm.toLowerCase()) || report.description.toLowerCase().includes(searchTerm.toLowerCase()));
+  }, [searchTerm, reportSkip]);
 
   const handleNextPage = () => {
     setCurrentPage(currentPage + 1);
+    setReportSkip(reportSkip + 12);
   };
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
+      setReportSkip(reportSkip - 12);
     }
   };
-  const totalPages = Math.ceil(filteredReports.length / reportsPerPage);
+
+  const selectPage = (page) => {
+    setCurrentPage(page);
+    setReportSkip((page - 1) * reportsPerPage);
+  };
+
+  // const selectPage = (page) => {};
+
+  const totalPages = Math.ceil(totalReport / reportsPerPage);
   const pages = [...Array(totalPages).keys()].map((i) => i + 1);
 
   return (
@@ -59,7 +69,7 @@ export default function SearchAndListReport() {
             value={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
             className='block w-[95%] p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-blue-500 focus:border-blue-500'
-            placeholder='ketik laporan atau detail laporan'
+            placeholder='ketik laporan'
           />
         </div>
         <button type='button' className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 md:px-5 md:py-4 me-2 mb-2  focus:outline-none'>
@@ -68,13 +78,17 @@ export default function SearchAndListReport() {
           </Link>
         </button>
       </div>
-      <ListReport searchTerm={searchTerm} currentPage={currentPage} reportsPerPage={reportsPerPage} url={`${import.meta.env.VITE_HOST_API}/report`} />
+      <ListReport searchTerm={searchTerm} currentPage={currentPage} reportsPerPage={reportsPerPage} reportSkip={reportSkip} url={`${import.meta.env.VITE_HOST_API}/report`} />
       {/* pagination */}
       <nav aria-label='Page navigation example' className='w-full mb-4 mt-4 md:mt-4'>
         <ul className='flex items-center justify-center -space-x-px h-8 text-sm'>
           {currentPage > 1 && (
             <li>
-              <a href='#' onClick={handlePreviousPage} className='flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700'>
+              <a
+                href='#'
+                onClick={handlePreviousPage}
+                className='flex items-center mx-1 justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700'
+              >
                 <span className='sr-only'>Previous</span>
                 <svg className='w-2.5 h-2.5 rtl:rotate-180' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 6 10'>
                   <path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M5 1 1 5l4 4' />
@@ -86,16 +100,16 @@ export default function SearchAndListReport() {
             <li key={page}>
               <a
                 href='#'
-                onClick={() => setCurrentPage(page)}
-                className={`flex items-center justify-center px-3 h-8 leading-tight border-gray-300 hover:bg-primary-600 hover:text-white ${currentPage === page ? 'text-white bg-primary-600' : 'text-gray-500 bg-white'}`}
+                onClick={() => selectPage(page)}
+                className={`flex mx-1 items-center justify-center px-3 h-8 leading-tight border-gray-300 hover:bg-primary-600 hover:text-white ${currentPage === page ? 'text-white bg-primary-600' : 'text-gray-500 bg-white'}`}
               >
                 {page}
               </a>
             </li>
           ))}
-          {currentPage < Math.ceil(filteredReports.length / reportsPerPage) && (
+          {currentPage < Math.ceil(totalReport / reportsPerPage) && (
             <li>
-              <a href='#' onClick={handleNextPage} className='flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700'>
+              <a href='#' onClick={handleNextPage} className='flex mx-1 items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700'>
                 <span className='sr-only'>Next</span>
                 <svg className='w-2.5 h-2.5 rtl:rotate-180' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 6 10'>
                   <path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='m1 9 4-4-4-4' />
