@@ -7,6 +7,7 @@ export default function Officer() {
   const auth = useSelector((state) => state.auth);
   const [officerData, setOfficerData] = useState([]);
   const [unitWorkData, setUnitWorkData] = useState([]);
+  const [reload, setReload] = useState(false);
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
@@ -36,10 +37,33 @@ export default function Officer() {
       }
     };
     fetchData();
-  }, [filter]);
+  }, [filter, reload]);
 
   const handleSelectChange = (event) => {
     setFilter(event.target.value);
+  };
+
+  const handleDelete = async (officerName, id) => {
+    const userConfirmation = window.confirm(
+      `Apakah kamu yakin ingin menghapus kategori: ${officerName}?`,
+    );
+    if (!userConfirmation) {
+      return;
+    }
+    try {
+      const data = await axios.delete(
+        `http://localhost:5500/admin/officer/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+          },
+        },
+      );
+      console.log(data);
+      setReload(!reload);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -113,6 +137,14 @@ export default function Officer() {
                             .map((unit) => (
                               <div key={unit._id}>{unit.name}</div>
                             ))}
+                      </td>
+                      <td>
+                        <button
+                          className="bg-red-600 text-white w-full p-1 rounded"
+                          onClick={() => handleDelete(item.name, item._id)}
+                        >
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   ))}

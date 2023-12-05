@@ -50,7 +50,7 @@ export default function SearchAndListReport({ title, url }) {
       <div className="flex items-center animate__fadeIn animate__animated animate__delay-0.5s">
         <div className="mx-5 h-[0.15rem] w-8 md:w-16 bg-slate-900"></div>
         <h2 className="md:text-2xl text-lg font-semibold text-slate-900">
-         {title}
+          {title}
         </h2>
       </div>
 

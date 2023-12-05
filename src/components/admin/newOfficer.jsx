@@ -39,37 +39,58 @@ export default function NewOfficer() {
 
   const handleSubmit = async (e) => {
     e.preventDefault;
-    try {
-      const { data } = await axios.post(
-        'http://localhost:5500/officer/register',
-        {
-          ...newOficer,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+
+    if (newOficer.password !== newOficer.confirmPassword) {
+      toast.warning(`Pasword harus sama`, {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    } else {
+      try {
+        const { data } = await axios.post(
+          'http://localhost:5500/officer/register',
+          {
+            ...newOficer,
           },
-        },
-      );
-      if (data.status === 'ok') {
-        setNewOfficer({
-          name: '',
-          email: '',
-          role: 'officer',
-          unitWork: '',
-          password: '',
-          confirmPassword: '',
-        });
-        toast.success(`${data.message}`, {
-          position: 'top-right',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-      } else {
-        toast.error(`${data.message}`, {
+          {
+            headers: {
+              Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+            },
+          },
+        );
+        if (data.status === 'ok') {
+          setNewOfficer({
+            name: '',
+            email: '',
+            role: 'officer',
+            unitWork: '',
+            password: '',
+            confirmPassword: '',
+          });
+          toast.success(`${data.message}`, {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        } else {
+          toast.error(`${data.message}`, {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        }
+      } catch (error) {
+        toast.error(`${error}`, {
           position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,
@@ -78,15 +99,6 @@ export default function NewOfficer() {
           draggable: true,
         });
       }
-    } catch (error) {
-      toast.error(`${error}`, {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
     }
   };
   return (
@@ -167,6 +179,7 @@ export default function NewOfficer() {
                   </label>
                   <input
                     name="password"
+                    type="password"
                     value={newOficer.password}
                     onChange={(e) =>
                       setNewOfficer({ ...newOficer, password: e.target.value })
@@ -181,6 +194,7 @@ export default function NewOfficer() {
                   </label>
                   <input
                     name="konfirmasi"
+                    type="password"
                     value={newOficer.confirmPassword}
                     onChange={(e) =>
                       setNewOfficer({
