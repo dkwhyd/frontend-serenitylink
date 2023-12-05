@@ -18,3 +18,10 @@ body {
 .drop-shadow {
   filter: drop-shadow(0px 15px 0px rgba(121, 123, 248, 1));
 }
+
+.clip {
+  transition: all ease-out;
+}
+.clip:hover {
+  transform: translateY(-2px);
+}
