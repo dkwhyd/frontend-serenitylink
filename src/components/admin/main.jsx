@@ -22,7 +22,6 @@ const ReportCard = () => {
         },
       });
       setReports(result.data.data);
-      console.log(result.data.data);
     };
     fetchData();
   }, []);

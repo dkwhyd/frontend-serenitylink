@@ -2,8 +2,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 function Footer() {
+  const auth = useSelector(state=>state.auth)
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -51,8 +53,8 @@ function Footer() {
               <a href='#laporan'>
                 <div className='text-center text-base sm:text-lg text-white transition duration-200 hover:text-blue-600 md:text-start'>Laporan</div>
               </a>
-              <Link to='/login' className='text-center text-base sm:text-lg text-white transition duration-200 hover:text-blue-600 md:text-start'>
-                Login
+              <Link to={auth.user? '/dashboard': '/login'} className='text-center text-base sm:text-lg text-white transition duration-200 hover:text-blue-600 md:text-start underlined'>
+               {auth.user? 'Dashboard': 'Login'}
               </Link>
             </div>
           </div>

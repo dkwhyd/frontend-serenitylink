@@ -1,46 +1,21 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 
-export default function NewOfficer() {
-  const auth = useSelector((state) => state.auth);
-  const [unitWorkData, setUnitWorkData] = useState([]);
-  const [newOficer, setNewOfficer] = useState({
+export default function NewAdmin() {
+  const [newAdmin, setNewAdmin] = useState({
     name: '',
     email: '',
-    role: 'officer',
-    unitWork: '',
+    role: 'admin',
+    secretKey: '',
     password: '',
     confirmPassword: '',
   });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const dataUnitWork = await axios.get(
-          `http://localhost:5500/officer/unitwork`,
-          {
-            headers: {
-              Authorization: `Bearer ${auth.user ? auth.token : ''}`,
-            },
-          },
-        );
-        setUnitWorkData(dataUnitWork.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
-  const handleSelectChange = (event) => {
-    setNewOfficer({ ...newOficer, unitWork: event.target.value });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault;
 
-    if (newOficer.password !== newOficer.confirmPassword) {
+    if (newAdmin.password !== newAdmin.confirmPassword) {
       toast.warning(`Pasword harus sama`, {
         position: 'top-right',
         autoClose: 2000,
@@ -52,22 +27,18 @@ export default function NewOfficer() {
     } else {
       try {
         const { data } = await axios.post(
-          'http://localhost:5500/officer/register',
+          'http://localhost:5500/admin/register',
           {
-            ...newOficer,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${auth.user ? auth.token : ''}`,
-            },
+            ...newAdmin,
           },
         );
+        console.log(data);
         if (data.status === 'ok') {
-          setNewOfficer({
+          setNewAdmin({
             name: '',
             email: '',
-            role: 'officer',
             unitWork: '',
+            secretKey: '',
             password: '',
             confirmPassword: '',
           });
@@ -106,7 +77,7 @@ export default function NewOfficer() {
       <div className="animate__fadeIn animate__animated animate__delay-0.5s box-border rounded-3xl bg-white px-4 py-8 drop-shadow md:p-12 capitalize">
         <div className="flex items-center mb-2 md:mb-4 mx-auto">
           <h2 className="md:text-4xl ml-4 text-lg font-semibold text-primary-600">
-            Tambah Petugas
+            Tambah Admin
           </h2>
         </div>
         <div
@@ -121,14 +92,14 @@ export default function NewOfficer() {
               <form onSubmit={handleSubmit} className="space-y-4 ">
                 <div className="flex flex-col">
                   <label className="block mb-2 text-xs md:text-base text-gray-900 font-semibold">
-                    Nama Petugas:
+                    Nama :
                   </label>
                   <input
                     type="text"
                     name="title"
-                    value={newOficer.name}
+                    value={newAdmin.name}
                     onChange={(e) =>
-                      setNewOfficer({ ...newOficer, name: e.target.value })
+                      setNewAdmin({ ...newAdmin, name: e.target.value })
                     }
                     minLength="5"
                     maxLength="50"
@@ -144,9 +115,9 @@ export default function NewOfficer() {
                     type="email"
                     id="email"
                     name="email"
-                    value={newOficer.email}
+                    value={newAdmin.email}
                     onChange={(e) =>
-                      setNewOfficer({ ...newOficer, email: e.target.value })
+                      setNewAdmin({ ...newAdmin, email: e.target.value })
                     }
                     required
                     className="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -154,24 +125,18 @@ export default function NewOfficer() {
                 </div>
                 <div className="flex flex-col">
                   <label className="block mb-2 text-xs md:text-base text-gray-900 font-semibold">
-                    Unit Kerja:
+                    Key:
                   </label>
-
-                  <select
-                    id="selectOption"
-                    onChange={handleSelectChange}
-                    value={newOficer.unitWork}
+                  <input
+                    name="password"
+                    type="password"
+                    value={newAdmin.secretKey}
+                    onChange={(e) =>
+                      setNewAdmin({ ...newAdmin, secretKey: e.target.value })
+                    }
+                    required
                     className="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                  >
-                    <option value="" disabled>
-                      Pilih unit kerja
-                    </option>
-                    {unitWorkData.map((option) => (
-                      <option key={option._id} value={option._id}>
-                        {option.name}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </div>
                 <div className="flex flex-col">
                   <label className="block mb-2 text-xs md:text-base text-gray-900 font-semibold">
@@ -180,9 +145,9 @@ export default function NewOfficer() {
                   <input
                     name="password"
                     type="password"
-                    value={newOficer.password}
+                    value={newAdmin.password}
                     onChange={(e) =>
-                      setNewOfficer({ ...newOficer, password: e.target.value })
+                      setNewAdmin({ ...newAdmin, password: e.target.value })
                     }
                     required
                     className="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -195,10 +160,10 @@ export default function NewOfficer() {
                   <input
                     name="konfirmasi"
                     type="password"
-                    value={newOficer.confirmPassword}
+                    value={newAdmin.confirmPassword}
                     onChange={(e) =>
-                      setNewOfficer({
-                        ...newOficer,
+                      setNewAdmin({
+                        ...newAdmin,
                         confirmPassword: e.target.value,
                       })
                     }

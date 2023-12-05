@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { userLogoout } from '../features/Auth/actions';
+import { toast } from 'react-toastify';
 
 import axios from 'axios';
 
@@ -26,11 +27,18 @@ export default function Logout() {
           return response;
         });
     }
-    
+
     logout()
       .then(() => dispatch(userLogoout()))
       .then(() => navigate('/'));
   }, []);
-
+  toast.success(`Logout successful`, {
+    position: 'top-right',
+    autoClose: 1000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+  });
   return <></>;
 }

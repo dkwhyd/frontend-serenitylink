@@ -10,11 +10,15 @@ export default function SearchAndListReport() {
   const [reportSkip, setReportSkip] = useState(0);
   const reportsPerPage = 12;
 
+  const [status, setStatus] = useState(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5500/report?q=${searchTerm}`,
+          `http://localhost:5500/report?q=${searchTerm}&${
+            status ? `status=${status}` : null
+          }`,
         );
         setTotalReport(data.count);
       } catch (error) {
@@ -23,7 +27,7 @@ export default function SearchAndListReport() {
     };
 
     fetchData();
-  }, [searchTerm, reportSkip]);
+  }, [searchTerm, reportSkip, status]);
 
   const handleNextPage = () => {
     setCurrentPage(currentPage + 1);
@@ -89,12 +93,31 @@ export default function SearchAndListReport() {
           />
         </div>
       </div>
+      <div className="flex flex-row text-left ">
+        <div className="flex flex-row mx-2">
+          <label> Status : </label>
+          <select
+            id="selectOption"
+            onChange={(e) => setStatus(e.target.value)}
+            value={status || ''}
+          >
+            <option value="" disabled>
+              Status
+            </option>
+            <option value="Menunggu">Menunggu</option>
+            <option value="Diproses">Diproses</option>
+            <option value="Selesai">Selesai</option>
+          </select>
+        </div>
+      </div>
       <ListReport
         searchTerm={searchTerm}
         currentPage={currentPage}
         reportsPerPage={reportsPerPage}
         reportSkip={reportSkip}
-        url={`${import.meta.env.VITE_HOST_API}/report`}
+        url={`${import.meta.env.VITE_HOST_API}/report?${
+          status ? `status=${status}&` : null
+        }&`}
       />
       {/* pagination */}
       <nav
@@ -105,13 +128,25 @@ export default function SearchAndListReport() {
           {currentPage > 1 && (
             <li>
               <a
-                href='#'
+                href="#"
                 onClick={handlePreviousPage}
-                className='flex items-center mx-1 justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700'
+                className="flex items-center mx-1 justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
               >
-                <span className='sr-only'>Previous</span>
-                <svg className='w-2.5 h-2.5 rtl:rotate-180' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 6 10'>
-                  <path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M5 1 1 5l4 4' />
+                <span className="sr-only">Previous</span>
+                <svg
+                  className="w-2.5 h-2.5 rtl:rotate-180"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M5 1 1 5l4 4"
+                  />
                 </svg>
               </a>
             </li>
@@ -121,7 +156,11 @@ export default function SearchAndListReport() {
               <a
                 href="#"
                 onClick={() => selectPage(page)}
-                className={`flex mx-1 items-center justify-center px-3 h-8 leading-tight border-gray-300 hover:bg-primary-600 hover:text-white ${currentPage === page ? 'text-white bg-primary-600' : 'text-gray-500 bg-white'}`}
+                className={`flex mx-1 items-center justify-center px-3 h-8 leading-tight border-gray-300 hover:bg-primary-600 hover:text-white ${
+                  currentPage === page
+                    ? 'text-white bg-primary-600'
+                    : 'text-gray-500 bg-white'
+                }`}
               >
                 {page}
               </a>
@@ -129,10 +168,26 @@ export default function SearchAndListReport() {
           ))}
           {currentPage < Math.ceil(totalReport / reportsPerPage) && (
             <li>
-              <a href='#' onClick={handleNextPage} className='flex mx-1 items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700'>
-                <span className='sr-only'>Next</span>
-                <svg className='w-2.5 h-2.5 rtl:rotate-180' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 6 10'>
-                  <path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='m1 9 4-4-4-4' />
+              <a
+                href="#"
+                onClick={handleNextPage}
+                className="flex mx-1 items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
+              >
+                <span className="sr-only">Next</span>
+                <svg
+                  className="w-2.5 h-2.5 rtl:rotate-180"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 9 4-4-4-4"
+                  />
                 </svg>
               </a>
             </li>
