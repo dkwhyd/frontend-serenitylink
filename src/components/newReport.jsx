@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
 import { useSelector } from 'react-redux';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvent, useMapEvents } from 'react-leaflet';
+import { toast } from 'react-toastify';
+
 
 const NewReport = () => {
   const auth = useSelector((state) => state.auth);
@@ -61,7 +63,27 @@ const NewReport = () => {
         },
       };
       const uploadImage = await axios.post(`${import.meta.env.VITE_HOST_SERENITY}/upload/image`, imageData, config);
+      console.log(uploadImage)
       const getImage = uploadImage.data.image;
+      if(uploadImage.data.status==='ok'){
+        toast.success(`${uploadImage.data.message}`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }else{
+        toast.error(`Failed upload image`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
       setReport({
         ...report,
         imageReport: [...report.imageReport, uploadImage.data.image],
@@ -135,7 +157,27 @@ const NewReport = () => {
 
   const cancelUploadImage = async (itemIndex) => {
     const imageName = preview[itemIndex].image[0];
-    await axios.delete(`${import.meta.env.VITE_HOST_SERENITY}/delete/image/${imageName}`, config);
+    const result =  await axios.delete(`${import.meta.env.VITE_HOST_SERENITY}/delete/image/${imageName}`, config);
+    console.log(result.data)
+    if(result.data.status==='ok'){
+      toast.success(`${result.data.message}`, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }else{
+      toast.error(`Failed delete image`, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
     const updatedUpload = preview.filter((item, index) => index !== itemIndex);
     setPreview(updatedUpload);
 

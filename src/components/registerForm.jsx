@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import FloatingButton from './floatingButton';
+import { toast } from 'react-toastify';
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -27,8 +28,25 @@ const RegisterForm = () => {
       const register = await axios.post('http://localhost:5500/register', form);
       console.log(register.data);
       if (register.data.status === 'ok') {
-        window.alert(register.data.message);
+        // window.alert(register.data.message);
+        toast.success(`${register.data.message}`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
         navigate('/login');
+      } else {
+        toast.success(`${register.data.message}`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     } catch (err) {
       window.alert('Error! please check your connection');
@@ -37,81 +55,104 @@ const RegisterForm = () => {
 
   return (
     <div>
-      <section className='bg-gradient-calm-elegant min-h-screen'>
+      <section className="bg-gradient-calm-elegant min-h-screen">
         <FloatingButton />
-        <div className='mx-auto flex min-h-screen flex-col items-center justify-center px-6 py-8 lg:py-0'>
-          <div className='my-5 w-full rounded-lg bg-white shadow sm:max-w-md xl:p-0'>
-            <div className='space-y-4 p-6 sm:p-8 md:space-y-6'>
-              <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl'>Create an account</h1>
-              <form className='space-y-4 md:space-y-6' onSubmit={handleRegister}>
+        <div className="mx-auto flex min-h-screen flex-col items-center justify-center px-6 py-8 lg:py-0">
+          <div className="my-5 w-full rounded-lg bg-white shadow sm:max-w-md xl:p-0">
+            <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
+              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+                Create an account
+              </h1>
+              <form
+                className="space-y-4 md:space-y-6"
+                onSubmit={handleRegister}
+              >
                 <div>
-                  <label htmlFor='name' className='mb-2 block text-sm font-medium text-gray-900'>
+                  <label
+                    htmlFor="name"
+                    className="mb-2 block text-sm font-medium text-gray-900"
+                  >
                     Name
                   </label>
                   <input
-                    type='text'
-                    id='name'
-                    name='name'
+                    type="text"
+                    id="name"
+                    name="name"
                     value={form.name}
                     onChange={(e) => handleChange(e, 'name')}
-                    className='focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 placeholder-gray-400 sm:text-sm'
-                    placeholder='masukan nama anda'
+                    className="focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 placeholder-gray-400 sm:text-sm"
+                    placeholder="masukan nama anda"
                     required={true}
                   />
                 </div>
                 <div>
-                  <label htmlFor='email' className='mb-2 block text-sm font-medium text-gray-900'>
+                  <label
+                    htmlFor="email"
+                    className="mb-2 block text-sm font-medium text-gray-900"
+                  >
                     email
                   </label>
                   <input
-                    type='email'
-                    id='email'
-                    name='email'
+                    type="email"
+                    id="email"
+                    name="email"
                     value={form.email}
                     onChange={(e) => handleChange(e, 'email')}
-                    className='focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 placeholder-gray-400 sm:text-sm'
-                    placeholder='masukan email anda'
+                    className="focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 placeholder-gray-400 sm:text-sm"
+                    placeholder="masukan email anda"
                     required={true}
                   />
                 </div>
                 <div>
-                  <label htmlFor='password' className='mb-2 block text-sm font-medium text-gray-900'>
+                  <label
+                    htmlFor="password"
+                    className="mb-2 block text-sm font-medium text-gray-900"
+                  >
                     password
                   </label>
                   <input
-                    type='password'
-                    id='password'
-                    name='password'
+                    type="password"
+                    id="password"
+                    name="password"
                     value={form.password}
                     onChange={(e) => handleChange(e, 'password')}
-                    className='focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 placeholder-gray-400 sm:text-sm'
-                    placeholder=''
+                    className="focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 placeholder-gray-400 sm:text-sm"
+                    placeholder=""
                     required={true}
-                    autoComplete='off'
+                    autoComplete="off"
                   />
                 </div>
                 <div>
-                  <label htmlFor='confirmPassword' className='mb-2 block text-sm font-medium text-gray-900'>
+                  <label
+                    htmlFor="confirmPassword"
+                    className="mb-2 block text-sm font-medium text-gray-900"
+                  >
                     confirm password
                   </label>
                   <input
-                    type='password'
-                    id='confirmPassword'
-                    name='confirmPassword'
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
                     value={form.confirmPassword}
                     onChange={(e) => handleChange(e, 'confirmPassword')}
-                    className='focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 placeholder-gray-400 sm:text-sm'
-                    placeholder=''
+                    className="focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 placeholder-gray-400 sm:text-sm"
+                    placeholder=""
                     required={true}
-                    autoComplete='off'
+                    autoComplete="off"
                   />
                 </div>
-                <button type='submit' className='w-full rounded-lg bg-blue-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-3'>
+                <button
+                  type="submit"
+                  className="w-full rounded-lg bg-blue-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-3"
+                >
                   Create an account
                 </button>
-                <p className='text-sm font-light text-gray-500 '>
+                <p className="text-sm font-light text-gray-500 ">
                   Already have an account?{' '}
-                  <Link to='/login' className='text-primary-600 dark:text-primary-500 font-medium hover:underline'>
+                  <Link
+                    to="/login"
+                    className="text-primary-600 dark:text-primary-500 font-medium hover:underline"
+                  >
                     Login here
                   </Link>
                 </p>

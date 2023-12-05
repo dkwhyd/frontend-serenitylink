@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 export default function NewOfficer() {
   const auth = useSelector((state) => state.auth);
@@ -52,8 +53,43 @@ export default function NewOfficer() {
         },
       );
       console.log(data);
+      if (data.status === 'ok') {
+        setNewOfficer({
+          name: '',
+          email: '',
+          role: 'officer',
+          unitWork: '',
+          password: '',
+          confirmPassword: '',
+        });
+        toast.success(`${data.message}`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      } else {
+        toast.error(`${data.message}`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
     } catch (error) {
       console.log(error);
+      toast.error(`${error}`, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
   return (

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const UnitWork = () => {
   const [unitWorkData, setUnitWorkData] = useState([]);
@@ -41,13 +42,34 @@ const UnitWork = () => {
       });
 
       if (response.data.status === 'ok') {
-        alert('Unit kerja berhasil dihapus!');
+        toast.success(`Unit kerja berhasil dihapus`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
         setReload(!reload);
       } else {
-        alert('Gagal menghapus unit kerja: ' + response.data.message);
+       toast.error(`Gagal menghapus unit kerja ${response.data.message}`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     } catch (error) {
-      console.error('Error deleting unirwork:', error);
+      toast.error(`Error deleting unirwork: ${error}`, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
