@@ -115,7 +115,7 @@ export default function SearchAndListReport() {
         currentPage={currentPage}
         reportsPerPage={reportsPerPage}
         reportSkip={reportSkip}
-        url={`${import.meta.env.VITE_HOST_API}/report?${
+        url={`${import.meta.env.VITE_HOST_SERENITY}/report?${
           status ? `status=${status}&` : null
         }&`}
       />
