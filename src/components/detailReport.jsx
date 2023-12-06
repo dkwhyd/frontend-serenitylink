@@ -347,6 +347,15 @@ export default function DetailReport() {
       });
     }
   };
+  // eslint-disable-next-line no-undef
+  var newIcon = new L.Icon({
+    iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png`,
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+  });
 
   return (
     <div className="animate__fadeIn animate__animated animate__delay-1s box-border rounded-3xl bg-white px-4 py-8 drop-shadow md:p-12">
@@ -443,7 +452,7 @@ export default function DetailReport() {
                     attribution='&copy; <a n href="http://osm.org/copyright">OpenStreetMap</a>'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   />
-                  <Marker position={[report.latitude, report.longitude]}>
+                  <Marker position={[report.latitude, report.longitude]} icon={newIcon}>
                     <Popup>
                       {`Lat :${report.latitude} 
                          Long :${report.longitude}`}

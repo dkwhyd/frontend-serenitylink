@@ -50,8 +50,5 @@ export default defineConfig(({ mode }) => {
       sourcemap: true,
       chunkSizeWarningLimit: 150,
     },
-    server: {
-      port: env.VITE_PORT,
-    },
   };
 });
