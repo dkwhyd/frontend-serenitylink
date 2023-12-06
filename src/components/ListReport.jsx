@@ -51,7 +51,7 @@ function ListReport({
         isSidebarOpen ? 'translate-x-16' : '  translate-x-0'
       } transition-all duration-500 animate__fadeIn animate__animated animate__delay-1s`}
     >
-      <div className="px-5 md:py-8">
+      <div className="p-5 md:py-8">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 text-left mx-5">
           {reportData.map((report) => (
             <Link

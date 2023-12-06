@@ -437,7 +437,7 @@ export default function DetailReport() {
                   center={[report.latitude, report.longitude]}
                   zoom={13}
                   scrollWheelZoom={true}
-                  className="h-full w-full"
+                  className="h-64 w-full"
                 >
                   <TileLayer
                     attribution='&copy; <a n href="http://osm.org/copyright">OpenStreetMap</a>'

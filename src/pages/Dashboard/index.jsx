@@ -19,11 +19,14 @@ export default function Dashboard() {
 
   const getMe = async () => {
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_HOST_SERENITY}/me`, {
-        headers: {
-          Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_HOST_SERENITY}/me`,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+          },
         },
-      });
+      );
       setRole(data.role);
       setLoading(false);
     } catch (error) {
@@ -40,7 +43,7 @@ export default function Dashboard() {
     admin: <ContentAdmin />,
   };
 
-  dashboardContent = roleComponents[role] || <Navigate to="/" />;
+  dashboardContent = roleComponents[role] || <Navigate to="/logout" />;
 
   return (
     <>

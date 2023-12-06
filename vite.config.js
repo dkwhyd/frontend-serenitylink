@@ -35,7 +35,7 @@ export default defineConfig(({ mode }) => {
               },
             },
             {
-              urlPattern: /^http:\/\/serenitylink.live:5500/,
+              urlPattern: /^https:\/\/serenitylink.live:5500/,
               handler: 'StaleWhileRevalidate',
               options: {
                 cacheName: 'serenitylink-cache',

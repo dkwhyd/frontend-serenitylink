@@ -41,7 +41,7 @@ const Sidebar = ({ menus, closeSidebar }) => {
         {loading ? (
           <p>loading</p>
         ) : (
-          userMenus[role].map((menu, index) => (
+          role && userMenus[role].map((menu, index) => (
             <li key={index}>
               <NavLink
                 to={menu.route}
