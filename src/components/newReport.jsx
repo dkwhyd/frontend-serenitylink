@@ -23,7 +23,7 @@ const NewReport = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5500/category');
+        const { data } = await axios.get(`${import.meta.env.VITE_HOST_SERENITY}/category`);
         setCateogoryData(data.data);
       } catch (error) {
         toast.error(`Error fetching data: ${error}`, {
@@ -129,7 +129,7 @@ const NewReport = () => {
             Authorization: `Bearer ${auth.user ? auth.token : ''}`,
           },
         };
-        await axios.post('http://localhost:5500/report', report, config).then((response) => {
+        await axios.post(`${import.meta.env.VITE_HOST_SERENITY}/report`, report, config).then((response) => {
           toast.success(`${response.data.message}`, {
             position: 'top-right',
             autoClose: 3000,

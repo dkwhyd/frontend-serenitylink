@@ -22,14 +22,13 @@ export default function Officer() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:5500/admin/officer?unitwork=${filter}`, {
+        const { data } = await axios.get(`${import.meta.env.VITE_HOST_SERENITY}/admin/officer?unitwork=${filter}`, {
           headers: {
             Authorization: `Bearer ${auth.user ? auth.token : ''}`,
           },
         });
         setOfficerData(data.data);
-
-        const dataUnitWork = await axios.get(`http://localhost:5500/officer/unitwork`, {
+        const dataUnitWork = await axios.get(`${import.meta.env.VITE_HOST_SERENITY}/officer/unitwork`, {
           headers: {
             Authorization: `Bearer ${auth.user ? auth.token : ''}`,
           },

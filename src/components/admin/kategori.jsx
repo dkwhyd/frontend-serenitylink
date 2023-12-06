@@ -13,7 +13,7 @@ const Categories = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:5500/category`);
+        const { data } = await axios.get(`${import.meta.env.VITE_HOST_SERENITY}/category`);
         setCateogoryData([
           { name: 'tambah kategori', isButton: true },
           ...data.data,
@@ -36,7 +36,7 @@ const Categories = () => {
 
     try {
       const response = await axios.delete(
-        `http://localhost:5500/officer/category/${categoryId}`,
+        `${import.meta.env.VITE_HOST_SERENITY}/officer/category/${categoryId}`,
         {
           headers: {
             Authorization: `Bearer ${auth.user ? auth.token : ''}`,

@@ -11,7 +11,7 @@ const Categories = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5500/category');
+        const { data } = await axios.get(`${import.meta.env.VITE_HOST_SERENITY}/category`);
         setCateogoryData(data.data);
       } catch (error) {
         console.error('Error fetching data:', error);
