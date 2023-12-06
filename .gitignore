@@ -13,6 +13,7 @@ dist
 .env
 dist-ssr
 *.local
+wwwroot
 
 # Editor directories and files
 .vscode/*

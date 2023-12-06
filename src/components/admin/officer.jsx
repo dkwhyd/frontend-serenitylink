@@ -14,7 +14,7 @@ export default function Officer() {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5500/admin/officer?unitwork=${filter}`,
+          `${import.meta.env.VITE_HOST_SERENITY}/admin/officer?unitwork=${filter}`,
           {
             headers: {
               Authorization: `Bearer ${auth.user ? auth.token : ''}`,
@@ -24,7 +24,7 @@ export default function Officer() {
         setOfficerData(data.data);
 
         const dataUnitWork = await axios.get(
-          `http://localhost:5500/officer/unitwork`,
+          `${import.meta.env.VITE_HOST_SERENITY}/officer/unitwork`,
           {
             headers: {
               Authorization: `Bearer ${auth.user ? auth.token : ''}`,

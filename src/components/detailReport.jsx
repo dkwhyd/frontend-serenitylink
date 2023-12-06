@@ -29,7 +29,7 @@ export default function DetailReport() {
 
   const fetchData = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5500/report/' + id, {
+      const { data } = await axios.get(`${import.meta.env.VITE_HOST_SERENITY}/report/${id}`, {
         headers: {
           Authorization: `Bearer ${auth.user ? auth.token : ''}`,
         },
@@ -63,7 +63,7 @@ export default function DetailReport() {
   const sendComment = async (e) => {
     e.preventDefault();
     const { data } = await axios.post(
-      `http://localhost:5500/comment/${id}`,
+      `${import.meta.env.VITE_HOST_SERENITY}/comment/${id}`,
       { message },
       {
         headers: {
@@ -192,7 +192,7 @@ export default function DetailReport() {
   const sendOfficeReport = async (e) => {
     e.preventDefault();
     const { data } = await axios.post(
-      `http://localhost:5500/officer/report/${report._id}`,
+      `${import.meta.env.VITE_HOST_SERENITY}/officer/report/${report._id}`,
       { ...reportOfficer },
       {
         headers: {
@@ -232,7 +232,7 @@ export default function DetailReport() {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5500/officer/unitwork`,
+          `${import.meta.env.VITE_HOST_SERENITY}/officer/unitwork`,
           {
             headers: {
               Authorization: `Bearer ${auth.user ? auth.token : ''}`,
@@ -250,7 +250,7 @@ export default function DetailReport() {
   const assignReportToUnitwork = async (id) => {
     try {
       const { data } = await axios.put(
-        `http://localhost:5500/admin/report/assign/${id}`,
+        `${import.meta.env.VITE_HOST_SERENITY}/admin/report/assign/${id}`,
         { selectedOption },
         {
           headers: {
@@ -394,7 +394,7 @@ export default function DetailReport() {
                 <div>
                   <img
                     className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full group-hover:outline "
-                    src={`http://localhost:5500/public/image/${report.unitWorks.image}`}
+                    src={`${import.meta.env.VITE_HOST_SERENITY}/public/image/${report.unitWorks.image}`}
                     alt={report.unitWorks.name}
                   />
                   <p className="mb-4">{report.unitWorks.name}</p>
@@ -412,7 +412,7 @@ export default function DetailReport() {
                   report.officerReport.imageReport.map((image, index) => (
                     <img
                       key={index}
-                      src={`http://localhost:5500/public/image/${image}`}
+                      src={`${import.meta.env.VITE_HOST_SERENITY}/public/image/${image}`}
                       alt="laporan petugas"
                       className="h-36 w-fit mr-4 my-4"
                       onError={(e) => {
@@ -568,7 +568,7 @@ export default function DetailReport() {
                             className="mr-2 w-6 h-6 rounded-full"
                             src={
                               comment.image
-                                ? `http://localhost:5500/public/image/${comment.image}`
+                                ? `${import.meta.env.VITE_HOST_SERENITY}/public/image/${comment.image}`
                                 : 'https://via.placeholder.com/150'
                             }
                             alt={comment.name}

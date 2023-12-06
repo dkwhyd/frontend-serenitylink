@@ -112,7 +112,7 @@ const NewKategori = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:5500/officer/category',
+        `${import.meta.env.VITE_HOST_SERENITY}/officer/category`,
         {
           ...newCategory,
         },

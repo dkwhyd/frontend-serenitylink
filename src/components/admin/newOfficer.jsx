@@ -19,7 +19,7 @@ export default function NewOfficer() {
     const fetchData = async () => {
       try {
         const dataUnitWork = await axios.get(
-          `http://localhost:5500/officer/unitwork`,
+          `${import.meta.env.VITE_HOST_SERENITY}/officer/unitwork`,
           {
             headers: {
               Authorization: `Bearer ${auth.user ? auth.token : ''}`,
@@ -52,7 +52,7 @@ export default function NewOfficer() {
     } else {
       try {
         const { data } = await axios.post(
-          'http://localhost:5500/officer/register',
+          `${import.meta.env.VITE_HOST_SERENITY}/officer/register`,
           {
             ...newOficer,
           },

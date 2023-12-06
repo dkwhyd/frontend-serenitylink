@@ -17,7 +17,7 @@ export default function Logout() {
         : {};
 
       return await axios
-        .post(`http://localhost:5500/logout`, null, {
+        .post(`${import.meta.env.VITE_HOST_SERENITY}/logout`, null, {
           headers: {
             authorization: `Bearer ${token}`,
           },
@@ -28,17 +28,19 @@ export default function Logout() {
         });
     }
 
-    logout()
-      .then(() => dispatch(userLogoout()))
-      .then(() => navigate('/'));
+    logout().then(() => {
+      dispatch(userLogoout());
+      navigate('/');
+      toast.success(`Logout successful`, {
+        position: 'top-right',
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    });
   }, []);
-  toast.success(`Logout successful`, {
-    position: 'top-right',
-    autoClose: 1000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-  });
+
   return <></>;
 }

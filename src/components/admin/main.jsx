@@ -16,7 +16,7 @@ const ReportCard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios('http://localhost:5500/admin/report/coordinates?limit=100', {
+      const result = await axios(`${import.meta.env.VITE_HOST_SERENITY}/admin/report/coordinates?limit=100`, {
         headers: {
           Authorization: `Bearer ${auth.user ? auth.token : ''}`,
         },

@@ -65,7 +65,7 @@ function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
                   <div className=" bg-white p-0 rounded-lg box-border drop-shadow">
                     <div className="relative h-48">
                       <img
-                        src={`http://localhost:5500/public/image/${report.imageReport[0]}`}
+                        src={`${import.meta.env.VITE_HOST_SERENITY}/public/image/${report.imageReport[0]}`}
                         alt={report.title}
                         className="mb-2 w-full h-48 object-fit rounded-md"
                         onError={(e) => {

@@ -96,7 +96,7 @@ function ListReport({
   );
 }
 ListReport.defaultProps = {
-  url: 'http://localhost:5500/report',
+  url: `${import.meta.env.VITE_HOST_SERENITY}/report`,
 };
 
 ListReport.propTypes = {

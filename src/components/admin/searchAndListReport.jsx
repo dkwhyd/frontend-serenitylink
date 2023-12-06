@@ -16,7 +16,7 @@ export default function SearchAndListReport() {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5500/report?q=${searchTerm}&${
+          `${import.meta.env.VITE_HOST_SERENITY}/report?q=${searchTerm}&${
             status ? `status=${status}` : null
           }`,
         );
