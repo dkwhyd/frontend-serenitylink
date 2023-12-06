@@ -25,9 +25,13 @@ export default function NewOfficer() {
             Authorization: `Bearer ${auth.user ? auth.token : ''}`,
           },
         });
-        setUnitWorkData(dataUnitWork.data.data);
+        if (dataUnitWork.data && dataUnitWork.data.data) {
+          setUnitWorkData(dataUnitWork.data.data);
+        } else {
+          console.log('Unexpected data structure', dataUnitWork);
+        }
       } catch (error) {
-        console.log(error);
+        console.error('Error fetching data', error);
       }
     };
     fetchData();
