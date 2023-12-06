@@ -19,7 +19,7 @@ export default function Dashboard() {
 
   const getMe = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5500/me', {
+      const { data } = await axios.get(`${import.meta.env.VITE_HOST_SERENITY}/me`, {
         headers: {
           Authorization: `Bearer ${auth.user ? auth.token : ''}`,
         },

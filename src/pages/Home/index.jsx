@@ -32,7 +32,7 @@ export default function Home() {
             currentPage={currentPage}
             reportsPerPage={reportsPerPage}
             reportSkip={0}
-            url="http://localhost:5500/report?"
+            url={`${import.meta.env.VITE_HOST_SERENITY}/report?`}
           />
         </div>
       </section>

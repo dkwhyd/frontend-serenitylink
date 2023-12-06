@@ -29,7 +29,7 @@ function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_HOST_API}${url}`,
+          `${import.meta.env.VITE_HOST_SERENITY}${url}`,
           {
             headers: {
               Authorization: `Bearer ${auth.user ? auth.token : ''}`,
@@ -56,6 +56,7 @@ function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
     >
       <div className="py-4 md:py-8">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 text-left mx-5">
+          {currentReports.length < 0 ? 'loading' : null}
           {currentReports.length > 0
             ? currentReports.map((report) => (
                 <Link
@@ -65,7 +66,9 @@ function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
                   <div className=" bg-white p-0 rounded-lg box-border drop-shadow">
                     <div className="relative h-48">
                       <img
-                        src={`${import.meta.env.VITE_HOST_SERENITY}/public/image/${report.imageReport[0]}`}
+                        src={`${
+                          import.meta.env.VITE_HOST_SERENITY
+                        }/public/image/${report.imageReport[0]}`}
                         alt={report.title}
                         className="mb-2 w-full h-48 object-fit rounded-md"
                         onError={(e) => {
@@ -104,7 +107,7 @@ function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
                   </div>
                 </Link>
               ))
-            : 'laporan tidak ada'}
+            : null}
         </div>
       </div>
     </div>

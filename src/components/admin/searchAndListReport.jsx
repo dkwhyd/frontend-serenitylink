@@ -91,8 +91,8 @@ export default function SearchAndListReport() {
           </div>
         </div>
       </div>
+      <ListReport searchTerm={searchTerm} currentPage={currentPage} reportsPerPage={reportsPerPage} reportSkip={reportSkip} url={`${import.meta.env.VITE_HOST_SERENITY}/report?${status ? `status=${status}&` : null}&`} />
 
-      <ListReport searchTerm={searchTerm} currentPage={currentPage} reportsPerPage={reportsPerPage} reportSkip={reportSkip} url={`${import.meta.env.VITE_HOST_API}/report?${status ? `status=${status}&` : null}&`} />
       {/* pagination */}
       <nav aria-label='Page navigation example' className='w-full mb-4 mt-4 md:mt-4'>
         <ul className='flex items-center justify-center -space-x-px h-8 text-sm'>
