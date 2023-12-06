@@ -16,7 +16,7 @@ export default function SearchAndListReport() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:5500/report?q=${searchTerm}&${status ? `status=${status}` : null}`);
+        const { data } = await axios.get(`${import.meta.env.VITE_HOST_SERENITY}/report?q=${searchTerm}`);
         setTotalReport(data.count);
       } catch (error) {
         console.error('Error fetching data:', error);

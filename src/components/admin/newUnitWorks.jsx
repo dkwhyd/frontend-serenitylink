@@ -117,7 +117,7 @@ const NewUnitWorks = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:5500/officer/unitwork',
+        `${import.meta.env.VITE_HOST_SERENITY}/officer/unitwork`,
         {
           ...newUnitWorks,
         },

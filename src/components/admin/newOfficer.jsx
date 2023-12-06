@@ -20,14 +20,18 @@ export default function NewOfficer() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const dataUnitWork = await axios.get(`http://localhost:5500/officer/unitwork`, {
+        const dataUnitWork = await axios.get(`${import.meta.env.VITE_HOST_SERENITY}/officer/unitwork`, {
           headers: {
             Authorization: `Bearer ${auth.user ? auth.token : ''}`,
           },
         });
-        setUnitWorkData(dataUnitWork.data.data);
+        if (dataUnitWork.data && dataUnitWork.data.data) {
+          setUnitWorkData(dataUnitWork.data.data);
+        } else {
+          console.log('Unexpected data structure', dataUnitWork);
+        }
       } catch (error) {
-        console.log(error);
+        console.error('Error fetching data', error);
       }
     };
     fetchData();
@@ -51,7 +55,7 @@ export default function NewOfficer() {
     } else {
       try {
         const { data } = await axios.post(
-          'http://localhost:5500/officer/register',
+          `${import.meta.env.VITE_HOST_SERENITY}/officer/register`,
           {
             ...newOficer,
           },

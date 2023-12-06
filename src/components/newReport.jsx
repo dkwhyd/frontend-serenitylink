@@ -23,7 +23,7 @@ const NewReport = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5500/category');
+        const { data } = await axios.get(`${import.meta.env.VITE_HOST_SERENITY}/category`);
         setCateogoryData(data.data);
       } catch (error) {
         toast.error(`Error fetching data: ${error}`, {
@@ -129,7 +129,7 @@ const NewReport = () => {
             Authorization: `Bearer ${auth.user ? auth.token : ''}`,
           },
         };
-        await axios.post('http://localhost:5500/report', report, config).then((response) => {
+        await axios.post(`${import.meta.env.VITE_HOST_SERENITY}/report`, report, config).then((response) => {
           toast.success(`${response.data.message}`, {
             position: 'top-right',
             autoClose: 3000,
@@ -179,6 +179,7 @@ const NewReport = () => {
 
   const cancelUploadImage = async (itemIndex) => {
     const imageName = preview[itemIndex].image[0];
+
     const result = await axios.delete(`${import.meta.env.VITE_HOST_SERENITY}/delete/image/${imageName}`, config);
     if (result.data.status === 'ok') {
       toast.success(`${result.data.message}`, {
@@ -389,7 +390,6 @@ const NewReport = () => {
             ))}
           </div>
         </div>
-
         <div className='text-center mt:4 md:mt-8 w-full'>
           <button className='bg-blue-600 text-white w-full p-2 rounded' onClick={(e) => handleSubmit(e)}>
             Kirim

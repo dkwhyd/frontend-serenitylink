@@ -19,7 +19,7 @@ const LoginForm = () => {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post('http://localhost:5500/login', form);
+      const { data } = await axios.post(`${import.meta.env.VITE_HOST_SERENITY}/login`, form);
       if (data.status === 'ok') {
         const { user, token } = data;
         navigate('/dashboard');
