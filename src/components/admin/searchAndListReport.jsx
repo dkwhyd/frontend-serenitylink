@@ -94,8 +94,8 @@ export default function SearchAndListReport() {
         </div>
       </div>
       <div className="flex flex-row text-left ">
-        <div className="flex flex-row mx-2">
-          <label> Status : </label>
+        <div className="flex flex-row mx-6">
+          {/* <label> Status : </label> */}
           <select
             id="selectOption"
             onChange={(e) => setStatus(e.target.value)}

@@ -27,18 +27,18 @@ export default function Logout() {
           return response;
         });
     }
-
+    toast.success(`Logout successful`, {
+      position: 'top-right',
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
     logout().then(() => {
       dispatch(userLogoout());
+
       navigate('/');
-      toast.success(`Logout successful`, {
-        position: 'top-right',
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
     });
   }, []);
 

@@ -14,7 +14,9 @@ export default function Officer() {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          `${import.meta.env.VITE_HOST_SERENITY}/admin/officer?unitwork=${filter}`,
+          `${
+            import.meta.env.VITE_HOST_SERENITY
+          }/admin/officer?unitwork=${filter}`,
           {
             headers: {
               Authorization: `Bearer ${auth.user ? auth.token : ''}`,
@@ -83,7 +85,7 @@ export default function Officer() {
             </h2>
           </div>
 
-          <div className="flex flex-row text-left ">
+          <div className="flex flex-row text-left my-2">
             <div className="flex flex-row mx-2">
               <select
                 id="selectOption"
@@ -140,10 +142,10 @@ export default function Officer() {
                       </td>
                       <td>
                         <button
-                          className="bg-red-600 text-white w-full p-1 rounded"
+                          className=" -right-1 bg-transparent rounded-md p-2 inline-flex items-center justify-center text-gray-500 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
                           onClick={() => handleDelete(item.name, item._id)}
                         >
-                          Delete
+                          X
                         </button>
                       </td>
                     </tr>

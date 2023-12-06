@@ -45,6 +45,16 @@ function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
     fetchData();
   }, [searchTerm, url]);
 
+  const colorStatus = (status) => {
+    if (status === 'Menunggu') {
+      return 'bg-yellow-500';
+    } else if (status === 'Diproses') {
+      return 'bg-blue-500';
+    } else if (status === 'Selesai') {
+      return 'bg-green-500';
+    }
+  };
+
   return (
     <div
       data-aos="fade-up"
@@ -79,7 +89,7 @@ function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
                       <div
                         className={`${
                           isSidebarOpen ? 'hidden' : 'absolute'
-                        } transition-none duration-0 bottom-0 right-0 bg-green-500 text-white text-xs p-1 rounded-l-lg`}
+                        } transition-none duration-0 bottom-0 right-0  text-white text-xs p-1 rounded-l-lg ${colorStatus(report.status)} `}
                       >
                         {report.status}
                       </div>
