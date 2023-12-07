@@ -1,10 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import data from '../api/json/kategori-example.json';
 import axios from 'axios';
 
 const Categories = () => {
-  const [categories, setCategories] = useState(data.categories);
 
   const [categoryData, setCateogoryData] = useState([]);
 

@@ -25,6 +25,7 @@ export default function Officer() {
         const { data } = await axios.get(`${import.meta.env.VITE_HOST_SERENITY}/admin/officer?unitwork=${filter}`, {
           headers: {
             Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+
           },
         });
         setOfficerData(data.data);
@@ -89,6 +90,7 @@ export default function Officer() {
                   ))}
                 </ul>
               )}
+
             </div>
 
             <button type='button' className='text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-1 md:px-3 md:py-2 md:me-2 focus:outline-none'>

@@ -8,6 +8,7 @@ import axios from 'axios';
 import ContentUser from '../../components/user/content';
 import ContentOfficer from '../../components/officer/content';
 import ContentAdmin from '../../components/admin/content';
+import { toast } from 'react-toastify';
 
 export default function Dashboard() {
   const auth = useSelector((state) => state.auth);
@@ -19,12 +20,25 @@ export default function Dashboard() {
 
   const getMe = async () => {
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_HOST_SERENITY}/me`, {
-        headers: {
-          Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_HOST_SERENITY}/me`,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+          },
         },
-      });
+      );
       setRole(data.role);
+      if (data.error === 1) {
+        toast.warning(`Token expired`, {
+          position: 'top-right',
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
       setLoading(false);
     } catch (error) {
       console.error('Error fetching user role:', error);
@@ -40,7 +54,7 @@ export default function Dashboard() {
     admin: <ContentAdmin />,
   };
 
-  dashboardContent = roleComponents[role] || <Navigate to="/" />;
+  dashboardContent = roleComponents[role] || <Navigate to="/logout" />;
 
   return (
     <>
