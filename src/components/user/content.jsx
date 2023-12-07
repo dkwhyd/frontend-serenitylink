@@ -18,7 +18,10 @@ export default function ContentUser() {
             element={
               <SearchAndListReport
                 title="Laporan"
-                url={`${import.meta.env.VITE_HOST_SERENITY}/report?`}
+                url={`${import.meta.env.VITE_HOST_SERENITY}/report?${
+                  status ? `status=${status}&` : null
+                }&`}
+                // url={`${import.meta.env.VITE_HOST_SERENITY}/report?`}
               />
             }
           />
@@ -39,7 +42,7 @@ export default function ContentUser() {
             element={
               <SearchAndListReport
                 title="Laporan Saya"
-                url={`${import.meta.env.VITE_HOST_SERENITY}/report/my/${
+                url={`${import.meta.env.VITE_HOST_API}/report/my/${
                   auth.user._id
                 }?`}
               />
