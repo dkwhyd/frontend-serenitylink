@@ -12,11 +12,22 @@ export default defineConfig(({ mode }) => {
         registerType: 'autoUpdate',
         includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
         manifest: {
-          name: 'Serenity Link',
-          short_name: 'App Name',
-          theme_color: '#ffffff',
+          name: 'SerenityLink App',
+          short_name: 'SerenityLink',
+          theme_color: '#333',
           background_color: '#ffffff',
           display: 'standalone',
+          orientation:"portrait",
+          scope:'/',
+          start_url:'/',
+          icons:[
+            {
+              src: "/logo_512.png",
+              sizes: "512x512",
+              type: "image/png",
+              purpose: "any maskable"
+            }
+          ]
         },
         workbox: {
           runtimeCaching: [
@@ -28,19 +39,22 @@ export default defineConfig(({ mode }) => {
               },
             },
             {
-              urlPattern: /^http:\/\/localhost:5500/,
+              urlPattern: /^https:\/\/serenitylink\.live:5500\/public\/image\//,
               handler: 'StaleWhileRevalidate',
               options: {
-                cacheName: 'localhost-cache',
+                cacheName: 'serenitylink-image',
               },
+              
             },
             {
-              urlPattern: /^https:\/\/serenitylink.live:5500/,
+              urlPattern: new RegExp('^https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/'),
               handler: 'StaleWhileRevalidate',
               options: {
-                cacheName: 'serenitylink-cache',
+                cacheName: 'marker',
               },
+              
             },
+           
           ],
         },
       }),
