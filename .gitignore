@@ -13,6 +13,8 @@ dist
 .env
 dist-ssr
 *.local
+wwwroot
+pm2.config.js
 
 # Editor directories and files
 .vscode/*

@@ -13,7 +13,7 @@ const UnitWork = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:5500/officer/unitwork`, {
+        const { data } = await axios.get(`${import.meta.env.VITE_HOST_SERENITY}/officer/unitwork`, {
           headers: {
             Authorization: `Bearer ${auth.user ? auth.token : ''}`,
           },
@@ -34,7 +34,7 @@ const UnitWork = () => {
     }
 
     try {
-      const response = await axios.delete(`http://localhost:5500/officer/unitwork/${unitWorkId}`, {
+      const response = await axios.delete(`${import.meta.env.VITE_HOST_SERENITY}/officer/unitwork/${unitWorkId}`, {
         headers: {
           Authorization: `Bearer ${auth.user ? auth.token : ''}`,
         },

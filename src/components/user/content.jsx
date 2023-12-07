@@ -13,7 +13,16 @@ export default function ContentUser() {
     <Routes>
       <Route
         path="/*"
-        element={<GuardRoute element={<SearchAndListReport />} />}
+        element={
+          <GuardRoute
+            element={
+              <SearchAndListReport
+                title="Laporan"
+                url={`${import.meta.env.VITE_HOST_SERENITY}/report?`}
+              />
+            }
+          />
+        }
       />
       <Route
         path="/report/new"
@@ -22,6 +31,21 @@ export default function ContentUser() {
       <Route
         path="/report/detail/:id"
         element={<GuardRoute element={<DetailReport />} />}
+      />
+      <Route
+        path="/report/my"
+        element={
+          <GuardRoute
+            element={
+              <SearchAndListReport
+                title="Laporan Saya"
+                url={`${import.meta.env.VITE_HOST_SERENITY}/report/my/${
+                  auth.user._id
+                }?`}
+              />
+            }
+          />
+        }
       />
     </Routes>
   );

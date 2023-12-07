@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvent, useMapEvents } from 'react-leaflet';
 import { toast } from 'react-toastify';
 
-
 const NewReport = () => {
   const auth = useSelector((state) => state.auth);
   // Get coordinate
@@ -24,7 +23,7 @@ const NewReport = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5500/category');
+        const { data } = await axios.get(`${import.meta.env.VITE_HOST_SERENITY}/category`);
         setCateogoryData(data.data);
       } catch (error) {
         toast.error(`Error fetching data: ${error}`, {
@@ -65,7 +64,6 @@ const NewReport = () => {
         pauseOnHover: true,
         draggable: true,
       });
-      
     } else {
       acceptedFiles.forEach((file) => {
         imageData.append('image', file);
@@ -77,7 +75,7 @@ const NewReport = () => {
       };
       const uploadImage = await axios.post(`${import.meta.env.VITE_HOST_SERENITY}/upload/image`, imageData, config);
       const getImage = uploadImage.data.image;
-      if(uploadImage.data.status==='ok'){
+      if (uploadImage.data.status === 'ok') {
         toast.success(`${uploadImage.data.message}`, {
           position: 'top-right',
           autoClose: 3000,
@@ -86,7 +84,7 @@ const NewReport = () => {
           pauseOnHover: true,
           draggable: true,
         });
-      }else{
+      } else {
         toast.error(`Failed upload image`, {
           position: 'top-right',
           autoClose: 3000,
@@ -131,7 +129,7 @@ const NewReport = () => {
             Authorization: `Bearer ${auth.user ? auth.token : ''}`,
           },
         };
-        await axios.post('http://localhost:5500/report', report, config).then((response) => {
+        await axios.post(`${import.meta.env.VITE_HOST_SERENITY}/report`, report, config).then((response) => {
           toast.success(`${response.data.message}`, {
             position: 'top-right',
             autoClose: 3000,
@@ -181,8 +179,8 @@ const NewReport = () => {
 
   const cancelUploadImage = async (itemIndex) => {
     const imageName = preview[itemIndex].image[0];
-    const result =  await axios.delete(`${import.meta.env.VITE_HOST_SERENITY}/delete/image/${imageName}`, config);
-    if(result.data.status==='ok'){
+    const result = await axios.delete(`${import.meta.env.VITE_HOST_SERENITY}/delete/image/${imageName}`, config);
+    if (result.data.status === 'ok') {
       toast.success(`${result.data.message}`, {
         position: 'top-right',
         autoClose: 3000,
@@ -191,7 +189,7 @@ const NewReport = () => {
         pauseOnHover: true,
         draggable: true,
       });
-    }else{
+    } else {
       toast.error(`Failed delete image`, {
         position: 'top-right',
         autoClose: 3000,
@@ -255,7 +253,7 @@ const NewReport = () => {
   const [showCategory, setShowCategory] = useState(false);
 
   return (
-    <div className=' mx-auto md:px-4'>
+    <div className=' mx-auto md:px-4 transition-all ease-in duration-100'>
       <div className='animate__fadeIn animate__animated animate__delay-0.5s box-border rounded-3xl bg-white px-4 py-8 drop-shadow md:p-12'>
         <div className='flex items-center mb-2 md:mb-4 mx-auto'>
           <h2 className='md:text-4xl ml-4 text-lg font-semibold text-primary-600'>Buat Laporan</h2>
@@ -364,29 +362,34 @@ const NewReport = () => {
         <div className='flex flex-col my-4'>
           <label className='block mb-2 text-xs md:text-base text-gray-900 font-semibold'>Kategori Laporan:</label>
           <div className='bg-gray-200 p-2 rounded-md relative cursor-pointer' onClick={() => setShowCategory(!showCategory)}>
-            {report.category ? report.category : 'Pilih kategori'}
-          </div>
-          {showCategory ? (
-            <div className='flex flex-wrap justify-center bg-gray-100'>
-              {categoryData.map((category, index) => (
-                <div
-                  key={index}
-                  className='w-3/6  md:w-2/5 lg:w-[14.2857%] group p-4 text-center'
-                  onClick={() => {
-                    setReport({ ...report, category: category.name });
-                  }}
-                >
-                  <img
-                    className='mx-auto w-5 h-5 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full group-hover:outline group-hover:outline-1 group-hover:outline-primary-600 duration-100 ease-out'
-                    src={`http://localhost:5500/public/image/${category.image}`}
-                    alt={category.name}
-                  />
-                  <p className='mt-2 text-base text-[#64748BBF] group-hover:text-primary-600 group-hover:font-semibold'>{category.name}</p>
-                </div>
-              ))}
+            <div className='flex justify-between items-center'>
+              <span>{report.category ? report.category : 'Pilih kategori'}</span>
+              <svg className={`w-4 h-4 transform transition-transform duration-200 ${showCategory ? 'rotate-180' : 'rotate-0'}`} xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
+              </svg>
             </div>
-          ) : null}
+          </div>
+
+          <div className={`flex flex-wrap justify-center bg-gray-100 cursor-pointer transition-all duration-200 ease-in-out ${showCategory ? 'opacity-100 max-h-full' : 'opacity-0 max-h-0'}`}>
+            {categoryData.map((category, index) => (
+              <div
+                key={index}
+                className='w-3/6  md:w-2/5 lg:w-[14.2857%] group p-4 text-center'
+                onClick={() => {
+                  setReport({ ...report, category: category.name });
+                }}
+              >
+                <img
+                  className='mx-auto w-5 h-5 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full group-hover:outline-none group-hover:ring-2 group-hover:ring-blue-500 group-hover:-translate-y-2 shadow-lg duration-100 ease-out'
+                  src={`${import.meta.env.VITE_HOST_SERENITY}/public/image/${category.image}`}
+                  alt={category.name}
+                />
+                <p className='mt-2 text-base text-[#64748BBF] group-hover:text-primary-600 group-hover:font-semibold group-hover:-translate-y-2'>{category.name}</p>
+              </div>
+            ))}
+          </div>
         </div>
+
         <div className='text-center mt:4 md:mt-8 w-full'>
           <button className='bg-blue-600 text-white w-full p-2 rounded' onClick={(e) => handleSubmit(e)}>
             Kirim

@@ -25,7 +25,7 @@ const RegisterForm = () => {
     }
 
     try {
-      const register = await axios.post('http://localhost:5500/register', form);
+      const register = await axios.post(`${import.meta.env.VITE_HOST_SERENITY}/register`, form);
       if (register.data.status === 'ok') {
         // window.alert(register.data.message);
         toast.success(`${register.data.message}`, {

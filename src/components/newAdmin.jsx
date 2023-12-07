@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 export default function NewAdmin() {
@@ -27,7 +28,7 @@ export default function NewAdmin() {
     } else {
       try {
         const { data } = await axios.post(
-          'http://localhost:5500/admin/register',
+          `${import.meta.env.VITE_HOST_SERENITY}/admin/register`,
           {
             ...newAdmin,
           },
@@ -75,6 +76,11 @@ export default function NewAdmin() {
   return (
     <div className="mx-auto">
       <div className="animate__fadeIn animate__animated animate__delay-0.5s box-border rounded-3xl bg-white px-4 py-8 drop-shadow md:p-12 capitalize">
+        <div className="my-8">
+          <Link to="/" className="p-2 bg-blue-600 text-white">
+            Back to Home
+          </Link>
+        </div>
         <div className="flex items-center mb-2 md:mb-4 mx-auto">
           <h2 className="md:text-4xl ml-4 text-lg font-semibold text-primary-600">
             Tambah Admin

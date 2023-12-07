@@ -1,17 +1,15 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import data from '../api/json/kategori-example.json';
 import axios from 'axios';
 
 const Categories = () => {
-  const [categories, setCategories] = useState(data.categories);
 
   const [categoryData, setCateogoryData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5500/category');
+        const { data } = await axios.get(`${import.meta.env.VITE_HOST_SERENITY}/category`);
         setCateogoryData(data.data);
       } catch (error) {
         console.error('Error fetching data:', error);

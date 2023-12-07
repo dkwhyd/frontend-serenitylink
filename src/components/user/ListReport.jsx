@@ -8,31 +8,24 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
+function ListReport({
+  searchTerm,
+  currentPage,
+  reportsPerPage,
+  reportSkip,
+  url,
+}) {
   const auth = useSelector((state) => state.auth);
-
   const [reportData, setReportData] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const filteredReports = reportData.filter(
-    (report) =>
-      report.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      report.description.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
-  const indexOfLastReport = currentPage * reportsPerPage;
-  const indexOfFirstReport = indexOfLastReport - reportsPerPage;
-  const currentReports = filteredReports.slice(
-    indexOfFirstReport,
-    indexOfLastReport,
-  );
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_HOST_SERENITY}${url}`,
+          `${url}q=${searchTerm}&limit=${reportsPerPage}&skip=${reportSkip}`,
           {
             headers: {
-              Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+              Authorization: `Bearer ${auth.user ? auth.token : ''} `,
             },
           },
         );
@@ -43,7 +36,7 @@ function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
     };
 
     fetchData();
-  }, [searchTerm, url]);
+  }, [searchTerm, reportSkip, url]);
 
   const colorStatus = (status) => {
     if (status === 'Menunggu') {
@@ -64,16 +57,15 @@ function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
         isSidebarOpen ? 'translate-x-16' : '  translate-x-0'
       } transition-all duration-500 animate__fadeIn animate__animated animate__delay-1s`}
     >
-      <div className="py-4 md:py-8">
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 text-left mx-5">
-          {currentReports.length < 0 ? 'loading' : null}
-          {currentReports.length > 0
-            ? currentReports.map((report) => (
+      <div className="px-5 md:py-8 ">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 text-left mx-5">
+          {reportData
+            ? reportData.map((report) => (
                 <Link
                   to={`/dashboard/report/detail/${report._id}`}
                   key={report._id}
                 >
-                  <div className=" bg-white p-0 rounded-lg box-border drop-shadow">
+                  <div className=" bg-white p-0 rounded-lg box-border drop-shadow hover:ease-in transition-all ease-out hover:-translate-y-2">
                     <div className="relative h-48">
                       <img
                         src={`${
@@ -89,7 +81,9 @@ function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
                       <div
                         className={`${
                           isSidebarOpen ? 'hidden' : 'absolute'
-                        } transition-none duration-0 bottom-0 right-0  text-white text-xs p-1 rounded-l-lg ${colorStatus(report.status)} `}
+                        } transition-none duration-0 bottom-0 right-0 text-white text-xs p-1 rounded-l-lg ${colorStatus(
+                          report.status,
+                        )}`}
                       >
                         {report.status}
                       </div>
@@ -117,18 +111,23 @@ function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
                   </div>
                 </Link>
               ))
-            : null}
+            : 'report tidak ada'}
         </div>
       </div>
     </div>
   );
 }
+ListReport.defaultProps = {
+  url: `${import.meta.env.VITE_HOST_SERENITY}/report`,
+};
 
 ListReport.propTypes = {
   searchTerm: PropTypes.string.isRequired,
   currentPage: PropTypes.number.isRequired,
   reportsPerPage: PropTypes.number.isRequired,
-  url: PropTypes.string.isRequired,
+  reportSkip: PropTypes.number,
+  status: PropTypes.string,
+  url: PropTypes.string,
 };
 
 export default ListReport;

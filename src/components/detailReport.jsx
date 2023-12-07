@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -29,11 +28,14 @@ export default function DetailReport() {
 
   const fetchData = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5500/report/' + id, {
-        headers: {
-          Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_HOST_SERENITY}/report/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+          },
         },
-      });
+      );
       setReport(data.data);
       setLoading(false);
     } catch (error) {
@@ -63,7 +65,7 @@ export default function DetailReport() {
   const sendComment = async (e) => {
     e.preventDefault();
     const { data } = await axios.post(
-      `http://localhost:5500/comment/${id}`,
+      `${import.meta.env.VITE_HOST_SERENITY}/comment/${id}`,
       { message },
       {
         headers: {
@@ -191,34 +193,42 @@ export default function DetailReport() {
 
   const sendOfficeReport = async (e) => {
     e.preventDefault();
-    const { data } = await axios.post(
-      `http://localhost:5500/officer/report/${report._id}`,
-      { ...reportOfficer },
-      {
-        headers: {
-          Authorization: `Bearer ${auth.user ? auth.token : ''}`,
-        },
-      },
-    );
-    if (data.status === 'ok') {
-      toast.success(`${data.message}`, {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-      navigate(0);
+    console.log(reportOfficer.imageReport.length);
+    if (
+      reportOfficer.imageReport.length === 0 ||
+      reportOfficer.message === ''
+    ) {
+      alert('bukti dan pesan laporan harus ada');
     } else {
-      toast.error(`Report failed to send`, {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_HOST_SERENITY}/officer/report/${report._id}`,
+        { ...reportOfficer },
+        {
+          headers: {
+            Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+          },
+        },
+      );
+      if (data.status === 'ok') {
+        toast.success(`${data.message}`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        navigate(0);
+      } else {
+        toast.error(`Report failed to send`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
     }
   };
   const [unitWorks, setUnitWorks] = useState([]);
@@ -232,7 +242,7 @@ export default function DetailReport() {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5500/officer/unitwork`,
+          `${import.meta.env.VITE_HOST_SERENITY}/officer/unitwork`,
           {
             headers: {
               Authorization: `Bearer ${auth.user ? auth.token : ''}`,
@@ -250,7 +260,7 @@ export default function DetailReport() {
   const assignReportToUnitwork = async (id) => {
     try {
       const { data } = await axios.put(
-        `http://localhost:5500/admin/report/assign/${id}`,
+        `${import.meta.env.VITE_HOST_SERENITY}/admin/report/assign/${id}`,
         { selectedOption },
         {
           headers: {
@@ -290,6 +300,63 @@ export default function DetailReport() {
     }
   };
 
+  const deleteReport = async (id) => {
+    const userConfirmation = window.confirm(
+      `Apakah kamu yakin ingin menghapus laporan?`,
+    );
+    if (!userConfirmation) {
+      return;
+    }
+    try {
+      const result = await axios.delete(
+        `${import.meta.env.VITE_HOST_SERENITY}/admin/report/delete/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+          },
+        },
+      );
+      if (result.data.status === 'ok') {
+        toast.success(`Delete report successful`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        navigate('/dashboard/report');
+      } else {
+        toast.error(`Delete report failed`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+    } catch (error) {
+      toast.error(`${error}`, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  };
+  // eslint-disable-next-line no-undef
+  var newIcon = new L.Icon({
+    iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png`,
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+  });
+
   return (
     <div className="animate__fadeIn animate__animated animate__delay-1s box-border rounded-3xl bg-white px-4 py-8 drop-shadow md:p-12">
       {loading ? (
@@ -297,6 +364,16 @@ export default function DetailReport() {
       ) : (
         <>
           <div className="flex flex-col mb-4">
+            {auth.user.role === 'admin' ? (
+              <div className=" text-right rounded-lg">
+                <button
+                  className="p-4 bg-transparent hover:bg-red-500 hover:text-white rounded-lg "
+                  onClick={() => deleteReport(report._id)}
+                >
+                  X
+                </button>
+              </div>
+            ) : null}
             <div className="flex flex-col md:flex-row mb-4">
               {report.imageReport &&
                 report.imageReport.map((image, index) => (
@@ -369,13 +446,13 @@ export default function DetailReport() {
                   center={[report.latitude, report.longitude]}
                   zoom={13}
                   scrollWheelZoom={true}
-                  className="h-full w-full"
+                  className="h-64 w-full"
                 >
                   <TileLayer
                     attribution='&copy; <a n href="http://osm.org/copyright">OpenStreetMap</a>'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   />
-                  <Marker position={[report.latitude, report.longitude]}>
+                  <Marker position={[report.latitude, report.longitude]} icon={newIcon}>
                     <Popup>
                       {`Lat :${report.latitude} 
                          Long :${report.longitude}`}
@@ -394,7 +471,9 @@ export default function DetailReport() {
                 <div>
                   <img
                     className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full group-hover:outline "
-                    src={`http://localhost:5500/public/image/${report.unitWorks.image}`}
+                    src={`${import.meta.env.VITE_HOST_SERENITY}/public/image/${
+                      report.unitWorks.image
+                    }`}
                     alt={report.unitWorks.name}
                   />
                   <p className="mb-4">{report.unitWorks.name}</p>
@@ -412,7 +491,9 @@ export default function DetailReport() {
                   report.officerReport.imageReport.map((image, index) => (
                     <img
                       key={index}
-                      src={`http://localhost:5500/public/image/${image}`}
+                      src={`${
+                        import.meta.env.VITE_HOST_SERENITY
+                      }/public/image/${image}`}
                       alt="laporan petugas"
                       className="h-36 w-fit mr-4 my-4"
                       onError={(e) => {
@@ -426,7 +507,9 @@ export default function DetailReport() {
             {/* Form Officer Report */}
             {!report.officerReport && auth.user.role === 'officer' ? (
               <div className="">
-                Buat Laporan
+                <label className="block mb-2 text-xs md:text-base text-gray-900 font-semibold underline">
+                  Buat Laporan
+                </label>
                 <div className="flex flex-col">
                   <label className="block mb-2 text-xs md:text-base text-gray-900 font-semibold">
                     Pesan:
@@ -520,6 +603,8 @@ export default function DetailReport() {
                 </div>
               </div>
             ) : null}
+
+            {/* Kirim laporan ke unit kerja */}
             {!report.unitWorks && auth.user.role === 'admin' ? (
               <div className="flex flex-col">
                 <label className="font-semibold text-gray-900">
@@ -547,6 +632,8 @@ export default function DetailReport() {
                 </button>
               </div>
             ) : null}
+
+            {/* Komentar */}
             <div className="w-full">
               <h3 className="font-bold text-primary-600 mb-4">
                 Komentar ({report.comment.length})
@@ -568,7 +655,9 @@ export default function DetailReport() {
                             className="mr-2 w-6 h-6 rounded-full"
                             src={
                               comment.image
-                                ? `http://localhost:5500/public/image/${comment.image}`
+                                ? `${
+                                    import.meta.env.VITE_HOST_SERENITY
+                                  }/public/image/${comment.image}`
                                 : 'https://via.placeholder.com/150'
                             }
                             alt={comment.name}

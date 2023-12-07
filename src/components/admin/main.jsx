@@ -16,7 +16,7 @@ const ReportCard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios('http://localhost:5500/admin/report/coordinates?limit=100', {
+      const result = await axios(`${import.meta.env.VITE_HOST_SERENITY}/admin/report/coordinates?limit=100`, {
         headers: {
           Authorization: `Bearer ${auth.user ? auth.token : ''}`,
         },
@@ -51,7 +51,7 @@ const ReportCard = () => {
   };
 
   return (
-    <div className=' m-2 my-8 md:px-4'>
+    <div className='m-2 my-8 md:px-4'>
       <div className='animate__fadeIn animate__animated animate__delay-0.5s box-border rounded-3xl bg-white px-4 py-8 drop-shadow md:p-12'>
         <div className=''>
           <h2 className='text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl capitalize'>Our service statistics</h2>

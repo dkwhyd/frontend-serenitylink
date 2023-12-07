@@ -13,7 +13,7 @@ const Sidebar = ({ menus, closeSidebar }) => {
 
   const getMe = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5500/me', {
+      const { data } = await axios.get(`${import.meta.env.VITE_HOST_SERENITY}/me`, {
         headers: {
           Authorization: `Bearer ${auth.user ? auth.token : ''}`,
         },
@@ -41,7 +41,7 @@ const Sidebar = ({ menus, closeSidebar }) => {
         {loading ? (
           <p>loading</p>
         ) : (
-          userMenus[role].map((menu, index) => (
+          role && userMenus[role].map((menu, index) => (
             <li key={index}>
               <NavLink
                 to={menu.route}
