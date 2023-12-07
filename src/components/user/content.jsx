@@ -42,7 +42,7 @@ export default function ContentUser() {
             element={
               <SearchAndListReport
                 title="Laporan Saya"
-                url={`${import.meta.env.VITE_HOST_API}/report/my/${
+                url={`${import.meta.env.VITE_HOST_SERENITY}/report/my/${
                   auth.user._id
                 }?`}
               />
