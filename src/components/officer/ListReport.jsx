@@ -67,7 +67,7 @@ function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
       <div className="py-4 md:py-8">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 text-left mx-5">
           {currentReports.length < 0 ? 'loading' : null}
-          {currentReports.length > 0
+          {currentReports.length
             ? currentReports.map((report) => (
                 <Link
                   to={`/dashboard/report/detail/${report._id}`}
@@ -117,7 +117,7 @@ function ListReport({ searchTerm, currentPage, reportsPerPage, url }) {
                   </div>
                 </Link>
               ))
-            : null}
+            : 'Laporan tidak ada'}
         </div>
       </div>
     </div>

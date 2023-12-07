@@ -58,8 +58,8 @@ function ListReport({
       } transition-all duration-500 animate__fadeIn animate__animated animate__delay-1s`}
     >
       <div className="px-5 md:py-8 ">
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 text-left mx-5">
-          {reportData
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 text-left mx-5">
+          {reportData.length
             ? reportData.map((report) => (
                 <Link
                   to={`/dashboard/report/detail/${report._id}`}
@@ -111,7 +111,8 @@ function ListReport({
                   </div>
                 </Link>
               ))
-            : 'report tidak ada'}
+            : <p>Laporan tidak ada.</p> }
+
         </div>
       </div>
     </div>

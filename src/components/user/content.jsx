@@ -18,7 +18,10 @@ export default function ContentUser() {
             element={
               <SearchAndListReport
                 title="Laporan"
-                url={`${import.meta.env.VITE_HOST_SERENITY}/report?`}
+                url={`${import.meta.env.VITE_HOST_SERENITY}/report?${
+                  status ? `status=${status}&` : null
+                }&`}
+                // url={`${import.meta.env.VITE_HOST_SERENITY}/report?`}
               />
             }
           />

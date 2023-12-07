@@ -26,7 +26,6 @@ export default function SearchAndListReport({ title, url }) {
         console.error('Error fetching data:', error);
       }
     };
-    console.log(url);
     fetchData();
   }, [searchTerm, reportSkip]);
 
@@ -131,9 +130,7 @@ export default function SearchAndListReport({ title, url }) {
         currentPage={currentPage}
         reportsPerPage={reportsPerPage}
         reportSkip={reportSkip}
-        url={`${import.meta.env.VITE_HOST_API}/report?${
-          status ? `status=${status}&` : null
-        }&`}
+        url={url}
       />
 
       {/* pagination */}
