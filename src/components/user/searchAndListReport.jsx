@@ -56,21 +56,37 @@ export default function SearchAndListReport({ title, url }) {
   const pages = [...Array(totalPages).keys()].map((i) => i + 1);
 
   return (
-    <div className=''>
-      <div className='flex items-center animate__fadeIn animate__animated animate__delay-0.5 justify-center md:justify-start my-4'>
-        <div className='hidden md:inline mx-5 h-[0.15rem] w-8 md:w-16 bg-slate-900'></div>
-        <h2 className='md:text-2xl text-lg font-semibold text-slate-900'>{title}</h2>
+    <div className="">
+      <div className="flex items-center animate__fadeIn animate__animated animate__delay-0.5 justify-center md:justify-start my-4">
+        <div className="hidden md:inline mx-5 h-[0.15rem] w-8 md:w-16 bg-slate-900"></div>
+        <h2 className="md:text-2xl text-lg font-semibold text-slate-900">
+          {title}
+        </h2>
       </div>
 
-      <div className='mx-5 mt-4 flex flex-col md:flex-row animate__fadeIn animate__animated animate__delay-0.5s'>
-        <label htmlFor='search' className='mb-2 text-sm font-medium text-gray-900 sr-only'>
+      <div className="mx-5 mt-4 flex flex-col md:flex-row animate__fadeIn animate__animated animate__delay-0.5s">
+        <label
+          htmlFor="search"
+          className="mb-2 text-sm font-medium text-gray-900 sr-only"
+        >
           Search
         </label>
-        <div className='relative flex-grow mb-4 md:mb-0 md:mr-4'>
-          <div className='absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none'>
-            <svg className='w-4 h-4 text-gray-500 items-center mb-2' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'>
-              <path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z' />
-
+        <div className="relative flex-grow mb-4 md:mb-0 md:mr-4">
+          <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+            <svg
+              className="w-4 h-4 text-gray-500 items-center mb-2"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 20 20"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+              />
             </svg>
           </div>
           <input
@@ -78,26 +94,47 @@ export default function SearchAndListReport({ title, url }) {
             id="search"
             value={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
-            className='block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-blue-500 focus:border-blue-500'
-            placeholder='ketik laporan'
+            className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            placeholder="ketik laporan"
           />
         </div>
-        <div className='flex flex-row text-left cursor-pointer w-full md:w-fit'>
-          <div className='flex flex-row w-full md:w-fit'>
-            <select id='selectOption' onChange={(e) => setStatus(e.target.value)} value={status || ''} className='cursor-pointer py-2 px-4 w-full md:w-fit outline-none rounded-md md:p-2'>
-              <option value='' disabled>
+        <div className="flex flex-row text-left cursor-pointer w-full md:w-fit">
+          <div className="flex flex-row w-full md:w-fit">
+            <select
+              id="selectOption"
+              onChange={(e) => setStatus(e.target.value)}
+              value={status || ''}
+              className="cursor-pointer py-2 px-4 w-full md:w-fit outline-none rounded-md md:p-2"
+            >
+              <option value="" disabled>
                 Status
               </option>
-              <option value=''>all</option>
-              <option value='Menunggu'>Menunggu</option>
-              <option value='Diproses'>Diproses</option>
-              <option value='Selesai'>Selesai</option>
+              <option value="">all</option>
+              <option value="Menunggu">Menunggu</option>
+              <option value="Diproses">Diproses</option>
+              <option value="Selesai">Selesai</option>
             </select>
           </div>
         </div>
+        <div className="flex text-left cursor-pointer w-full md:w-fit mt-4 mb-4 md:mt-0 md:mb-0  md:mx-4 items-center  ">
+          <Link
+            className="bg-blue-600 p-4 px-4 w-full text-white rounded-lg w-full md:w-fit"
+            to="/dashboard/report/new"
+          >
+            Buat Laporan
+          </Link>
+        </div>
       </div>
 
-      <ListReport searchTerm={searchTerm} currentPage={currentPage} reportsPerPage={reportsPerPage} reportSkip={reportSkip} url={`${import.meta.env.VITE_HOST_API}/report?${status ? `status=${status}&` : null}&`} />
+      <ListReport
+        searchTerm={searchTerm}
+        currentPage={currentPage}
+        reportsPerPage={reportsPerPage}
+        reportSkip={reportSkip}
+        url={`${import.meta.env.VITE_HOST_API}/report?${
+          status ? `status=${status}&` : null
+        }&`}
+      />
 
       {/* pagination */}
       <nav
