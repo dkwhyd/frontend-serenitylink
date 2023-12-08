@@ -12,6 +12,7 @@ import store from './App/store';
 import Logout from './components/logout';
 import GuardRoute from './components/guardRoute';
 import NewAdmin from './components/newAdmin';
+import ChangePassword from './components/changePassword';
 
 function App() {
   useEffect(() => {
@@ -21,13 +22,19 @@ function App() {
     <Provider store={store}>
       <Router>
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/dashboard/*' element={<GuardRoute element={<Dashboard />}  />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/logout' element={<Logout />} />
-          <Route path='/config' element={<NewAdmin />} />
-
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/dashboard/*"
+            element={<GuardRoute element={<Dashboard />} />}
+          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/config" element={<NewAdmin />} />
+          <Route
+            path="/password"
+            element={<GuardRoute element={<ChangePassword />} />}
+          />
         </Routes>
       </Router>
     </Provider>
