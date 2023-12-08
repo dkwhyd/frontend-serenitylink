@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa';
 import { useState } from 'react';
 import { FiLogOut } from 'react-icons/fi';
+import { RiLockPasswordFill } from 'react-icons/ri';
 
 export default function TopBar() {
   const auth = useSelector((state) => state.auth);
@@ -24,11 +25,18 @@ export default function TopBar() {
           </button>
         </div>
         {isDropdownOpen && (
-          <div className="absolute bg-white p-2 rounded shadow mt-2 z-40">
-            <div className="flex flex-row">
+          <div className="absolute -left-20 bg-white p-2 rounded shadow mt-2 z-40">
+            <div className="flex flex-col w-32">
+              <Link
+                to={'/password'}
+                className=" flex items-center block w-full text-left  font-bold mb-2 hover:bg-blue-500"
+              >
+                <RiLockPasswordFill />
+                Password
+              </Link>
               <Link
                 to={'/logout'}
-                className="block w-full text-left text-red-500 font-bold"
+                className=" flex items-center block w-full text-left text-red-500 font-bold"
               >
                 <FiLogOut />
                 Logout
