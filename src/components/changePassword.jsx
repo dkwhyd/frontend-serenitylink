@@ -84,7 +84,7 @@ export default function ChangePassword() {
         <div className="animate__fadeIn animate__animated animate__delay-0.5s box-border rounded-3xl bg-white px-4 py-8 drop-shadow md:p-12 capitalize">
           <div className="my-8">
             <Link to="/dashboard" className="p-2 bg-blue-600 text-white">
-              Back to Dahboard
+              Back to Dashboard
             </Link>
           </div>
           <div className="flex items-center mb-2 md:mb-4 mx-auto">
