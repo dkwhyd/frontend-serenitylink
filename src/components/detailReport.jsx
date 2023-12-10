@@ -65,7 +65,9 @@ export default function DetailReport() {
   const sendComment = async (e) => {
     e.preventDefault();
     const { data } = await axios.post(
-      `${import.meta.env.VITE_HOST_SERENITY}/comment/${id}`,
+      // `${import.meta.env.VITE_HOST_SERENITY}/comment/${id}`,
+      `http://localhost:5500/comment/${id}`,
+
       { message },
       {
         headers: {
@@ -350,7 +352,8 @@ export default function DetailReport() {
   // eslint-disable-next-line no-undef
   var newIcon = new L.Icon({
     iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png`,
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    shadowUrl:
+      'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
     iconSize: [25, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
@@ -452,7 +455,10 @@ export default function DetailReport() {
                     attribution='&copy; <a n href="http://osm.org/copyright">OpenStreetMap</a>'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   />
-                  <Marker position={[report.latitude, report.longitude]} icon={newIcon}>
+                  <Marker
+                    position={[report.latitude, report.longitude]}
+                    icon={newIcon}
+                  >
                     <Popup>
                       {`Lat :${report.latitude} 
                          Long :${report.longitude}`}
@@ -664,13 +670,16 @@ export default function DetailReport() {
                           />
                           {comment.name}
                         </p>
-                        <p className="text-xs md:text-sm text-gray-600">
+                        <p className="text-gray-600">
                           <time
                             title={new Date(
                               comment.createdAt,
                             ).toLocaleDateString()}
                           >
-                            {new Date(comment.createdAt).toLocaleDateString()}
+                            {new Date(comment.createdAt).toLocaleDateString(
+                              'id-ID',
+                            )}{' '}
+                            {/* Set the locale to 'id-ID' for DD/MM/YYYY in Indonesian format */}
                           </time>
                         </p>
                       </div>
