@@ -1,1 +1,1 @@
-{"name":"SerenityLink App","short_name":"SerenityLink","start_url":"/","display":"standalone","background_color":"#ffffff","lang":"en","scope":"/","theme_color":"#333","orientation":"portrait","icons":[{"src":"/logo_512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}
+{"name":"SerenityLink App","short_name":"SerenityLink","start_url":"/","display":"standalone","background_color":"#ffffff","lang":"en","scope":"/","theme_color":"#333","orientation":"portrait","icons":[{"src":"/logo_512.jpg","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}

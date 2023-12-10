@@ -22,7 +22,7 @@ export default defineConfig(({ mode }) => {
           start_url:'/',
           icons:[
             {
-              src: "/logo_512.png",
+              src: "/logo_512.jpg",
               sizes: "512x512",
               type: "image/png",
               purpose: "any maskable"
