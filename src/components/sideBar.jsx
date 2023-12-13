@@ -13,11 +13,14 @@ const Sidebar = ({ menus, closeSidebar }) => {
 
   const getMe = async () => {
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_HOST_SERENITY}/me`, {
-        headers: {
-          Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_HOST_SERENITY}/me`,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.user ? auth.token : ''}`,
+          },
         },
-      });
+      );
       setRole(data.role);
       setLoading(false);
     } catch (error) {
@@ -29,8 +32,8 @@ const Sidebar = ({ menus, closeSidebar }) => {
   }, []);
 
   return (
-    <>
-      <ul className="w-full space-y-2 font-medium">
+    <div className="">
+      <ul className="h-screen w-full space-y-2 font-medium  ">
         <li>
           <div className="bg-[#1A2226] p-3">
             <p className="mx-2 text-xs font-semibold text-slate-400 uppercase">
@@ -41,7 +44,8 @@ const Sidebar = ({ menus, closeSidebar }) => {
         {loading ? (
           <p>loading</p>
         ) : (
-          role && userMenus[role].map((menu, index) => (
+          role &&
+          userMenus[role].map((menu, index) => (
             <li key={index}>
               <NavLink
                 to={menu.route}
@@ -65,7 +69,7 @@ const Sidebar = ({ menus, closeSidebar }) => {
           ))
         )}
       </ul>
-    </>
+    </div>
   );
 };
 

@@ -466,7 +466,7 @@ const NewReport = () => {
 
           <div
             className={`flex flex-wrap justify-center bg-gray-100 cursor-pointer transition-all duration-200 ease-in-out ${
-              showCategory ? 'opacity-100 max-h-full' : 'opacity-0 max-h-0'
+              showCategory ? 'opacity-100 max-h-full' : 'hidden'
             }`}
           >
             {categoryData.map((category, index) => (

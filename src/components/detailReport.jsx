@@ -193,7 +193,6 @@ export default function DetailReport() {
 
   const sendOfficeReport = async (e) => {
     e.preventDefault();
-    console.log(reportOfficer.imageReport.length);
     if (
       reportOfficer.imageReport.length === 0 ||
       reportOfficer.message === ''
@@ -350,7 +349,8 @@ export default function DetailReport() {
   // eslint-disable-next-line no-undef
   var newIcon = new L.Icon({
     iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png`,
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    shadowUrl:
+      'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
     iconSize: [25, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
@@ -436,7 +436,7 @@ export default function DetailReport() {
 
                 <div className="flex flex-col">
                   <label className="font-semibold text-gray-900">
-                    Dekripsi Laporan:
+                    Deskripsi Laporan:
                   </label>
                   <p className="mb-4">{report.description}</p>
                 </div>
@@ -452,7 +452,10 @@ export default function DetailReport() {
                     attribution='&copy; <a n href="http://osm.org/copyright">OpenStreetMap</a>'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   />
-                  <Marker position={[report.latitude, report.longitude]} icon={newIcon}>
+                  <Marker
+                    position={[report.latitude, report.longitude]}
+                    icon={newIcon}
+                  >
                     <Popup>
                       {`Lat :${report.latitude} 
                          Long :${report.longitude}`}
@@ -634,71 +637,64 @@ export default function DetailReport() {
             ) : null}
 
             {/* Komentar */}
-            <div className="w-full">
-              <h3 className="font-bold text-primary-600 mb-4">
-                Komentar ({report.comment.length})
-              </h3>
-              <div className="border border-gray-200 p-2 md:p-4">
-                {report.comment.map((comment, index) => (
-                  <article
-                    key={comment._id}
-                    className={`p-6 text-base bg-white ${
-                      index === report.comment.length - 1
-                        ? ''
-                        : 'border-b border-gray-200'
-                    }`}
-                  >
-                    <footer className="flex justify-between items-center mb-2">
-                      <div className="flex items-center">
-                        <p className="inline-flex items-center mr-3 text-xs md:text-sm text-gray-900 font-semibold">
-                          <img
-                            className="mr-2 w-6 h-6 rounded-full"
-                            src={
-                              comment.image
-                                ? `${
-                                    import.meta.env.VITE_HOST_SERENITY
-                                  }/public/image/${comment.image}`
-                                : 'https://via.placeholder.com/150'
-                            }
-                            alt={comment.name}
-                          />
-                          {comment.name}
-                        </p>
-                        <p className="text-xs md:text-sm text-gray-600">
-                          <time
-                            title={new Date(
-                              comment.createdAt,
-                            ).toLocaleDateString()}
-                          >
-                            {new Date(comment.createdAt).toLocaleDateString()}
-                          </time>
-                        </p>
-                      </div>
-                    </footer>
-                    <p className="text-gray-500">{comment.message}</p>
-                  </article>
-                ))}
-              </div>
-
-              <form onSubmit={sendComment} className="my-5">
-                <div className="flex flex-col">
-                  <label className="font-bold">Pesan:</label>
-                  <textarea
-                    type="text"
-                    name="title"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    minLength="5"
-                    maxLength="250"
-                    required
-                    className="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                  />
+            {auth.user.role !== 'officer' ? (
+              <div className="w-full">
+                <h3 className="font-bold text-primary-600 mb-4">
+                  Komentar ({report.comment.length})
+                </h3>
+                <div className="border border-gray-200 p-2 md:p-4">
+                  {report.comment.map((comment, index) => (
+                    <article
+                      key={comment._id}
+                      className={`p-6 text-base bg-white ${
+                        index === report.comment.length - 1
+                          ? ''
+                          : 'border-b border-gray-200'
+                      }`}
+                    >
+                      <footer className="flex justify-between items-center mb-2">
+                        <div className="flex items-center">
+                          <p className="inline-flex items-center mr-3 text-xs md:text-sm text-gray-900 font-semibold">
+                            {comment.name}
+                          </p>
+                          <p className="text-gray-600">
+                            <time
+                              title={new Date(
+                                comment.createdAt,
+                              ).toLocaleDateString()}
+                            >
+                              {new Date(comment.createdAt).toLocaleDateString(
+                                'id-ID',
+                              )}{' '}
+                            </time>
+                          </p>
+                        </div>
+                      </footer>
+                      <p className="text-gray-500">{comment.message}</p>
+                    </article>
+                  ))}
                 </div>
-                <button className="bg-blue-600 mt-4 float-right py-2 px-6 rounded-lg focus:outline-none transition-all ease-out text-white hover:bg-blue-700 focus:bg-blue-900">
-                  Kirim
-                </button>
-              </form>
-            </div>
+
+                <form onSubmit={sendComment} className="my-5">
+                  <div className="flex flex-col">
+                    <label className="font-bold">Pesan:</label>
+                    <textarea
+                      type="text"
+                      name="title"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      minLength="5"
+                      maxLength="250"
+                      required
+                      className="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    />
+                  </div>
+                  <button className="bg-blue-600 mt-4 float-right py-2 px-6 rounded-lg focus:outline-none transition-all ease-out text-white hover:bg-blue-700 focus:bg-blue-900">
+                    Kirim
+                  </button>
+                </form>
+              </div>
+            ) : null}
           </div>
         </>
       )}
