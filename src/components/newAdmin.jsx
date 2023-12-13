@@ -33,7 +33,6 @@ export default function NewAdmin() {
             ...newAdmin,
           },
         );
-        console.log(data);
         if (data.status === 'ok') {
           setNewAdmin({
             name: '',

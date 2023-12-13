@@ -193,7 +193,6 @@ export default function DetailReport() {
 
   const sendOfficeReport = async (e) => {
     e.preventDefault();
-    console.log(reportOfficer.imageReport.length);
     if (
       reportOfficer.imageReport.length === 0 ||
       reportOfficer.message === ''

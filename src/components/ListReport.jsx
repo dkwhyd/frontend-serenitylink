@@ -23,7 +23,6 @@ function ListReport({
           `${url}q=${searchTerm}&limit=${reportsPerPage}&skip=${reportSkip}`,
         );
         setReportData(response.data.data);
-        // console.log(response);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
