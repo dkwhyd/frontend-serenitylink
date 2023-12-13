@@ -65,9 +65,7 @@ export default function DetailReport() {
   const sendComment = async (e) => {
     e.preventDefault();
     const { data } = await axios.post(
-      // `${import.meta.env.VITE_HOST_SERENITY}/comment/${id}`,
-      `http://localhost:5500/comment/${id}`,
-
+      `${import.meta.env.VITE_HOST_SERENITY}/comment/${id}`,
       { message },
       {
         headers: {
@@ -439,7 +437,7 @@ export default function DetailReport() {
 
                 <div className="flex flex-col">
                   <label className="font-semibold text-gray-900">
-                    Dekripsi Laporan:
+                    Deskripsi Laporan:
                   </label>
                   <p className="mb-4">{report.description}</p>
                 </div>
@@ -657,17 +655,6 @@ export default function DetailReport() {
                     <footer className="flex justify-between items-center mb-2">
                       <div className="flex items-center">
                         <p className="inline-flex items-center mr-3 text-xs md:text-sm text-gray-900 font-semibold">
-                          <img
-                            className="mr-2 w-6 h-6 rounded-full"
-                            src={
-                              comment.image
-                                ? `${
-                                    import.meta.env.VITE_HOST_SERENITY
-                                  }/public/image/${comment.image}`
-                                : 'https://via.placeholder.com/150'
-                            }
-                            alt={comment.name}
-                          />
                           {comment.name}
                         </p>
                         <p className="text-gray-600">
@@ -679,7 +666,6 @@ export default function DetailReport() {
                             {new Date(comment.createdAt).toLocaleDateString(
                               'id-ID',
                             )}{' '}
-                            {/* Set the locale to 'id-ID' for DD/MM/YYYY in Indonesian format */}
                           </time>
                         </p>
                       </div>
