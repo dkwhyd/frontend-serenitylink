@@ -13,7 +13,7 @@ export default function SearchAndListReport({ title, url }) {
   const [reportSkip, setReportSkip] = useState(0);
   const reportsPerPage = 12;
   const [statusDropdown, setStatusDropdown] = useState(false);
-  const [status, setStatus] = useState(null);
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -108,7 +108,7 @@ export default function SearchAndListReport({ title, url }) {
               <option value="" disabled>
                 Status
               </option>
-              <option value="">all</option>
+              <option value=" ">all</option>
               <option value="Menunggu">Menunggu</option>
               <option value="Diproses">Diproses</option>
               <option value="Selesai">Selesai</option>
