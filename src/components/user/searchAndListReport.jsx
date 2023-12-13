@@ -19,7 +19,7 @@ export default function SearchAndListReport({ title, url }) {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          `${import.meta.env.VITE_HOST_SERENITY}/report?q=${searchTerm}`,
+          `${import.meta.env.VITE_HOST_SERENITY}/report?q=${searchTerm}&status=${status}`,
         );
         setTotalReport(data.count);
       } catch (error) {
@@ -130,6 +130,7 @@ export default function SearchAndListReport({ title, url }) {
         currentPage={currentPage}
         reportsPerPage={reportsPerPage}
         reportSkip={reportSkip}
+        status={status}
         url={url}
       />
 
