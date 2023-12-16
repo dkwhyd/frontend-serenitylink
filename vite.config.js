@@ -39,7 +39,7 @@ export default defineConfig(({ mode }) => {
               },
             },
             {
-              urlPattern: /^https:\/\/serenitylink\.live:5500\/public\/image\//,
+              urlPattern: 'link servermu',
               handler: 'StaleWhileRevalidate',
               options: {
                 cacheName: 'serenitylink-image',
