@@ -14,12 +14,20 @@ Dengan aplikasi ini, pengguna dapat dengan mudah melaporkan masalah atau kejadia
 ## Instalasi
 
 1. Clone repositori ini.
-2. Jalankan perintah `npm install` untuk menginstal dependensi. 
+2. Buat file .env pada root folder
+3. Tambahkan VITE_HOST_SERENITY = <alamat server>, misal http://localhost:5500
+4. Jalankan perintah `npm install` untuk menginstal dependensi. 
 
 ## Cara Menggunakan
 
 1. Jalankan proyek dengan perintah `npm run dev`.
 2. Buka browser dan akses `http://localhost:5173`.
+
+## Cara Build
+
+1. Sesuaikan config cache dengan servermu pada vite.config.js
+2. Build proyek dengan perintah `npm run build`.
+3. Hasil build berada pada folder dist
 
 ## Aktor:
 
